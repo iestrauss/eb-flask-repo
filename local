@@ -1,0 +1,15 @@
+M	.idea/workspace.xml
+M	OrangeBoxExtension/content.js
+D	extension/background.js
+D	extension/content.js
+D	extension/icon.png
+D	extension/jquery-3.4.1.js
+D	extension/manifest.json
+D	extension2/background.js
+D	extension2/content.js
+D	extension2/icon.png
+D	extension2/manifest.json
+D	extension2/popup.js
+D	intermed/content.js
+D	intermed/jquery-3.4.1.js
+D	intermed/manifest.json

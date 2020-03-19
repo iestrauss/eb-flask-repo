@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Home</title>
+<link href="https://istrauss6.neocities.org/style.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<!--<link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/bootstrap-social.css') }}">-->
+<style>
+body{
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-right: 10px;
+  margin-left: 10px;
+}
+</style>
+
+</head>
+
+<body style="padding:10;">
+
+
+<div class="largetext">
+	Open Investigations
+</div>
+
+
+<!--{{ pagination.info }}-->
+{{ pagination.links }}
+
+        <a href="/factcheckclass">
+            <div class="forwardback" style="float:right;">How do I figure out if news is true again?</div>
+        </a>
+
+{% for dict_item in home_data %}
+<!--{{ loop.index + pagination.skip }}-->
+<!--<a href="results/{{ dict_item['id'] }}">-->
+  	<div class="photo">
+    	<img src="{{ dict_item['image_url'] }}" width="100%">
+    </div>
+	<div class="hometitlesstyle">{{ dict_item['title'] }}</div>
+	<div class="voteorresult"><a href="votefor/{{ dict_item['id'] }}">Vote</a></div>
+	<div class="voteorresult"><a href="results/{{ dict_item['id'] }}">Results</a></div>
+
+
+
+<hr class="new1">
+    {% endfor %}
+
+{{ pagination.links }}
+
+
+</body>
+</html>

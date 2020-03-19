@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Vote</title>
+<link href="https://istrauss6.neocities.org/style.css" rel="stylesheet" type="text/css">
+
+<style>
+
+#modalOverlay {
+	width:100%;
+	height:100%;
+	z-index:2; /* places the modal overlay between the main page and the modal dialog*/
+	background-color:#000;
+	opacity:0.5;
+	position:fixed;
+	top:0;
+	left:0;
+	display:none;
+	margin:0;
+	padding:0;
+}
+
+#modal {
+	width:50%;
+	margin-left:auto;
+	margin-right:auto;
+	padding: 5px;
+	border: thin #000 solid;
+	background-color:#fff;
+	z-index:3; /* places the modal dialog on top of everything else */
+	position:fixed;
+	top:25%;
+	left:25%;
+	display:none;
+}
+
+.center {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.comments {
+word-break: break-all;
+}
+</style>
+
+<script src="https://code.jquery.com/jquery-latest.min.js"></script>
+
+</head>
+<body>
+
+
+<script>
+
+
+  var person = { userID: "", name: "", accessToken: "", picture: ""}
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId            : '1560520617436290',
+      autoLogAppEvents : true,
+      xfbml            : true,
+      version          : 'v5.0'
+    });
+    FB.getLoginStatus(function(response) {
+        console.log(response);
+        if (response.status !== 'connected') {
+            document.getElementById("myDialog").showModal();
+        } else {
+            addHiddenInput(response.authResponse.userID)
+            person.accessToken = response.authResponse.accessToken;
+            person.userID = response.authResponse.userID;
+            FB.api('/me?fields=id,name,picture.type(large)', function (userData) {
+                console.log(userData);
+                person.name = userData.name;
+                person.picture = userData.picture.data.url;
+
+                $.ajax({
+                type: 'POST',
+                url: 'https://localhost:5000/fbuser',
+                data: person,
+                datatype: 'text',
+                success: function myFunction(data) {
+                console.log("fb data sent");
+                }
+                })
+
+             });
+        }
+
+    });
+  };
+
+  function hideDialogAfterLogin () {
+    document.getElementById("myDialog").close();
+    FB.getLoginStatus(function(response) {
+        addHiddenInput(response.authResponse.userID)
+
+    });
+  }
+
+  function addHiddenInput (userID) {
+    var hiddenInput = document.getElementById("user_id")
+    hiddenInput.value = userID
+  }
+
+
+</script>
+
+<script async defer src="https://connect.facebook.net/en_US/sdk.js"></script>
+
+
+    <dialog id="myDialog" style="height:50%; width:80%;">
+        <div class="center">
+        <center><fb:login-button size="large" type="submit" value="Submit" scope="public_profile,email" returnscopes="true" onlogin="hideDialogAfterLogin">Log in to Facebook</fb:login-button></center>
+        </div>
+    </dialog>
+
+
+
+<!--{% extends "boring.html"%}-->
+
+<!--{% block title %} Vote {% endblock %}-->
+
+<!--{% block main %}-->
+
+
+<!--{{ article_id }}-->
+
+<a href="{{ article_url }}" target="_blank">
+<div class="largetext">
+    {{ article_title }}
+</div>
+
+<div class="mediumtext">
+    <img src="{{ image_url }}" alt="Picture" width="100%">
+</div>
+</a>
+
+<div class="mediumlefttext">
+    What's your diagnosis, doctor?
+</div>
+
+<form action = "/insert_vote" method = "post" onsubmit="">
+    <div id="vote-form" action = "/insert_vote" method = "post" onsubmit="">
+        <div class="smalltext">
+            {% for dict_item in vote_choices %}
+                <input type="radio" name="options" padding="10px" margin="10px" id="{{ dict_item['id'] }}"
+                value="{{ dict_item['id'] }}"> {{ dict_item['choice'] }} </input><br>
+            {% endfor %}
+        </div>
+        <br>
+        <div class="mediumlefttext">
+            Why did you make that choice?
+        </div>
+<!--        <input type="text"  name="comments" id="comments" placeholder="The article said only 10% of poodles are evil geniuses. It says it got its information from a new White House report, but when I got to www.whitehouse.gov, I find the report (www.whitehouse.gov/report.html), and it says 80% of poodles are evil." style="height:150px">  </input> <br>-->
+        <textarea name="comments" id="comments"></textarea>
+
+
+<!--<button onclick="javascript:login();" size="large" type="submit" value="Submit" scope="public_profile,email" returnscopes="true" onlogin="checkLoginState();">Submit</button>-->
+        <input type="text" name="user_id" id="user_id" style="display:none;">
+        <Script>console.log("here comes the user id from the html");</Script>
+        <Script>console.log(user_id);</Script>
+        <input type="text" name="article_id" id="article_id" value="{{ article_id }}" style="display:none;">
+
+<!--        <input type="text" name="user_id" id="user_id" style="display:none;">-->
+<!--        <input type="text" name="article_id" id="article_id" style="display:none;">-->
+<input type="submit" value="Submit">
+
+    </div>
+</form>
+
+
+
+<a href="/">
+	<div class="home">
+  		Investigate more articles
+	</div>
+</a>
+
+<a href="/factcheckclass">
+    <div class="forwardback" style="float:right;">How do I figure out if news is true again?</div>
+</a>
+
+</body>
+
+<!--{% endblock %}-->
+
+</html>
