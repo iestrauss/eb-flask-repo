@@ -10,7 +10,6 @@ from flask import Flask, jsonify, request, render_template
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_ECHO'] = True
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:password@localhost/new_database'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://admin:iski8iski8A@database-2.cv15axugkvps.us-east-2.rds.amazonaws.com/bear'
 app.config['SECRET_KEY'] = "random string"
 

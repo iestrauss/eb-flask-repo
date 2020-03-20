@@ -1,4 +1,3 @@
-
 from flask import Flask, request, flash, url_for, redirect, render_template
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import exc
@@ -8,45 +7,15 @@ from datetime import datetime
 # ########## ####### ###################################################################################
 # 10/02/2019 Hobmij  Add user,choice, to the comment in a tuple form for vote summary - requested by IES
 from flask import Flask, jsonify, request, render_template
-import sqlalchemy
-
-###################################################################################
-
-# todo: use NEW DATABASE
-
-
-SQLALCHEMY_DATABASE_URL= "mysql+pymysql://root:password@localhost/new_database"
 
 application = Flask(__name__)
-application.config['SQLALCHEMY_DATABASE_URI'] = SQLALCHEMY_DATABASE_URL
+application.config['SQLALCHEMY_ECHO'] = True
+application.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://admin:iski8iski8A@database-2.cv15axugkvps.us-east-2.rds.amazonaws.com/bear'
 application.config['SECRET_KEY'] = "random string"
+
 db = SQLAlchemy(application)
-###################################################################################
 
-
-# application = Flask(__name__)
-
-# global article, user_id
-# global article
-
-# user_id = 1 # this will need to be set based on
-# who the actual user is and the user
-# table in the apehouse.db
-# i.e. hardcoding to 1 until we understand more
-#    about determing the user
-# todo: create a user object based on the facebook user login
-
-###################################################################################
-
-# todo: get rid of old datebase
-
-# application.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////usr/local/var/apehouse.db'
-# application.config['SECRET_KEY'] = "random string"
-# #
-##############################################
-
-# db = SQLAlchemy(application)
-
+print("tiger print one", db)
 
 ##############################################
 class Permission(db.Model):
@@ -179,40 +148,6 @@ class VoteChoice(db.Model):
         return cls.vote_choice_color[id]
 
 
-#############################################
-
-# from flask import Flask, render_template
-# from flask_paginate import Pagination, get_page_args
-#
-#
-# app = Flask(__name__)
-# app.template_folder = ''
-# users = list(range(100))
-#
-#
-# def get_users(offset=0, per_page=10):
-#     return users[offset: offset + per_page]
-#
-#
-# @application.route('/')
-# def home():
-#     page, per_page, offset = get_page_args(page_parameter='page',
-#                                            per_page_parameter='per_page')
-#     total = len(users)
-#     pagination_users = get_users(offset=offset, per_page=per_page)
-#     pagination = Pagination(page=page, per_page=per_page, total=total,
-#                             css_framework='bootstrap4')
-#
-#     return render_template('home.html',
-#                            users=pagination_users,
-#                            page=page,
-#                            per_page=per_page,
-#                            pagination=pagination,
-#                            )
-#
-#
-# if __name__ == '__main__':
-#     app.run(debug=True)
 
 #############################################
 
@@ -254,7 +189,6 @@ def results(id):
     updated_details = []
     article_list_of_one = Article.query.filter_by(id=id)
     a_obj = article_list_of_one[0]
-
     avs_obj = retrieve_article_vote_summary(a_obj.id)  # vote_summary is a list of [tuples('True', numOfTrue), etc]
     total_votes = avs_obj.getTotalVotes()
     vote_choices = []
@@ -371,23 +305,21 @@ def take_test():
 @application.route('/bootstrap', methods=['GET', 'POST'])
 def bootstrap():
     posted = 1
-    print("bootstrap")
-    # global article
+    print ("bootstrap")
     if request.method == 'POST':
-        if not request.form['title'] or not request.form['url'] or not request.form['image_url'] or not request.form[
-            'snippet']:
+        if not request.form['title'] or not request.form['url'] or not request.form['image_url'] or not request.form['snippet']:
             flash('Please enter all the fields', 'error')
         else:
             article = Article(request.form['title'], request.form['url'], request.form['image_url'],
-                              request.form['snippet'])
+                               request.form['snippet'])
 
             db.session.add(article)
             try:
                 db.session.commit()
             except exc.SQLAlchemyError:
-                flash('Article url already exists, failed to post new article')
-                posted = 0
-                # return render_template('/error.html', article_url=article.url)
+               flash('Article url already exists, failed to post new article')
+               posted = 0
+               #return render_template('/error.html', article_url=article.url)
 
             article_list = Article.query.filter_by(image_url=article.image_url)
             if posted == 1:
@@ -395,49 +327,22 @@ def bootstrap():
             else:
                 db.session.rollback()
                 article_list = Article.query.filter_by(image_url=article.image_url)
-                article = article_list[0]
+                article=article_list[0]
 
-            print("article.id=" + str(article.id))
+            print ("article.id=" + str(article.id))
             import json
-            print("a")
             return json.dumps(article.id)
 
     else:
         print("article.id=" + str(article.id))
         urlNumber = str(article.id)
 
-        message = {'greeting': urlNumber}
+        message = {'greeting':urlNumber}
         return jsonify(message)  # serialize and use JSON headers
 
-    #        vote_choices = VoteChoice.getVoteChoiceList()
-    #     return render_template('/votefor.html', article_id=article.id,
-    #                              article_title=article.title,
-    #                             article_url=article.url, vote_choices=vote_choices
-    #                     )
-
 
 ##############################################
 
-# @application.route('/hello', methods=['GET', 'POST'])
-# def hello():
-#
-#     # POST request
-#     if request.method == 'POST':
-#         print('Incoming..')
-#         print(request.get_json())  # parse as JSON
-#         return 'OK', 200
-#
-#     # GET request
-#     else:
-#         message = {'Hello from Flask!'}
-#         return jsonify(message)  # serialize and use JSON headers
-#
-# @application.route('/test')
-# def test_page():
-#     # look inside `templates` and serve `index.html`
-#     return render_template('index.html')
-
-##############################################
 
 @application.route('/fbuser', methods=['POST'])
 def fbuser():
@@ -453,11 +358,11 @@ def fbuser():
 
     # check if user is in db, if so, set ID...
 
-    if (maybe_existing_user):
+    if(maybe_existing_user):
         fb_user_id = maybe_existing_user.id
         return "exists"
     else:
-        new_user = User(person.get("userID"), person.get("picture"), person.get("name"), 35)
+        new_user = User(person.get("userID"), person.get("picture"), person.get("name"), 5)
         db.session.add(new_user)
         try:
             db.session.commit()
@@ -561,8 +466,11 @@ def retrieve_article_vote_summary(article_id):
     print("article_id in ravs(): ", str(article_id))
     article_vote_list = db.session.query(ArticleVote, User).filter(ArticleVote.article_id == article_id).filter(
         ArticleVote.user_id == User.fb_id).all()
+    print("before for item in article_vote_list")
     for item in article_vote_list:
+        print("before text")
         text = avs_obj.getVoteText(item[0].vote_choice_id)
+        print("before avs_obj.addVote(text)")
         avs_obj.addVote(text)
         print("article text: ", text)
         # avs_obj.appendComment(item.comment) # 09/27 - added to show comments in results page
@@ -597,18 +505,25 @@ def insert_vote():
             user_id = request.form['user_id']
             print("this is the try bit")
             print(user_id)
+            fb_user_id = int(user_id)
             # user_id = 1
-            av_obj = ArticleVote(user_id, article_id, vote_choice_id, comments)
+            av_obj = ArticleVote(fb_user_id, article_id, vote_choice_id, comments)
             db.session.add(av_obj)
             try:
+                print("db.session.commit before")
                 db.session.commit()
-            except exc.SQLAlchemyError:
+                print("db.session.commit after")
+            except exc.SQLAlchemyError as e:
+                print("this is about to be %s", e)
+                print("user has already voted before")
                 flash('User has already voted on this article.')
                 posted = 0
 
             if posted == 1:
+                print("posted ==1 after")
                 flash('Record was successfully added')
             else:
+                print("right before rollback")
                 db.session.rollback()
 
             a_obj = Article.query.filter_by(id=article_id).first()
@@ -651,10 +566,3 @@ def insert_vote():
 if __name__ == '__main__':
     db.create_all()
     application.run(host="0.0.0.0", debug=True, ssl_context=("example.com+2.pem", "example.com+2-key.pem"))
-
-
-# if __name__ == "__main__":
-    # Setting debug to True enables debug output. This line should be
-    # # removed before deploying a production app.
-    # application.debug = True
-    # application.run()
