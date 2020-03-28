@@ -80,7 +80,11 @@ word-break: break-all;
 
                 $.ajax({
                 type: 'POST',
-                url: 'https://localhost:5000/fbuser',
+ //               url: 'https://localhost:5000/fbuser',
+                url: 'https://news-detective.herokuapp.com/fbuser',
+
+
+
                 data: person,
                 datatype: 'text',
                 success: function myFunction(data) {
