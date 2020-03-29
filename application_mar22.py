@@ -354,8 +354,6 @@ def fbuser():
     # user = person.get("userID")
     # we check the db for the user, if they exist we are done
 
-    "str_userID" = str("userID")
-
     maybe_existing_user = User.query.filter_by(fb_id=person.get("userID")).first()
 
     # check if user is in db, if so, set ID...
@@ -364,12 +362,12 @@ def fbuser():
         fb_user_id = maybe_existing_user.id
         return "exists"
     else:
-        new_user = User(person.get("str_userID"), person.get("picture"), person.get("name"), 5)
+        new_user = User(person.get("userID"), person.get("picture"), person.get("name"), 5)
         db.session.add(new_user)
         try:
             db.session.commit()
             print("success sql")
-            now_existing_user = User.query.filter_by(fb_id=person.get("str_userID")).first()
+            now_existing_user = User.query.filter_by(fb_id=person.get("userID")).first()
             # if(now_existing_user is None) Error
             fb_user_id = now_existing_user.id
             return "created"
