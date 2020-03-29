@@ -362,8 +362,7 @@ def fbuser():
         fb_user_id = maybe_existing_user.id
         return "exists"
     else:
-        new_fb_user_id = int(userID)
-        new_user = User(person.get("new_fb_user_id"), person.get("picture"), person.get("name"), 5)
+        new_user = User(person.get("userID"), person.get("picture"), person.get("name"), 5)
         db.session.add(new_user)
         try:
             db.session.commit()
