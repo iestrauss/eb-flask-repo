@@ -1,0 +1,374 @@
+.pagination-page-info {
+    padding: .6em;
+    padding-left: 0;
+    width: 40em;
+    margin: .5em;
+    margin-left: 0;
+    font-size: 12px;
+}
+.pagination-page-info b {
+    color: black;
+    background: #6aa6ed;
+    padding-left: 2px;
+    padding: .1em .25em;
+    font-size: 150%;
+}
+
+
+.home {
+  font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
+  font-size: 12px;
+  text-align: center;
+  width: 150px;
+  margin: 10px;
+  background-color: white;
+  border: 1px solid DarkRed;
+  color: black;
+  padding: 14px 20px;
+  border: none;
+  border-radius: 0px;
+  cursor: pointer;
+}
+
+input[type=submit] {
+  width: 190px;
+  font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
+  margin: 10px;
+  background-color: white;
+  color: black;
+  padding: 14px 20px;
+  border: 1px solid orange;
+  border-radius: 0px;
+  cursor: pointer;
+}
+
+
+
+a   {
+  /* Applies to all unvisited links */
+  text-decoration:  none;
+  font-weight:      normal;
+  background-color: white;
+  color:            black;
+  }
+
+
+
+
+.container {
+  position: relative;
+  text-align: center;
+  color: black;
+  height:30px;
+  border: 1px solid #ccc;
+  border-radius: 1px;
+      margin: 10px;
+}
+
+.new1 {
+  border-top: 1px gray;
+}
+
+.colorbar {
+  height: 30px;
+  object-fit: cover;
+}
+.top-left {
+  position: absolute;
+  top: 8px;
+  left: 16px;
+    font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
+  font-size: 11px;
+}
+
+.commentloop {
+    font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
+  font-size: 11px;
+    text-decoration:  none;
+  font-weight:      normal;
+  background-color: white;
+  color:            black;
+  padding: 10px;
+}
+
+.smalltext {
+    font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
+  font-size: 11px;
+    text-decoration:  none;
+  font-weight:      normal;
+  background-color: white;
+  color:            black;
+}
+
+
+
+.voteorresult {
+    font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
+  font-size: 11px;
+    text-decoration:  none;
+  font-weight:      normal;
+  background-color: white;
+  color:            black;
+  /*padding: 50px; */
+  /*width: 50px; */
+  display: inline-block;
+    text-align: center;
+      border: 1px solid #ccc;
+  border-radius: 4px;
+        margin: 10px;
+        padding: 10px;
+}
+
+.resultbox {
+    font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
+  font-size: 11px;
+    text-decoration:  none;
+  font-weight:      normal;
+  background-color: white;
+  color:            black;
+  /*padding: 50px; */
+  width: 50px;
+  display: inline-block;
+    text-align: center;
+      border: 1px solid #ccc;
+  border-radius: 4px;
+        margin: 10px;
+        padding: 10px;
+}
+
+.votetotals {
+  position: absolute;
+  top: 8px;
+  right: 16px;
+    font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
+  font-size: 11px;
+  color: gray;
+}
+
+
+.largetext {
+  font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
+    color: black;
+  position: relative;
+  text-align: center;
+    text-decoration: none;
+    padding: 10px;
+      font-size: 25px;
+    margin: 10px;}
+
+
+.investigate {
+  font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
+    color: black;
+  position: relative;
+  text-align: center;
+    text-decoration: none;
+    padding: 10px;
+    margin: 10px;}
+
+.mediumtext {
+  font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
+    color: black;
+  position: relative;
+  text-align: center;
+    text-decoration: none;
+    padding: 10px;
+    margin: 10px;}
+
+.mediumlefttext {
+  font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
+    color: black;
+  position: relative;
+  text-align: left;
+    text-decoration: none;
+    padding: 10px;
+    /*margin: 10px;}*/
+}
+
+.hometitlesstyle {
+  font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
+    color: black;
+  position: relative;
+  text-align: left;
+    text-decoration: none;
+    padding: 10px;
+
+}
+
+.mediumlefttextnopad {
+  font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
+    color: black;
+  position: relative;
+  text-align: left;
+    text-decoration: none;
+    /*padding: 10px;*/
+    /*margin: 10px;}*/
+}
+
+.notes {
+  font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
+    font-size: 11px;
+      line-height: 150%;
+ 	color:black;
+  position: relative;
+  text-align: left;
+    padding: 10px;
+    margin: 10px;}
+
+textarea {
+  width: 96%;
+  height: 100px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  padding: 10px;
+  border:1px solid #cccccc;
+  margin: 10px;}
+
+input[type=text] {
+  width: 96%;
+  height: 30px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  padding: 10px;
+  margin: 10px;}
+
+
+input[type=radio] {
+  padding: 10px;
+  margin: 10px;}
+
+.frame-area {
+  display: block;
+  width: 80%;  /* RESPONSIVE WIDTH */
+  margin: auto;
+  height: 400px;
+  overflow: auto;  /* EDIT TO hidden FOR NO SCROLLBAR */
+  border: #cccccc 1px solid;
+  padding: 10px;
+  }
+
+.block {
+  background-color: white;
+  padding: 40px;
+  margins: 20px;
+  }
+
+
+<!--quiz questions-->
+.quiz {
+  font-family:"Courier New", Courier, monospace;
+  font-size: 14px;
+  text-decoration:  none;
+  font-weight:      normal;
+  color:            black;
+  padding: 1-px;
+  line-height: 0.5;
+}
+
+.quotebox {
+  width: 50%;
+  margin: auto;
+  }
+
+.buttonClass {
+  background-color: DarkRed;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+pClass {
+  font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
+  font-size: 14px;
+  text-decoration:  none;
+  font-weight:      normal;
+  color:            black;
+  padding: 10px;
+  line-height: 1.6;
+}
+
+h3Class {
+  font-family: "Bookman", Courier, monospace;
+  font-size: 16px;
+  text-decoration:  none;
+  font-weight:      bold;
+  background-color: white;
+  color:            black;
+  line-height: 1.6;
+}
+
+
+h2Class {
+  font-family:"Courier New", Courier, monospace;
+  font-size: 20px;
+  text-decoration:  none;
+  font-weight:      normal;
+  background-color: white;
+  color:            black;
+  padding: 10px;
+  line-height: 1.6;
+}
+
+h1Class {
+  font-family:"bookman",tahoma,verdana,arial,sans-serif;
+  font-size: 20px;
+  text-decoration:  none;
+  text-align: center;
+  margin: auto;
+  align: auto;
+  font-weight:      bold;
+  background-color: white;
+  color:            black;
+  text-align: center;
+  padding: 10px;
+  line-height: 1.6;
+}
+
+.forwardback {
+  border: 1px solid #337ab7;
+  background-color: white;
+  font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
+  font-size: 14px;
+  font-weight:      normal;
+  color: black;
+  margin: 10px;
+  padding: 14px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  /*float: left;*/
+  }
+
+.fwdbkwrapper {
+  text-align: center;
+}
+
+.summarywrapper {
+  padding: 20px;
+  background-color: AntiqueWhite;
+  border-radius: 20px;
+}
+
+.testwrapper{
+  padding-left: 30px;
+  padding-right: 30px;
+    padding-top: 0px;
+    font-size: 0px;
+}
+
+.realorfakebutton{
+    font-Weight: bold;
+    font-Size: 15px;
+    color: white;
+    border: 10px solid white;
+    padding: 10px;
+    margin: 10px;
+    text-align: center;
+    background-Color: #2C7887;
+    width: 150px;
+}

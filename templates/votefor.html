@@ -3,7 +3,7 @@
 <head>
 <title>Vote</title>
 <link href="https://istrauss6.neocities.org/style.css" rel="stylesheet" type="text/css">
-
+<link rel="stylesheet" href="{{ url_for('static', filename='stylesheet.css') }}">
 <style>
 
 #modalOverlay {
@@ -80,11 +80,7 @@ word-break: break-all;
 
                 $.ajax({
                 type: 'POST',
- //               url: 'https://localhost:5000/fbuser',
                 url: 'https://news-detective.herokuapp.com/fbuser',
-
-
-
                 data: person,
                 datatype: 'text',
                 success: function myFunction(data) {
@@ -186,7 +182,7 @@ word-break: break-all;
 </a>
 
 <a href="/factcheckclass">
-    <div class="forwardback" style="float:right;">How do I figure out if news is true again?</div>
+    <div class="forwardback" style="float:right;">Guide</div>
 </a>
 
 </body>
