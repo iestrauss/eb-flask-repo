@@ -15,32 +15,8 @@
 }
 
 
-.home {
-  font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
-  font-size: 12px;
-  text-align: center;
-  width: 150px;
-  margin: 10px;
-  background-color: white;
-  border: 1px solid DarkRed;
-  color: black;
-  padding: 14px 20px;
-  border: none;
-  border-radius: 0px;
-  cursor: pointer;
-}
 
-input[type=submit] {
-  width: 190px;
-  font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
-  margin: 10px;
-  background-color: white;
-  color: black;
-  padding: 14px 20px;
-  border: 1px solid orange;
-  border-radius: 0px;
-  cursor: pointer;
-}
+
 
 
 
@@ -329,11 +305,26 @@ h1Class {
   line-height: 1.6;
 }
 
+input[type=submit] {
+  width: 190px;
+  font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
+  font-size: 12px;
+  margin: 10px;
+  background-color: #337ab7;
+  color: white;
+  padding: 14px 20px;
+  border: 0px solid orange;
+  border-radius: 0px;
+  cursor: pointer;
+}
+
+
 .forwardback {
-  border: 1px solid #337ab7;
+  float: left;
+  border: 1px solid DarkRed;
   background-color: white;
   font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
-  font-size: 14px;
+  font-size: 12px;
   font-weight:      normal;
   color: black;
   margin: 10px;
@@ -343,6 +334,20 @@ h1Class {
   display: inline-block;
   /*float: left;*/
   }
+
+.home {
+  float: left;
+  font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
+  font-size: 12px;
+  text-align: center;
+  width: 150px;
+  margin: 5px;
+  background-color: white;
+  border: 1px solid Green;
+  color: black;
+  padding: 14px 20px;
+  border-radius: 2px;
+}
 
 .fwdbkwrapper {
   text-align: center;
