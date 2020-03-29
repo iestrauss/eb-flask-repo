@@ -23,14 +23,13 @@ body{
 	Open Investigations
 </div>
 
-<homebar>
-	<!--{{ pagination.info }}-->
-	{{ pagination.links }}
+<!--<homebar>-->
+<!--	{{ pagination.info }}-->
 
-	<a href="/factcheckclass">
-		<div class="guide" style="float:right;">Guide</div>
-	</a>
-</homebar>
+{{ pagination.links }}
+
+	<a href="/factcheckclass"><div class="guide" style="margin: 20px;">Guide</div></a>
+<!--</homebar>-->
 
 {% for dict_item in home_data %}
 <!--{{ loop.index + pagination.skip }}-->
