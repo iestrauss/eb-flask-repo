@@ -2,15 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e3ab8582-8d80-433b-b539-9aadc2f396ed" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/templates/factcheckclass.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/factcheckclass.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/factcheckclass1.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/factcheckclass1.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/factcheckclass2.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/factcheckclass2.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/factcheckclass3.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/factcheckclass3.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/factcheckclass4.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/factcheckclass4.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/factcheckclass5.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/factcheckclass5.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/home.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/results.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/results.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/votefor.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/votefor.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -20,11 +12,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/templates/results.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="316">
-              <caret line="91" lean-forward="true" selection-start-line="91" selection-end-line="91" />
+            <state relative-caret-position="35">
+              <caret line="58" lean-forward="true" selection-start-line="58" selection-end-line="58" />
             </state>
           </provider>
         </entry>
@@ -92,7 +84,7 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/factcheckclass5.html">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="336">
@@ -170,7 +162,6 @@
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/stylesheet.css" />
         <option value="$PROJECT_DIR$/templates/stylesheet.css" />
-        <option value="$PROJECT_DIR$/templates/results.html" />
         <option value="$PROJECT_DIR$/templates/votefor.html" />
         <option value="$PROJECT_DIR$/templates/home.html" />
         <option value="$PROJECT_DIR$/templates/factcheckclass.html" />
@@ -179,6 +170,7 @@
         <option value="$PROJECT_DIR$/templates/factcheckclass3.html" />
         <option value="$PROJECT_DIR$/templates/factcheckclass4.html" />
         <option value="$PROJECT_DIR$/templates/factcheckclass5.html" />
+        <option value="$PROJECT_DIR$/templates/results.html" />
       </list>
     </option>
   </component>
@@ -461,13 +453,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/results.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="316">
-          <caret line="91" lean-forward="true" selection-start-line="91" selection-end-line="91" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/templates/votefor.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="316">
@@ -521,6 +506,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="336">
           <caret line="78" column="42" selection-start-line="78" selection-start-column="42" selection-end-line="78" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/results.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="35">
+          <caret line="58" lean-forward="true" selection-start-line="58" selection-end-line="58" />
         </state>
       </provider>
     </entry>
