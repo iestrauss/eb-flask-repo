@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e3ab8582-8d80-433b-b539-9aadc2f396ed" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application_mar22.py" beforeDir="false" afterPath="$PROJECT_DIR$/application_mar22.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -15,8 +16,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/application_mar22.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
-              <caret line="369" column="32" lean-forward="true" selection-start-line="369" selection-start-column="32" selection-end-line="369" selection-end-column="32" />
+            <state relative-caret-position="134">
+              <caret line="351" column="25" lean-forward="true" selection-start-line="351" selection-start-column="25" selection-end-line="351" selection-end-column="25" />
               <folding>
                 <element signature="e#0#75#0" expanded="true" />
               </folding>
@@ -115,7 +116,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>this is the total</find>
       <find>retrieve_article_vote_summary</find>
       <find>url al</find>
       <find>image_url</find>
@@ -145,6 +145,7 @@
       <find>voteresu</find>
       <find>fbus</find>
       <find>this is version</find>
+      <find>exc.</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -521,8 +522,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/application_mar22.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="369" column="32" lean-forward="true" selection-start-line="369" selection-start-column="32" selection-end-line="369" selection-end-column="32" />
+        <state relative-caret-position="134">
+          <caret line="351" column="25" lean-forward="true" selection-start-line="351" selection-start-column="25" selection-end-line="351" selection-end-column="25" />
           <folding>
             <element signature="e#0#75#0" expanded="true" />
           </folding>
