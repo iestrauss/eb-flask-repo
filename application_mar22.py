@@ -372,7 +372,8 @@ def fbuser():
             # if(now_existing_user is None) Error
             fb_user_id = now_existing_user.id
             return "created"
-        except exc.SQLAlchemyError:
+        except exc.SQLAlchemyError as e:
+            print(e)
             flash('Article url already exists, failed to post new user')
             print("sql fail")
             return "failed to create"
