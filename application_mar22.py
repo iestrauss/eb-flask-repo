@@ -257,6 +257,10 @@ def commenttest():
     print("commenttest")
     return render_template('/commenttest.html')
 
+##############################################
+@application.route('/privacy/')
+def privacy():
+    return render_template('privacypolicy.html')
 
 ##############################################
 @application.route('/factcheckclass/')
