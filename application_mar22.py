@@ -346,6 +346,7 @@ def bootstrap():
 
 @application.route('/fbuser', methods=['POST'])
 def fbuser():
+    print("this is version 1")
     # global user_id
     # request.form is the data from facebook, includes userID, picture, name
     person = request.form
@@ -362,12 +363,12 @@ def fbuser():
         fb_user_id = maybe_existing_user.id
         return "exists"
     else:
-        new_user = User(int(person.get("userID")), person.get("picture"), person.get("name"), 5)
+        new_user = User(person.get("userID"), person.get("picture"), person.get("name"), 5)
         db.session.add(new_user)
         try:
             db.session.commit()
             print("success sql")
-            now_existing_user = User.query.filter_by(fb_id=int(person.get("userID"))).first()
+            now_existing_user = User.query.filter_by(fb_id=person.get("userID")).first()
             # if(now_existing_user is None) Error
             fb_user_id = now_existing_user.id
             return "created"
