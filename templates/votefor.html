@@ -85,7 +85,6 @@ word-break: break-all;
                 datatype: 'text',
                 success: function myFunction(data) {
                 console.log("fb data sent");
-                window.location.reload();
                 }
                 })
 
@@ -97,6 +96,7 @@ word-break: break-all;
 
   function hideDialogAfterLogin () {
     document.getElementById("myDialog").close();
+    window.location.reload();
     FB.getLoginStatus(function(response) {
         addHiddenInput(response.authResponse.userID)
 
