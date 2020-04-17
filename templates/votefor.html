@@ -85,7 +85,6 @@ word-break: break-all;
                 datatype: 'text',
                 success: function myFunction(data) {
                 console.log("fb data sent");
-                document.getElementById("myDialog").showModal(); // This is the change [!]
                 }
                 })
 
@@ -94,7 +93,6 @@ word-break: break-all;
 
     });
   };
-
 
   function hideDialogAfterLogin () {
     document.getElementById("myDialog").close();
@@ -131,7 +129,7 @@ word-break: break-all;
 
 
 <!--{{ article_id }}-->
-
+<Script>console.log("inside votefor.html");</Script>
 <a href="{{ article_url }}" target="_blank">
 <div class="largetext">
     {{ article_title }}
@@ -145,7 +143,7 @@ word-break: break-all;
 <div class="mediumlefttext">
     What's your diagnosis, doctor?
 </div>
-
+<Script>console.log("after what's your diagnosis");</Script>
 <form action = "/insert_vote" method = "post" onsubmit="">
     <div id="vote-form" action = "/insert_vote" method = "post" onsubmit="">
         <div class="smalltext">
@@ -157,9 +155,11 @@ word-break: break-all;
         <br>
         <div class="mediumlefttext">
             Why did you make that choice?
+            <Script>console.log("after why did you make that choice");</Script>
         </div>
 <!--        <input type="text"  name="comments" id="comments" placeholder="The article said only 10% of poodles are evil geniuses. It says it got its information from a new White House report, but when I got to www.whitehouse.gov, I find the report (www.whitehouse.gov/report.html), and it says 80% of poodles are evil." style="height:150px">  </input> <br>-->
         <textarea name="comments" id="comments"></textarea>
+                    <Script>console.log("after comments");</Script>
 
 
 <!--<button onclick="javascript:login();" size="large" type="submit" value="Submit" scope="public_profile,email" returnscopes="true" onlogin="checkLoginState();">Submit</button>-->
