@@ -372,7 +372,7 @@ def fbuser():
         try:
             db.session.commit()
             print("success sql")
-            now_existing_user = User.query.filter_by(fb_id=int(person.get("userID"))).first()
+            now_existing_user = db.session.query(User).filter_by(fb_id=int(person.get("userID"))).first()
             # if(now_existing_user is None) Error
             fb_user_id = now_existing_user.id
             print("here comes the now_existing_user.id I just inserted")
