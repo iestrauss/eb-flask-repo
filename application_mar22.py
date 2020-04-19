@@ -291,6 +291,10 @@ def factcheckclass4():
 def factcheckclass5():
     return render_template('factcheckclass5.html')
 
+##############################################
+@application.route('/chat/')
+def chat():
+    return render_template('chat.html')
 
 ##############################################
 @application.route('/take_test', methods=['GET', 'POST'])
