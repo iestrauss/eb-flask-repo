@@ -340,14 +340,17 @@ def bootstrap():
                #return render_template('/error.html', article_url=article.url)
 
             # article_list = Article.query.filter_by(image_url=article.image_url)
-            article_list = Article.query.filter_by(url=article.url)
+            # article_list = Article.query.filter_by(url=article.url)
+            article_list = Article.query.filter_by(title=article.title)
 
             if posted == 1:
                 flash('Record was successfully added')
             else:
                 db.session.rollback()
                 # article_list = Article.query.filter_by(image_url=article.image_url)
-                article_list = Article.query.filter_by(url=article.url)
+                # article_list = Article.query.filter_by(url=article.url)
+                article_list = Article.query.filter_by(title=article.title)
+
                 article=article_list[0]
 
             print ("article.id=" + str(article.id))
