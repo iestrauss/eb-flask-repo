@@ -4,8 +4,8 @@ from sqlalchemy import exc
 from datetime import datetime
 
 #    DATE      WHO     DESCRIPTION
+# april 29
 # ########## ####### ###################################################################################
-# 10/02/2019 Hobmij  Add user,choice, to the comment in a tuple form for vote summary - requested by IES
 from flask import Flask, jsonify, request, render_template
 
 application = Flask(__name__)
@@ -311,6 +311,7 @@ def take_test():
 
 ##############################################
 @application.route('/bootstrap', methods=['GET', 'POST'])
+# // this takes the article from the extension and inserts it into the database
 def bootstrap():
     posted = 1
     print ("bootstrap")
@@ -318,7 +319,16 @@ def bootstrap():
         if not request.form['title'] or not request.form['url'] or not request.form['image_url'] or not request.form['snippet']:
             flash('Please enter all the fields', 'error')
         else:
-            article = Article(request.form['title'], request.form['url'], request.form['image_url'],
+
+            rurl = request.form['url']
+            print("here comes rurl")
+            print(rurl)
+            import urllib.parse as url_parse
+            url = rurl
+            news_link = url_parse.unquote(url).split("?u=")[1].split("?fbclid")[0]
+            print("here comes the news_link")
+            print(news_link)
+            article = Article(request.form['title'], news_link, request.form['image_url'],
                                request.form['snippet'])
 
             db.session.add(article)
