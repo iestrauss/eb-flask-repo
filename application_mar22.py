@@ -341,6 +341,9 @@ def bootstrap():
 
             # article_list = Article.query.filter_by(image_url=article.image_url)
             # article_list = Article.query.filter_by(url=article.url)
+
+# TODO: cross reference title with publication OR get better URLS and filter by those
+
             article_list = Article.query.filter_by(title=article.title)
 
             if posted == 1:

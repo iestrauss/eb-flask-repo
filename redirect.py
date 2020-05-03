@@ -1,0 +1,6 @@
+import urllib.parse as url_parse
+# url = "https://l.facebook.com/l.php?u=https%3A%2F%2Fwww.wsj.com%2Farticles%2Ftesla-stock-falls-after-ceo-tweets-stock-is-too-high-11588348672%3Ffbclid%3DIwAR0dCo70n2ihnw3d8zDl9B_ltuN4FL9XyD2UioGPfjAa4U_eAVXYJaKGWCw&h=AT2lK-NfaYbN1F3xGNyoeqgv6VeNSJoebhf3XgX3wmO0K81XjAecu746sISYA96jIU_g03-Ry_QmijLkybFRYUGGnR3KrCerVeJ8_M77qUmiBTWu9AsKr3MAYg49kIYFSqKRagEWhPIf7ZgNGgGH0VQ&__tn__=H-R&c[0]=AT0U27GLGtFf2Cu4XUw8IQ36uR_AL_SclzaMZncztmUv9QvlxxI3ATZRwOM1xvH5ws6mciVyVyPbgjAmGeLHwCjn8jZf_eFyqOLTZHkVznbx7QZcxWagB4DKCFk25CabCQqjf-59jDERvV-hq1XZdA"
+url = "https://l.facebook.com/l.php?u=https%3A%2F%2Fwww.wsj.com%2Farticles%2Ftesla-stock-falls-after-ceo-tweets-stock-is-too-high-11588348672%3Ffbclid%3DIwAR3MvYtROqxisjwI2SRxb1fBtqPIQYv4X4sXDmSmZIsukBukHG2tsvn5eK8&h=AT2qXp_UrKZ7kpNnkUnTkAd6NHT5eW6zvcSdEmP4XTYBfi4BU5jmEa6kQP60-EaBBeVEPolv9Uy8aVLYw0HLg0KOZvOLGGKBB0WiUW5XjJxL47D0EzrGW0Ti4wjpb8hPmt5Xd2oQkR0b3uOYx1IZe45suzN5RXPLH5zHGkeL4Bo"
+news_link = url_parse.unquote(url).split("?u=")[1].split("?fbclid")[0]
+print("here comes the news_link")
+print(news_link)

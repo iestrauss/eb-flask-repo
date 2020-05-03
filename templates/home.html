@@ -9,28 +9,25 @@
 body{
   margin-top: 10px;
   margin-bottom: 10px;
-  margin-right: 10px;
-  margin-left: 10px;
+  margin-right: 20px;
+  margin-left: 20px;
 }
 </style>
 
 </head>
+<body>
 
-<body style="padding:10;">
+<a href="/factcheckclass"><div class="guide" style="margin: 0px;">Guide</div></a>
 
-
+<a href="/chat"><div class="feedback" style="margin: 0px 20px;">Feedback</div></a>
+<br><br><Br>
 <div class="largetext">
 	Open Investigations
 </div>
 
-<!--<homebar>-->
-<!--	{{ pagination.info }}-->
-
 {{ pagination.links }}
+<br><br>
 
-	<a href="/factcheckclass"><div class="guide" style="margin: 20px;">Guide</div></a>
-<!--</homebar>-->
-	<a href="/chat"><div class="guide" style="margin: 20px;">Chat</div></a>
 {% for dict_item in home_data %}
 <!--{{ loop.index + pagination.skip }}-->
 <!--<a href="results/{{ dict_item['id'] }}">-->
