@@ -328,8 +328,17 @@ def bootstrap():
             news_link = url_parse.unquote(url).split("?u=")[1].split("?fbclid")[0]
             print("here comes the news_link")
             print(news_link)
+
+# getting the publication
+
+            from urllib.parse import urlparse
+            domain = urlparse(news_link).netloc
+            print("domain")  # --> www.example.test
+            print(domain)  # --> www.example.test
+
+
             article = Article(request.form['title'], news_link, request.form['image_url'],
-                               request.form['snippet'])
+                               domain)
 
             db.session.add(article)
             try:
