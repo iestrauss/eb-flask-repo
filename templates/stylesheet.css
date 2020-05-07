@@ -1,3 +1,5 @@
+updated may 3, 2020
+
 .pagination-page-info {
     padding: .6em;
     padding-left: 0;
@@ -215,7 +217,7 @@ input[type=radio] {
 
 .frame-area {
   display: block;
-  width: 80%;  /* RESPONSIVE WIDTH */
+  width: 100%;  /* RESPONSIVE WIDTH */
   margin: auto;
   height: 400px;
   overflow: auto;  /* EDIT TO hidden FOR NO SCROLLBAR */
@@ -242,7 +244,7 @@ input[type=radio] {
 }
 
 .quotebox {
-  width: 50%;
+  width: 80%;
   margin: auto;
   }
 
@@ -269,12 +271,12 @@ pClass {
 }
 
 h3Class {
-  font-family: "Bookman", Courier, monospace;
-  font-size: 16px;
+  /*font-family: "Bookman", Courier, monospace;*/
+  font-size: 14px;
   text-decoration:  none;
-  font-weight:      bold;
+  /*font-weight:      bold;*/
+  color: green;
   background-color: white;
-  color:            black;
   line-height: 1.6;
 }
 
@@ -312,51 +314,102 @@ input[type=submit] {
   margin: 10px;
   background-color: #337ab7;
   color: white;
-  padding: 14px 20px;
+  padding: 9px 15px;
   border: 0px solid orange;
-  border-radius: 0px;
+  border-radius: 4px;
   cursor: pointer;
 }
 
-
-.forwardback {
+.voteresultspage {
+  font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
+  font-size: 12px;
+  text-align: center;
+  margin: 10px;
+  background-color: #337ab7;
+  color: white;
+  padding: 9px 15px;
+  border: 0px solid orange;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.pagination {
   float: left;
-  border: 1px solid DarkRed;
+  /*border: 1px solid orange;*/
+  border-radius: 4px;
+  background-color: white;
+  font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
+  font-size: 12px;
+  font-weight:      normal;
+  color: black;
+  text-align: center;
+  text-decoration: none;
+  /*display: inline-block;*/
+  /*float: left;*/
+  }
+.guide {
+  float: left;
+  border: 1px solid #79b887;
+  border-radius: 4px;
   background-color: white;
   font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
   font-size: 12px;
   font-weight:      normal;
   color: black;
   margin: 10px;
-  padding: 14px 20px;
+  padding: 8px 15px;
   text-align: center;
   text-decoration: none;
-  display: inline-block;
+  /*display: inline-block;*/
   /*float: left;*/
   }
+
+
+.feedback {
+  float: left;
+  border: 1px solid #ce78eb;
+  border-radius: 4px;
+  background-color: white;
+  font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
+  font-size: 12px;
+  font-weight:      normal;
+  color: black;
+  margin: 10px;
+  padding: 8px 15px;
+  text-align: center;
+  text-decoration: none;
+  /*display: inline-block;*/
+  /*float: left;*/
+  }
+
+.homebar{
+  text-align: center;
+}
 
 .home {
   float: left;
   font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
   font-size: 12px;
   text-align: center;
-  width: 150px;
-  margin: 5px;
+  /*width: 150px;*/
+  margin: 10px;
   background-color: white;
-  border: 1px solid Green;
+  border: 1px solid Red;
   color: black;
-  padding: 14px 20px;
-  border-radius: 2px;
+  padding: 8px 15px;
+  border-radius: 4px;
 }
 
 .fwdbkwrapper {
   text-align: center;
+  margin: 0 auto;
+  background: red;
 }
 
 .summarywrapper {
   padding: 20px;
-  background-color: AntiqueWhite;
-  border-radius: 20px;
+  background-color: white;
+  border-style: solid;
+  border-color: WhiteSmoke;
 }
 
 .testwrapper{
