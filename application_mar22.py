@@ -342,7 +342,7 @@ def bootstrap():
             news_link = url_parse.unquote(url).split("?u=")[1].split("?fbclid")[0]
             print("here comes the news_link")
             print(news_link)
-            import requests as requests
+            import urllib.requests as requests
             final_link = requests.get(news_link)
             print("here comes the final_link.url")
             print(final_link.url)

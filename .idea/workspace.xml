@@ -2,12 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e3ab8582-8d80-433b-b539-9aadc2f396ed" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application_mar22.py" beforeDir="false" afterPath="$PROJECT_DIR$/application_mar22.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/simple_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/simple_test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/chat.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/chat.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/results.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/results.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/stylesheet.css" beforeDir="false" afterPath="$PROJECT_DIR$/templates/stylesheet.css" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -29,8 +24,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/application_mar22.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="217">
-              <caret line="338" column="23" lean-forward="true" selection-start-line="338" selection-start-column="23" selection-end-line="338" selection-end-column="23" />
+            <state relative-caret-position="307">
+              <caret line="344" column="46" lean-forward="true" selection-start-line="344" selection-start-column="46" selection-end-line="344" selection-end-column="46" />
               <folding>
                 <element signature="e#0#75#0" expanded="true" />
               </folding>
@@ -568,8 +563,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/application_mar22.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="217">
-          <caret line="338" column="23" lean-forward="true" selection-start-line="338" selection-start-column="23" selection-end-line="338" selection-end-column="23" />
+        <state relative-caret-position="307">
+          <caret line="344" column="46" lean-forward="true" selection-start-line="344" selection-start-column="46" selection-end-line="344" selection-end-column="46" />
           <folding>
             <element signature="e#0#75#0" expanded="true" />
           </folding>
