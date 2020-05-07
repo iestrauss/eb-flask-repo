@@ -208,7 +208,21 @@ def results(id):
         # print("    " + str(details_count) + ": " + details[0] + " " + details[1] + " " + details[2])
         # details_count += 1
 
-    return render_template('results.html', title=a_obj.title, id=id,
+# new counting code
+    import sqlalchemy as sa
+
+    q = (db.session.query(ArticleVote.vote_choice_id, sa.func.count(ArticleVote.vote_choice_id))
+         .filter(ArticleVote.article_id == id)
+         .group_by(ArticleVote.vote_choice_id)
+         .order_by(ArticleVote.vote_choice_id))
+
+    for vote_choice_id, count in q:
+        print("here comes the count maybe")
+        print(vote_choice_id, count)
+
+# end new counting code
+
+    return render_template('results.html', title=a_obj.title, snippet=a_obj.snippet, id=id,
                            image_url=a_obj.image_url, url=a_obj.url,
                            vote_choices=vote_choices, home_data=Article.query.all(),
                            vote_details=updated_details)
@@ -328,16 +342,24 @@ def bootstrap():
             news_link = url_parse.unquote(url).split("?u=")[1].split("?fbclid")[0]
             print("here comes the news_link")
             print(news_link)
+            import requests
+            final_link = requests.get(news_link)
+            print("here comes the final_link.url")
+            print(final_link.url)
+            # now to get rid of the pesky fb stuff at the end
+            link3 = url_parse.unquote(final_link.url).split("?u")[0]
+            print("here comes link3")
+            print(link3)
 
 # getting the publication
 
             from urllib.parse import urlparse
-            domain = urlparse(news_link).netloc
+            domain = urlparse(link3).netloc
             print("domain")  # --> www.example.test
             print(domain)  # --> www.example.test
 
 
-            article = Article(request.form['title'], news_link, request.form['image_url'],
+            article = Article(request.form['title'], link3, request.form['image_url'],
                                domain)
 
             db.session.add(article)
@@ -350,8 +372,6 @@ def bootstrap():
 
             # article_list = Article.query.filter_by(image_url=article.image_url)
             # article_list = Article.query.filter_by(url=article.url)
-
-# TODO: cross reference title with publication OR get better URLS and filter by those
 
             article_list = Article.query.filter_by(title=article.title)
 
@@ -437,6 +457,29 @@ def votefor(article_id):
 
 
 ##############################################
+class PublicationVoteSummary():
+# This object keeps the count of votes for a Publication
+
+    def __init__(self, article_id):
+        self.article_id = article_id
+        self.choice_count = {}  # count by textual choice
+        self.choice_id = {}
+        self.vote_comments = []  # list to which comments are appended
+        self.vote_details = []  # list of tuples (user, vote_choice, comment)
+        choice_list = VoteChoice.getVoteChoiceList()
+        for item in choice_list:
+            self.choice_id[str(item.id)] = item.choice
+        for item in choice_list:
+            self.choice_count[item.choice] = 0
+        self.total_votes = 0
+
+##############################################
+def retrieve_publication_summary(article_id):
+    pub_obj = PublicationSummary(article_id)
+    publication_list = db.session.query(ArticleVote, User).filter(ArticleVote.article_id == article_id).filter(
+        ArticleVote.user_id == User.fb_id).all()
+
+##############################################
 class ArticleVoteSummary():
     # todo: add reset method
     # This object keeps the count of votes for an Article
@@ -517,6 +560,17 @@ def retrieve_article_vote_summary(article_id):
         avs_obj.appendDetail((item[1].name, text, item[0].comment))  # 09/27 - added to show comments in results page
 
     return avs_obj
+
+
+
+# find publication
+# pulls all "true" votes with that publication name
+# pulls all "false" votes with that publication name
+# pulls all "eggagerated" votes with that publication name
+# total_pub_votes = true + egg + false
+# score = (truevotes + .5(eggageratedvotes))/total_pub_votes
+# score_fraction = score(100)
+
 
 
 ##############################################
