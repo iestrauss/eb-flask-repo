@@ -211,14 +211,13 @@ def results(id):
 # new counting code
     import sqlalchemy as sa
 
-    q = (db.session.query(ArticleVote.vote_choice_id, sa.func.count(ArticleVote.vote_choice_id))
-         .filter(ArticleVote.article_id == id)
-         .group_by(ArticleVote.vote_choice_id)
-         .order_by(ArticleVote.vote_choice_id))
-
-    for vote_choice_id, count in q:
-        print("here comes the count maybe")
-        print(vote_choice_id, count)
+    q = (db.session.query(Article.snippet, sa.func.count(ArticleVote.id))
+         .join(ArticleVote, Article.id == ArticleVote.article_id)
+         .filter(Article.snippet == a_obj.snippet)
+         .filter(ArticleVote.vote_choice_id == 1)
+         .group_by(Article.snippet))
+    for snippet, count in q:
+        print(snippet, count)
 
 # end new counting code
 
@@ -457,14 +456,13 @@ def votefor(article_id):
 
 
 ##############################################
-class PublicationVoteSummary():
+class PubVoteSummary():
 # This object keeps the count of votes for a Publication
 
     def __init__(self, article_id):
         self.article_id = article_id
         self.choice_count = {}  # count by textual choice
         self.choice_id = {}
-        self.vote_comments = []  # list to which comments are appended
         self.vote_details = []  # list of tuples (user, vote_choice, comment)
         choice_list = VoteChoice.getVoteChoiceList()
         for item in choice_list:
@@ -473,11 +471,20 @@ class PublicationVoteSummary():
             self.choice_count[item.choice] = 0
         self.total_votes = 0
 
-##############################################
-def retrieve_publication_summary(article_id):
-    pub_obj = PublicationSummary(article_id)
-    publication_list = db.session.query(ArticleVote, User).filter(ArticleVote.article_id == article_id).filter(
-        ArticleVote.user_id == User.fb_id).all()
+
+    def retrieve_publication_summary(article_id):
+        pub_obj = PublicationSummary(article_id)
+
+        import sqlalchemy as sa
+
+        q = (db.session.query(ArticleVote.vote_choice_id, sa.func.count(ArticleVote.vote_choice_id))
+             .filter(ArticleVote.article_id == id)
+             .group_by(ArticleVote.vote_choice_id)
+             .order_by(ArticleVote.vote_choice_id))
+
+        for vote_choice_id, count in q:
+            print("here comes the count maybe")
+            print(vote_choice_id, count)
 
 ##############################################
 class ArticleVoteSummary():
