@@ -75,15 +75,24 @@
 </div>
 
 
+
+<div class="mediumtext">
+	Publication
 {% for choice in vote_choices %}
+
 <div class="container" >
-  	<div class="colorbar" style="background-color:#{{ choice[1] }}; width:{{ onevotes }}%;"></div>
+  	<div class="colorbar" style="background-color:#{{ choice[1] }}; width:{{ onescore }}%;"></div>
+  	<div class="top-left">{{ choice[0] }}</div>
+	<div class="votetotals">
+		{{ onevotes }} out of {{ total_plus_nn }}</div>
 </div>
 {% endfor %}
+</div>
+
 
 
 <div class="mediumtext">
-Verdict
+Article
 
 
 {% for choice in vote_choices %}

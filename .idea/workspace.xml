@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e3ab8582-8d80-433b-b539-9aadc2f396ed" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/application_mar22.py" beforeDir="false" afterPath="$PROJECT_DIR$/application_mar22.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubvote.sql" beforeDir="false" afterPath="$PROJECT_DIR$/pubvote.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/results.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/results.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -18,13 +16,11 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/templates/results.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="404">
-              <caret line="93" column="28" lean-forward="true" selection-start-line="93" selection-start-column="28" selection-end-line="93" selection-end-column="28" />
+            <state relative-caret-position="255">
+              <caret line="79" column="15" selection-start-line="79" selection-start-column="15" selection-end-line="79" selection-end-column="15" />
               <folding>
-                <element signature="n#style#0;n#h1#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -33,7 +29,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/application_old.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="604">
+            <state relative-caret-position="6750">
               <caret line="459" selection-start-line="459" selection-end-line="467" selection-end-column="28" />
               <folding>
                 <element signature="e#1#76#0" expanded="true" />
@@ -45,8 +41,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/application_mar22.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="339">
-              <caret line="301" column="39" selection-start-line="301" selection-start-column="39" selection-end-line="301" selection-end-column="39" />
+            <state relative-caret-position="323">
+              <caret line="330" column="82" lean-forward="true" selection-start-line="330" selection-start-column="82" selection-end-line="330" selection-end-column="82" />
               <folding>
                 <element signature="e#0#75#0" expanded="true" />
               </folding>
@@ -57,7 +53,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/db_create_tables.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="285">
+            <state relative-caret-position="525">
               <caret line="36" column="18" selection-start-line="36" selection-start-column="18" selection-end-line="36" selection-end-column="18" />
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
@@ -69,7 +65,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/db_insert_data.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1043">
+            <state relative-caret-position="1605">
               <caret line="108" column="63" selection-start-line="108" selection-start-column="63" selection-end-line="108" selection-end-column="63" />
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
@@ -130,9 +126,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>going to</find>
-      <find>this is</find>
-      <find>fbuser</find>
       <find>user.query</find>
       <find>spi</find>
       <find>spinach</find>
@@ -152,14 +145,17 @@
       <find>article_id</find>
       <find>ArticleVote</find>
       <find>vote choice</find>
-      <find>articlevotesummary</find>
       <find>VoteChoice</find>
       <find>bootstrap</find>
-      <find>result</find>
       <find>sn</find>
       <find>retrieve</find>
+      <find>etrieve_article_vote_summary</find>
+      <find>result</find>
+      <find>articlevotesummary</find>
       <find>publication</find>
+      <find>a.obj</find>
       <find>results</find>
+      <find>vote_choices</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -207,8 +203,8 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="40" />
-    <option name="y" value="54" />
+    <option name="x" value="173" />
+    <option name="y" value="23" />
     <option name="width" value="1293" />
     <option name="height" value="782" />
   </component>
@@ -282,7 +278,8 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="40" y="54" width="1293" height="782" extended-state="0" />
+    <frame x="173" y="23" width="1293" height="782" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25157234" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -302,17 +299,6 @@
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
     </layout>
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/application_mar22.py</url>
-          <line>214</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/fakenews.py" />
@@ -519,6 +505,50 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/application_old.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6750">
+          <caret line="459" selection-start-line="459" selection-end-line="467" selection-end-column="28" />
+          <folding>
+            <element signature="e#1#76#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/db_create_tables.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="525">
+          <caret line="36" column="18" selection-start-line="36" selection-start-column="18" selection-end-line="36" selection-end-column="18" />
+          <folding>
+            <element signature="e#0#14#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/db_insert_data.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1605">
+          <caret line="108" column="63" selection-start-line="108" selection-start-column="63" selection-end-line="108" selection-end-column="63" />
+          <folding>
+            <element signature="e#0#14#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pubvote.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="73" selection-start-column="73" selection-end-column="73" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/requirements.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="11" column="6" lean-forward="true" selection-start-line="11" selection-start-column="6" selection-end-line="11" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/templates/factcheckclass4.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="150">
@@ -543,54 +573,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/requirements.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="11" column="6" lean-forward="true" selection-start-line="11" selection-start-column="6" selection-end-line="11" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/db_create_tables.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="36" column="18" selection-start-line="36" selection-start-column="18" selection-end-line="36" selection-end-column="18" />
-          <folding>
-            <element signature="e#0#14#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/db_insert_data.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1043">
-          <caret line="108" column="63" selection-start-line="108" selection-start-column="63" selection-end-line="108" selection-end-column="63" />
-          <folding>
-            <element signature="e#0#14#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pubvote.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="73" selection-start-column="73" selection-end-column="73" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application_old.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="604">
-          <caret line="459" selection-start-line="459" selection-end-line="467" selection-end-column="28" />
-          <folding>
-            <element signature="e#1#76#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/application_mar22.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="339">
-          <caret line="301" column="39" selection-start-line="301" selection-start-column="39" selection-end-line="301" selection-end-column="39" />
+        <state relative-caret-position="323">
+          <caret line="330" column="82" lean-forward="true" selection-start-line="330" selection-start-column="82" selection-end-line="330" selection-end-column="82" />
           <folding>
             <element signature="e#0#75#0" expanded="true" />
           </folding>
@@ -599,13 +585,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/results.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="404">
-          <caret line="93" column="28" lean-forward="true" selection-start-line="93" selection-start-column="28" selection-end-line="93" selection-end-column="28" />
+        <state relative-caret-position="255">
+          <caret line="79" column="15" selection-start-line="79" selection-start-column="15" selection-end-line="79" selection-end-column="15" />
           <folding>
-            <element signature="n#style#0;n#h1#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
