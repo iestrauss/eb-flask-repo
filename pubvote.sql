@@ -1,0 +1,1 @@
+SELECT * FROM article as a, article_vote as av WHERE a.id = av_article_id

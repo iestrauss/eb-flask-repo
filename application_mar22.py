@@ -181,6 +181,23 @@ def home():
 
     return render_template('home.html', home_data=home_data_for_render, pagination=pagination, )
 
+##############################################
+def retrieve_pub_vote_summary(snippet_id):
+    pvs_obj = PubVoteSummary(article_id)
+    print("article_id in ravs(): ", str(article_id))
+    article_vote_list = db.session.query(ArticleVote, User).filter(ArticleVote.article_id == article_id).filter(
+        ArticleVote.user_id == User.fb_id).all()
+    print("before for item in article_vote_list")
+    for item in article_vote_list:
+        print("before text")
+        text = avs_obj.getVoteText(item[0].vote_choice_id)
+        print("before avs_obj.addVote(text)")
+        avs_obj.addVote(text)
+        print("article text: ", text)
+        # avs_obj.appendComment(item.comment) # 09/27 - added to show comments in results page
+        avs_obj.appendDetail((item[1].name, text, item[0].comment))  # 09/27 - added to show comments in results page
+
+    return avs_obj
 
 ##############################################
 @application.route('/results/<int:id>')
@@ -211,20 +228,106 @@ def results(id):
 # new counting code
     import sqlalchemy as sa
 
+# for 1 votes
     q = (db.session.query(Article.snippet, sa.func.count(ArticleVote.id))
          .join(ArticleVote, Article.id == ArticleVote.article_id)
+         # a_obj.snippet is the publication
          .filter(Article.snippet == a_obj.snippet)
          .filter(ArticleVote.vote_choice_id == 1)
          .group_by(Article.snippet))
     for snippet, count in q:
         print(snippet, count)
+        onevotes = count
+        print("onevotes", onevotes)
 
-# end new counting code
+# for 2 votes
+    q = (db.session.query(Article.snippet, sa.func.count(ArticleVote.id))
+         .join(ArticleVote, Article.id == ArticleVote.article_id)
+         .filter(Article.snippet == a_obj.snippet)
+         .filter(ArticleVote.vote_choice_id == 2)
+         .group_by(Article.snippet))
+    for snippet, count in q:
+        print(snippet, count)
+        twovotes = count
+        print("twovotes", twovotes)
+    if 'twovotes' in locals():
+        print("twoevotes in locals")
+    else:
+        print("twovotes not in locals")
+        twovotes= 0
+
+# for 3 votes
+    q = (db.session.query(Article.snippet, sa.func.count(ArticleVote.id))
+         .join(ArticleVote, Article.id == ArticleVote.article_id)
+         .filter(Article.snippet == a_obj.snippet)
+         .filter(ArticleVote.vote_choice_id == 3)
+         .group_by(Article.snippet))
+    for snippet, count in q:
+        print(snippet, count)
+        threevotes = count
+        print("threevotes", threevotes)
+    if 'threevotes' in locals():
+        print("threevotes in locals")
+    else:
+        print("threevote not in locals")
+        threevotes= 0
+
+
+# for 4 votes
+    q = (db.session.query(Article.snippet, sa.func.count(ArticleVote.id))
+         .join(ArticleVote, Article.id == ArticleVote.article_id)
+         .filter(Article.snippet == a_obj.snippet)
+         .filter(ArticleVote.vote_choice_id == 4)
+         .group_by(Article.snippet))
+    for snippet, count in q:
+        print(snippet, count)
+        fourvotes = count
+        print("fourvotes", fourvotes)
+
+# for 5 votes
+    q = (db.session.query(Article.snippet, sa.func.count(ArticleVote.id))
+         .join(ArticleVote, Article.id == ArticleVote.article_id)
+         .filter(Article.snippet == a_obj.snippet)
+         .filter(ArticleVote.vote_choice_id == 5)
+         .group_by(Article.snippet))
+    for snippet, count in q:
+        print(snippet, count)
+        fivevotes = count
+        print("fivevotes", fivevotes)
+    if 'fivevotes' in locals():
+        print("fivevotes in locals")
+    else:
+        print("fivevote not in locals")
+        fivevotes= 0
+
+# for 6 votes
+    q = (db.session.query(Article.snippet, sa.func.count(ArticleVote.id))
+         .join(ArticleVote, Article.id == ArticleVote.article_id)
+         .filter(Article.snippet == a_obj.snippet)
+         .filter(ArticleVote.vote_choice_id == 6)
+         .group_by(Article.snippet))
+    for snippet, count in q:
+        print(snippet, count)
+        sixvotes = count
+        print("sixvotes", sixvotes)
+
+# getting rating
+
+    total = onevotes + twovotes + threevotes +fourvotes + fivevotes
+    print("total: ", total)
+
+    score = (onevotes + .5*(twovotes))/total
+    print("score: ", score)
+    score_percent = score * 100
+
 
     return render_template('results.html', title=a_obj.title, snippet=a_obj.snippet, id=id,
                            image_url=a_obj.image_url, url=a_obj.url,
                            vote_choices=vote_choices, home_data=Article.query.all(),
-                           vote_details=updated_details)
+                           vote_details=updated_details, onevotes=onevotes, twovotes=twovotes, threevotes=threevotes,
+                           fourvotes=fourvotes, fivevotes=fivevotes, sixvotes=sixvotes,
+                           score_percent=score_percent
+                           )
 
 
 ##############################################
@@ -456,35 +559,35 @@ def votefor(article_id):
 
 
 ##############################################
-class PubVoteSummary():
-# This object keeps the count of votes for a Publication
+# class PubVoteSummary():
+# # This object keeps the count of votes for a Publication
+#
+#     def __init__(self, article_id):
+#         self.article_id = article_id
+#         self.choice_count = {}  # count by textual choice
+#         self.choice_id = {}
+#         self.vote_details = []  # list of tuples (user, vote_choice, comment)
+#         choice_list = VoteChoice.getVoteChoiceList()
+#         for item in choice_list:
+#             self.choice_id[str(item.id)] = item.choice
+#         for item in choice_list:
+#             self.choice_count[item.choice] = 0
+#         self.total_votes = 0
+#
 
-    def __init__(self, article_id):
-        self.article_id = article_id
-        self.choice_count = {}  # count by textual choice
-        self.choice_id = {}
-        self.vote_details = []  # list of tuples (user, vote_choice, comment)
-        choice_list = VoteChoice.getVoteChoiceList()
-        for item in choice_list:
-            self.choice_id[str(item.id)] = item.choice
-        for item in choice_list:
-            self.choice_count[item.choice] = 0
-        self.total_votes = 0
-
-
-    def retrieve_publication_summary(article_id):
-        pub_obj = PublicationSummary(article_id)
-
-        import sqlalchemy as sa
-
-        q = (db.session.query(ArticleVote.vote_choice_id, sa.func.count(ArticleVote.vote_choice_id))
-             .filter(ArticleVote.article_id == id)
-             .group_by(ArticleVote.vote_choice_id)
-             .order_by(ArticleVote.vote_choice_id))
-
-        for vote_choice_id, count in q:
-            print("here comes the count maybe")
-            print(vote_choice_id, count)
+    # def retrieve_publication_summary(article_id):
+    #     pub_obj = PublicationSummary(article_id)
+    #
+    #     import sqlalchemy as sa
+    #
+    #     q = (db.session.query(ArticleVote.vote_choice_id, sa.func.count(ArticleVote.vote_choice_id))
+    #          .filter(ArticleVote.article_id == id)
+    #          .group_by(ArticleVote.vote_choice_id)
+    #          .order_by(ArticleVote.vote_choice_id))
+    #
+    #     for vote_choice_id, count in q:
+    #         print("here comes the count maybe")
+    #         print(vote_choice_id, count)
 
 ##############################################
 class ArticleVoteSummary():
