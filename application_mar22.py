@@ -181,6 +181,7 @@ def home():
 
     return render_template('home.html', home_data=home_data_for_render, pagination=pagination, )
 
+
 ##############################################
 def retrieve_pub_vote_summary(publication):
     # new counting code
@@ -280,11 +281,13 @@ def retrieve_pub_vote_summary(publication):
     # getting rating
 
     total = onevotes + twovotes + threevotes + fourvotes + fivevotes
+    if total == 0:
+        total = 1
     print("total: ", total)
 
     score = (onevotes + .5 * (twovotes)) / total
     print("score: ", score)
-    score_percent = score * 100
+    score_percent = round(score * 100)
 
     pub_tuple = (onevotes, twovotes, threevotes, fourvotes, fivevotes, sixvotes, total, score,
                              score_percent)
@@ -292,6 +295,18 @@ def retrieve_pub_vote_summary(publication):
     print(pub_tuple)
     print("after pub_tuple")
     return pub_tuple
+
+##############################################
+@application.route('/buttoncolor', methods=['GET', 'POST'])
+def buttoncolor():
+    print("inside buttoncolor")
+    if request.method == 'POST':
+        if not request.form['url']:
+            flash('Please enter all the fields', 'error')
+        else:
+            purl = request.form['url']
+            print("here comes purl", purl)
+
 
 ##############################################
 @application.route('/results/<int:id>')
@@ -318,6 +333,8 @@ def results(id):
 
     total_plus_nn = pub_tuple[0] + pub_tuple[1] + pub_tuple[2] + pub_tuple[3] + pub_tuple[4] + pub_tuple[5]
     print("total_plus_nn: ", total_plus_nn)
+    if total_plus_nn == 0:
+        total_plus_nn = 1
 
     onescore = pub_tuple[0]*100 / total_plus_nn
     twoscore = pub_tuple[1]*100 / total_plus_nn
