@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <html>
 <head>
 <title>Home</title>
@@ -16,35 +17,38 @@ body{
 
 </head>
 <body>
+<script async src="https://cse.google.com/cse.js?cx=014500911544560096969:pcgxxglbwe3"></script>
+<div class="gcse-search" style="width=50%"></div>
 
-<a href="/factcheckclass"><div class="guide" style="margin: 0px;">Guide</div></a>
+<div style="margin-left: 15px; margin-right: 15px;">
+	<a href="/factcheckclass"><div class="guide" style="margin: 0px;">Guide</div></a>
 
-<a href="/chat"><div class="feedback" style="margin: 0px 20px;">Feedback</div></a>
-<br><br><Br>
-<div class="largetext">
-	Open Investigations
+	<a href="/chat"><div class="feedback" style="margin: 0px 20px;">Feedback</div></a>
+	<br><br><Br>
+	<div class="largetext">
+		Open Investigations
+	</div>
+
+	{{ pagination.links }}
+	<br><br>
+
+	{% for dict_item in home_data %}
+	<!--{{ loop.index + pagination.skip }}-->
+	<!--<a href="results/{{ dict_item['id'] }}">-->
+		<div class="photo">
+			<img src="{{ dict_item['image_url'] }}" width="100%">
+		</div>
+		<div class="hometitlesstyle">{{ dict_item['title'] }}</div>
+		<div class="voteorresult"><a href="votefor/{{ dict_item['id'] }}">Vote</a></div>
+		<div class="voteorresult"><a href="results/{{ dict_item['id'] }}">Results</a></div>
+
+
+
+	<hr class="new1">
+		{% endfor %}
+
+	{{ pagination.links }}
 </div>
-
-{{ pagination.links }}
-<br><br>
-
-{% for dict_item in home_data %}
-<!--{{ loop.index + pagination.skip }}-->
-<!--<a href="results/{{ dict_item['id'] }}">-->
-  	<div class="photo">
-    	<img src="{{ dict_item['image_url'] }}" width="100%">
-    </div>
-	<div class="hometitlesstyle">{{ dict_item['title'] }}</div>
-	<div class="voteorresult"><a href="votefor/{{ dict_item['id'] }}">Vote</a></div>
-	<div class="voteorresult"><a href="results/{{ dict_item['id'] }}">Results</a></div>
-
-
-
-<hr class="new1">
-    {% endfor %}
-
-{{ pagination.links }}
-
 
 </body>
 </html>

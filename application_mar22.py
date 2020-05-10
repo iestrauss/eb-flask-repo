@@ -318,8 +318,17 @@ def results(id):
 
     total_plus_nn = pub_tuple[0] + pub_tuple[1] + pub_tuple[2] + pub_tuple[3] + pub_tuple[4] + pub_tuple[5]
     print("total_plus_nn: ", total_plus_nn)
+
     onescore = pub_tuple[0]*100 / total_plus_nn
-    print("onescore is", onescore)
+    twoscore = pub_tuple[1]*100 / total_plus_nn
+    threescore = pub_tuple[2]*100 / total_plus_nn
+    fourscore = pub_tuple[3]*100 / total_plus_nn
+    fivescore = pub_tuple[4]*100 / total_plus_nn
+    sixscore = pub_tuple[5]*100 / total_plus_nn
+
+    pubscorechoices=(onescore, twoscore, threescore, fourscore, fivescore, sixscore)
+    print("pubscorechoices")
+    print(pubscorechoices)
 
 
     details = avs_obj.getVoteDetails()  # 10/02 - retrieve array of tuples [(user, VoteChoice, Comments)]
@@ -338,7 +347,7 @@ def results(id):
                            vote_details=updated_details, onevotes=pub_tuple[0], twovotes=pub_tuple[1],
                            threevotes=pub_tuple[2],
                            fourvotes=pub_tuple[3], fivevotes=pub_tuple[4], sixvotes=pub_tuple[5],
-                           score_percent=pub_tuple[8], onescore=onescore, total_plus_nn=total_plus_nn
+                           score_percent=pub_tuple[8], pubscorechoices=pubscorechoices, total_plus_nn=total_plus_nn
                            )
 
 ##############################################

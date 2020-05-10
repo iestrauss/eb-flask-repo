@@ -55,38 +55,72 @@
 
 <div class="mediumtext" style="text-align:center;">
 	Publication: {{ snippet }}
-	<br>
+	<br><br>
 	Publication score: {{ score_percent }}%
 	<br><Br>
-<div style="text-align:left;">
-	Publication breakdown
-	<br>
-	True: {{ onevotes }}
-	<br>
-	Exaggerated: {{ twovotes }}
-	<br>
-	No Source: {{ threevotes }}
-	<br>
-	Bad Source: {{ fourvotes }}
-	<br>
-	Can't Find Source: {{ fivevotes }}
-	<br>
-	Not News: {{ sixvotes }}</div>
-</div>
+<!--<div style="text-align:left;">-->
+<!--	Publication breakdown-->
+<!--	<br>-->
+<!--	True: {{ onevotes }}-->
+<!--	<br>-->
+<!--	Exaggerated: {{ twovotes }}-->
+<!--	<br>-->
+<!--	No Source: {{ threevotes }}-->
+<!--	<br>-->
+<!--	Bad Source: {{ fourvotes }}-->
+<!--	<br>-->
+<!--	Can't Find Source: {{ fivevotes }}-->
+<!--	<br>-->
+<!--	Not News: {{ sixvotes }}</div>-->
+<!--</div>-->
 
 
 
 <div class="mediumtext">
 	Publication
-{% for choice in vote_choices %}
+	<div class="container" >
+		<div class="colorbar"
+			 style="background-color:#{{ vote_choices[0][1] }}; width:{{ pubscorechoices[0] }}%;"></div>
+		<div class="top-left">{{ vote_choices[0][0] }}</div>
+		<div class="votetotals">
+			{{ onevotes }} out of {{ total_plus_nn }}</div>
+	</div>
+	<div class="container" >
+		<div class="colorbar"
+			 style="background-color:#{{ vote_choices[1][1] }}; width:{{ pubscorechoices[1] }}%;"></div>
+		<div class="top-left">{{ vote_choices[1][0] }}</div>
+		<div class="votetotals">
+			{{ twovotes }} out of {{ total_plus_nn }}</div>
+	</div>
+	<div class="container" >
+		<div class="colorbar"
+			 style="background-color:#{{ vote_choices[2][1] }}; width:{{ pubscorechoices[2] }}%;"></div>
+		<div class="top-left">{{ vote_choices[2][0] }}</div>
+		<div class="votetotals">
+			{{ threevotes }} out of {{ total_plus_nn }}</div>
+	</div>
+	<div class="container" >
+		<div class="colorbar"
+			 style="background-color:#{{ vote_choices[3][1] }}; width:{{ pubscorechoices[3] }}%;"></div>
+		<div class="top-left">{{ vote_choices[3][0] }}</div>
+		<div class="votetotals">
+			{{ fourvotes }} out of {{ total_plus_nn }}</div>
+	</div>
+	<div class="container" >
+		<div class="colorbar"
+			 style="background-color:#{{ vote_choices[4][1] }}; width:{{ pubscorechoices[4] }}%;"></div>
+		<div class="top-left">{{ vote_choices[4][0] }}</div>
+		<div class="votetotals">
+			{{ fivevotes }} out of {{ total_plus_nn }}</div>
+	</div>
+	<div class="container" >
+		<div class="colorbar"
+			 style="background-color:#{{ vote_choices[5][1] }}; width:{{ pubscorechoices[5] }}%;"></div>
+		<div class="top-left">{{ vote_choices[5][0] }}</div>
+		<div class="votetotals">
+			{{ sixvotes }} out of {{ total_plus_nn }}</div>
+	</div>
 
-<div class="container" >
-  	<div class="colorbar" style="background-color:#{{ choice[1] }}; width:{{ onescore }}%;"></div>
-  	<div class="top-left">{{ choice[0] }}</div>
-	<div class="votetotals">
-		{{ onevotes }} out of {{ total_plus_nn }}</div>
-</div>
-{% endfor %}
 </div>
 
 
