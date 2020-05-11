@@ -299,13 +299,28 @@ def retrieve_pub_vote_summary(publication):
 ##############################################
 @application.route('/buttoncolor', methods=['GET', 'POST'])
 def buttoncolor():
-    print("inside buttoncolor")
+    print ("buttoncolor")
     if request.method == 'POST':
-        if not request.form['url']:
-            flash('Please enter all the fields', 'error')
+        if not request.form['articleUrl']:
+            flash('Please enter the url field', 'error')
         else:
-            purl = request.form['url']
-            print("here comes purl", purl)
+            rurl = request.form['articleUrl']
+            print("here comes rurl")
+            print(rurl)
+            import urllib.parse as url_parse
+            url = rurl
+            news_link = url_parse.unquote(url).split("?u=")[1].split("?fbclid")[0]
+            print("here comes the news_link")
+            print(news_link)
+            import requests
+            final_link = requests.get(news_link)
+            print("here comes the final_link.url")
+            print(final_link.url)
+            # now to get rid of the pesky fb stuff at the end
+            link3 = url_parse.unquote(final_link.url).split("?u")[0]
+            # // link 3 is the domain link
+            print("here comes link3")
+            print(link3)
 
 
 ##############################################
@@ -462,6 +477,7 @@ def take_test():
             return jsonify(message)
 
 
+
 ##############################################
 @application.route('/bootstrap', methods=['GET', 'POST'])
 # // this takes the article from the extension and inserts it into the database
@@ -487,6 +503,7 @@ def bootstrap():
             print(final_link.url)
             # now to get rid of the pesky fb stuff at the end
             link3 = url_parse.unquote(final_link.url).split("?u")[0]
+            # // link 3 is the domain link
             print("here comes link3")
             print(link3)
 
