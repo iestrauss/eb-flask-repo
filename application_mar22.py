@@ -304,6 +304,7 @@ def buttoncolor():
         if not request.form['articleUrl']:
             flash('Please enter the url field', 'error')
         else:
+            print("you're in else")
             rurl = request.form['articleUrl']
             print("here comes rurl")
             print(rurl)
