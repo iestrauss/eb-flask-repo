@@ -326,7 +326,13 @@ def buttoncolor():
             domain = urlparse(link3).netloc
             print("domain")  # --> www.example.test
             print(domain)  # --> www.example.test
-    return jsonify("test")
+# getting the score info
+            publication = domain
+            pub_tuple = retrieve_pub_vote_summary(publication)
+            print("pub tuple: ", pub_tuple)
+            pubscore = pub_tuple[8]
+            print(pubscore)
+    return jsonify(pubscore)
 
 ##############################################
 @application.route('/results/<int:id>')
