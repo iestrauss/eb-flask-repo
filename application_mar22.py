@@ -330,7 +330,7 @@ def buttoncolor():
             publication = domain
             pub_tuple = retrieve_pub_vote_summary(publication)
             print("pub tuple: ", pub_tuple)
-            pubscore = pub_tuple[8]
+            pubscore = (pub_tuple[6], pub_tuple[8])
             print(pubscore)
     return jsonify(pubscore)
 
