@@ -299,13 +299,12 @@ def retrieve_pub_vote_summary(publication):
 ##############################################
 @application.route('/buttoncolor', methods=['GET', 'POST'])
 def buttoncolor():
-    print ("buttoncolor")
+    print("buttoncolor")
     if request.method == 'POST':
-        if not request.form['articleUrl']:
-            flash('Please enter the url field', 'error')
+        if not request.form['url']:
+            flash('Please enter all the fields', 'error')
         else:
-            print("you're in else")
-            rurl = request.form['articleUrl']
+            rurl = request.form['url']
             print("here comes rurl")
             print(rurl)
             import urllib.parse as url_parse
@@ -322,7 +321,12 @@ def buttoncolor():
             # // link 3 is the domain link
             print("here comes link3")
             print(link3)
-
+# getting the publication
+            from urllib.parse import urlparse
+            domain = urlparse(link3).netloc
+            print("domain")  # --> www.example.test
+            print(domain)  # --> www.example.test
+    return jsonify("test")
 
 ##############################################
 @application.route('/results/<int:id>')
@@ -476,7 +480,6 @@ def take_test():
             message = {'greeting': "hope you chose bikes"}
             print(message)
             return jsonify(message)
-
 
 
 ##############################################
