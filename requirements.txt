@@ -10,3 +10,4 @@ Werkzeug==1.0.0
 PyMySQL==0.9.3
 gunicorn
 requests
+tldextract
