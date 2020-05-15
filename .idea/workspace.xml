@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e3ab8582-8d80-433b-b539-9aadc2f396ed" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/application_mar22.py" beforeDir="false" afterPath="$PROJECT_DIR$/application_mar22.py" afterDir="false" />
-    </list>
+    <list default="true" id="e3ab8582-8d80-433b-b539-9aadc2f396ed" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,8 +13,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/application_mar22.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="294">
-              <caret line="327" column="49" lean-forward="true" selection-start-line="327" selection-start-column="49" selection-end-line="327" selection-end-column="49" />
+            <state relative-caret-position="504">
+              <caret line="341" column="56" lean-forward="true" selection-start-line="341" selection-start-column="56" selection-end-line="341" selection-end-column="56" />
               <folding>
                 <element signature="e#0#75#0" expanded="true" />
               </folding>
@@ -194,8 +192,8 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-76" />
-    <option name="y" value="59" />
+    <option name="x" value="92" />
+    <option name="y" value="109" />
     <option name="width" value="1293" />
     <option name="height" value="782" />
   </component>
@@ -249,8 +247,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-76" y="59" width="1293" height="782" extended-state="0" />
-    <editor active="true" />
+    <frame x="92" y="109" width="1293" height="782" extended-state="0" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25157234" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -488,8 +485,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/application_mar22.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="294">
-          <caret line="327" column="49" lean-forward="true" selection-start-line="327" selection-start-column="49" selection-end-line="327" selection-end-column="49" />
+        <state relative-caret-position="504">
+          <caret line="341" column="56" lean-forward="true" selection-start-line="341" selection-start-column="56" selection-end-line="341" selection-end-column="56" />
           <folding>
             <element signature="e#0#75#0" expanded="true" />
           </folding>
