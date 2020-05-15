@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e3ab8582-8d80-433b-b539-9aadc2f396ed" name="Default Changelist" comment="" />
+    <list default="true" id="e3ab8582-8d80-433b-b539-9aadc2f396ed" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application_mar22.py" beforeDir="false" afterPath="$PROJECT_DIR$/application_mar22.py" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -13,8 +16,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/application_mar22.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="504">
-              <caret line="341" column="56" lean-forward="true" selection-start-line="341" selection-start-column="56" selection-end-line="341" selection-end-column="56" />
+            <state relative-caret-position="209">
+              <caret line="311" column="82" lean-forward="true" selection-start-line="311" selection-start-column="82" selection-end-line="311" selection-end-column="82" />
               <folding>
                 <element signature="e#0#75#0" expanded="true" />
               </folding>
@@ -115,7 +118,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>pars</find>
       <find>guide</find>
       <find>real or</find>
       <find>the key</find>
@@ -145,6 +147,7 @@
       <find>mydialog</find>
       <find>retrieve</find>
       <find>button</find>
+      <find>link3</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -193,7 +196,7 @@
   </component>
   <component name="ProjectFrameBounds">
     <option name="x" value="92" />
-    <option name="y" value="109" />
+    <option name="y" value="55" />
     <option name="width" value="1293" />
     <option name="height" value="782" />
   </component>
@@ -203,8 +206,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="ProjectPane" />
       <pane id="Scope" />
+      <pane id="ProjectPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -247,7 +250,8 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="92" y="109" width="1293" height="782" extended-state="0" />
+    <frame x="92" y="55" width="1293" height="782" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25157234" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -485,8 +489,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/application_mar22.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="504">
-          <caret line="341" column="56" lean-forward="true" selection-start-line="341" selection-start-column="56" selection-end-line="341" selection-end-column="56" />
+        <state relative-caret-position="209">
+          <caret line="311" column="82" lean-forward="true" selection-start-line="311" selection-start-column="82" selection-end-line="311" selection-end-column="82" />
           <folding>
             <element signature="e#0#75#0" expanded="true" />
           </folding>

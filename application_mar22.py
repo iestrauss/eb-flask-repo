@@ -321,11 +321,10 @@ def buttoncolor():
             # // link 3 is the domain link
             print("here comes link3")
             print(link3)
-# getting the publication
-            from urllib.parse import urlparse
-            domain = urlparse(link3).netloc
-            print("domain")  # --> www.example.test
-            print(domain)  # --> www.example.test
+# getting the domain
+            import tldextract  # The module looks up TLDs in the Public Suffix List, mantained by Mozilla volunteers
+            extract = tldextract.extract(link3)
+            domain = extract.domain
 # getting the score info
             publication = domain
             pub_tuple = retrieve_pub_vote_summary(publication)
@@ -498,7 +497,6 @@ def bootstrap():
         if not request.form['title'] or not request.form['url'] or not request.form['image_url'] or not request.form['snippet']:
             flash('Please enter all the fields', 'error')
         else:
-
             rurl = request.form['url']
             print("here comes rurl")
             print(rurl)
@@ -516,13 +514,16 @@ def bootstrap():
             # // link 3 is the domain link
             print("here comes link3")
             print(link3)
-
-# getting the publication
-
-            from urllib.parse import urlparse
-            domain = urlparse(link3).netloc
-            print("domain")  # --> www.example.test
-            print(domain)  # --> www.example.test
+            import tldextract  # The module looks up TLDs in the Public Suffix List, mantained by Mozilla volunteers
+            extract = tldextract.extract(link3)
+            print("extracted:", extract)
+            print(extract.domain)
+            domain = extract.domain
+            print("domain: ", domain)
+            # getting the publication
+            # domain = urlparse(link3).netloc
+            # print("domain")  # --> www.example.test
+            # print(domain)  # --> www.example.test
 
 
             article = Article(request.form['title'], link3, request.form['image_url'],
