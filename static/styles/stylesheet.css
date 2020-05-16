@@ -1,4 +1,4 @@
-updated may 3, 2020
+
 
 .pagination-page-info {
     padding: .6em;
@@ -16,8 +16,17 @@ updated may 3, 2020
     font-size: 150%;
 }
 
+.homebody {
+  margin-right: 16px;
+  margin-left: 16px;
+}
+.goog-logo-link {
+   display:none !important;
+}
 
-
+.goog-te-gadget{
+   color: transparent !important;
+}
 
 
 
