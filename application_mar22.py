@@ -540,7 +540,7 @@ def bootstrap():
             # article_list = Article.query.filter_by(image_url=article.image_url)
             # article_list = Article.query.filter_by(url=article.url)
 
-            article_list = Article.query.filter_by(title=article.title)
+            article_list = Article.query.filter_by(url=article.url)
 
             if posted == 1:
                 flash('Record was successfully added')
@@ -548,7 +548,7 @@ def bootstrap():
                 db.session.rollback()
                 # article_list = Article.query.filter_by(image_url=article.image_url)
                 # article_list = Article.query.filter_by(url=article.url)
-                article_list = Article.query.filter_by(title=article.title)
+                article_list = Article.query.filter_by(url=article.url)
 
                 article=article_list[0]
 
