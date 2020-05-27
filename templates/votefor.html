@@ -152,7 +152,7 @@ word-break: break-all;
         <div class="smalltext">
             {% for dict_item in vote_choices %}
                 <input type="radio" name="options" padding="10px" margin="10px" id="{{ dict_item['id'] }}"
-                value="{{ dict_item['id'] }}"> {{ dict_item['choice'] }} </input><br>
+                value="{{ dict_item['id'] }}"> {{ dict_item['choice'] }} ({{ dict_item['hint'] }})</input><br>
             {% endfor %}
         </div>
         <br>

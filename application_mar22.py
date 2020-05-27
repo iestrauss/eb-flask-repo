@@ -109,16 +109,19 @@ class VoteChoice(db.Model):
     choice = db.Column(db.String(100))
     color = db.Column(db.String(20))
     status = db.Column(db.Integer)  # active is true if non-zero
+    hint = db.Column(db.String(100))
 
     # this is a class variable
     vote_choice_list = []  # objects representing vote choices consisting: id, text, color
     vote_choice_color = {}  # provide key to retrieve color
     vote_choice_text = {}  # provide key to retrieve choice text
+    vote_choice_hint = {}
 
-    def __init__(self, choice, color, status):
+    def __init__(self, choice, color, status, hint):
         self.choice = name
         self.color = color
         self.status = status
+        self.hint = hint
 
     @classmethod
     def getVoteChoiceList(cls):
@@ -129,9 +132,11 @@ class VoteChoice(db.Model):
             print('Going to database to retrieve VoteChoice:')
             cls.vote_choice_list = VoteChoice.query.filter(VoteChoice.status > 0).all()
             for item in cls.vote_choice_list:
-                print('   id: ' + str(item.id) + ' color: ' + item.color + ' choice:' + item.choice)
+                print('   id: ' + str(item.id) + ' color: ' + item.color + ' choice:' + item.choice + ' hint:' +
+                      item.hint)
                 cls.vote_choice_color[item.id] = item.color
                 cls.vote_choice_text[item.id] = item.choice
+                cls.vote_choice_hint[item.id] = item.hint
 
         return cls.vote_choice_list
 
@@ -147,6 +152,11 @@ class VoteChoice(db.Model):
             cls.getVoteChoiceList()
         return cls.vote_choice_color[id]
 
+    @classmethod
+    def getVoteHintById(id):
+        if not cls.vote_choice_list:
+            cls.getVoteChoiceList()
+        return cls.vote_choice_hint[id]
 
 
 #############################################
