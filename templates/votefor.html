@@ -152,7 +152,14 @@ word-break: break-all;
         <div class="smalltext">
             {% for dict_item in vote_choices %}
                 <input type="radio" name="options" padding="10px" margin="10px" id="{{ dict_item['id'] }}"
-                value="{{ dict_item['id'] }}"> {{ dict_item['choice'] }} ({{ dict_item['hint'] }})</input><br>
+                value="{{ dict_item['id'] }}"> {{ dict_item['choice'] }}
+
+            <br>
+                 <span style="color:gray">
+                ({{ dict_item['hint'] }})</input>
+                </span>
+            <br>
+
             {% endfor %}
         </div>
         <br>
@@ -161,7 +168,7 @@ word-break: break-all;
             <Script>console.log("after why did you make that choice");</Script>
         </div>
 <!--        <input type="text"  name="comments" id="comments" placeholder="The article said only 10% of poodles are evil geniuses. It says it got its information from a new White House report, but when I got to www.whitehouse.gov, I find the report (www.whitehouse.gov/report.html), and it says 80% of poodles are evil." style="height:150px">  </input> <br>-->
-        <textarea name="comments" id="comments"></textarea>
+        <textarea name="comments" id="comments" placeholder="Here's the court case discussed in the article: https://dockets.justia.com/docket/new-york/nyedce/1:2020cv02328/448390"></textarea>
                     <Script>console.log("after comments");</Script>
 
 
