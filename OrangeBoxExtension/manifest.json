@@ -1,0 +1,26 @@
+  {
+    "manifest_version": 2,
+    "name": "News Detective",
+    "version": "1.07",
+
+
+	"background": { "scripts": ["jquery-3.4.1.js", "background.js"],  "persistent": false },
+
+    "icons": { "16": "favicon48.png",
+       "48": "favicon128.png",
+      "128": "favicon16.png" },
+
+    "content_scripts": [
+  {
+    "matches": [
+      "<all_urls>"
+    ],
+    "js": ["jquery-3.4.1.js", "waitForKeyElements.js", "content.js"]
+  }
+]
+
+}
+
+
+
+
