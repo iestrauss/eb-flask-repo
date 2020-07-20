@@ -143,7 +143,7 @@ def retrieve_publication_summary(article_id):
     publication_list = db.session.query(ArticleVote, Snippet).filter(ArticleVote.article_id == article_id).filter(
         ArticleVote.vote_choice_id == 1).all()
    for item in vote_choice_id:
-        # avs_obj.appendComment(item.comment) # 09/27 - added to show comments in results page
+        # avs_obj.appendComment(item.comment) # 09/27 - added to show comments in  page
         avs_obj.appendDetail((item[1].name, text, item[0].comment))  # 09/27 - added to show comments in results page
     return pub_obj
 
