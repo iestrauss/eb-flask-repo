@@ -50,7 +50,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
             success: function myFunction(data) {
             integer = data;
             var myInput = integer
-            var websitelink = `${url}/votefor/` + myInput;
+            var websitelink = `${url}/results/` + myInput;
             window.open(websitelink, "MsgWindow", "width=400,height=500");
             console.log("background seven");
             }
