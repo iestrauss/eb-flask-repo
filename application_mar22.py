@@ -387,7 +387,7 @@ def results(id):
     print("Inside results(" + str(id) + "):")
     details_count = 0
     for detail in details:
-        updated_details = [(user, VoteChoice, Comments, User.query.filter_by(name=user).first().fb_pic)
+        updated_details = [(user, VoteChoice, Comments, User.query.filter_by(name=user).first().fb_id)
                            for (user, VoteChoice, Comments) in details]
         # print("    " + str(details_count) + ": " + details[0] + " " + details[1] + " " + details[2])
         # details_count += 1
