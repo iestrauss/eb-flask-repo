@@ -1,0 +1,30 @@
+.news-detective {
+  display: inline-block;
+}
+
+.news-detective .star-ratings {
+  unicode-bidi: bidi-override;
+  color: #ccc;
+  font-size: 14px;
+  position: relative;
+  margin: 0;
+  padding: 0;
+}
+.news-detective .star-ratings .fill-ratings {
+  color: #e7711b;
+  padding: 0;
+  position: absolute;
+  z-index: 1;
+  display: block;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+}
+.news-detective .star-ratings .fill-ratings span {
+  display: inline-block;
+}
+.news-detective .star-ratings .empty-ratings {
+  padding: 0;
+  display: block;
+  z-index: 0;
+}

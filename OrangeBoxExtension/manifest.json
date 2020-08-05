@@ -15,7 +15,8 @@
     "matches": [
       "<all_urls>"
     ],
-    "js": ["jquery-3.4.1.js", "waitForKeyElements.js", "content.js"]
+    "js": ["jquery-3.4.1.js", "waitForKeyElements.js", "content.js"],
+    "css": [ "styles.css" ]
   }
 ]
 

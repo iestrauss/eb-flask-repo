@@ -1,3 +1,7 @@
+function getStars(rating) {
+    return "<div class='news-detective'><div class='star-ratings'><div class='fill-ratings' style='width: "+rating+"%;'><span>★★★★★</span></div><div class='empty-ratings'><span>★★★★★</span></div></div></div>";
+}
+
 function callAttentionToX(jNode) {
     var uCW = jNode.closest("[role='article']");
 //    var uCW = jNode.closest("div._q7o");
@@ -121,17 +125,17 @@ function callAttentionToX(jNode) {
                     if (total > 1){
                         if (rating >= 70){
                          button.style.backgroundColor = "#39ac73";
-                         button.innerHTML = "🔍 PubScore: " + rating + "%";
+                         button.innerHTML = "PScore: " + getStars(rating);
                          button.style.color = "white";
                          }
                         if (rating < 70 && rating > 30){
                         button.style.backgroundColor = "gold";
-                        button.innerHTML = "🔍 PubScore: " + rating  + "%";
+                        button.innerHTML = "PScore: " + getStars(rating);
                         button.style.color = "black";
                         }
                         if (rating <= 30){
                         button.style.backgroundColor = "red";
-                        button.innerHTML = "🔍 PubScore: " + rating  + "%";
+                        button.innerHTML = "PScore: " + getStars(rating);
                         button.style.color = "white";
                         }
                     }
@@ -146,7 +150,7 @@ function callAttentionToX(jNode) {
 
             if (qimage.length){
 //                button.style.border = "10px solid white";
-                button.style.fontSize = "15px";
+                button.style.fontSize = "14px";
 //                button.style.margins = "10px";
 //                oldimage.after(button);}
 //                qimage.after(button);}
