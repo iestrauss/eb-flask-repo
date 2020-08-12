@@ -1,5 +1,5 @@
-function getStars(rating) {
-    return "<div class='news-detective'><div class='star-ratings'><div class='fill-ratings' style='width: "+rating+"%;'><span>★★★★★</span></div><div class='empty-ratings'><span>★★★★★</span></div></div></div>";
+function getStars(rating, total_ratings) {
+    return "<div class='news-detective'><div class='star-ratings'><div class='fill-ratings' style='width: "+rating+"%;'><span>★★★★★</span></div><div class='empty-ratings'><span>★★★★★</span></div></div><span class='ratings-count'>"+total_ratings+"</span></div>";
 }
 
 function callAttentionToX(jNode) {
@@ -125,17 +125,17 @@ function callAttentionToX(jNode) {
                     if (total > 1){
                         if (rating >= 70){
                          button.style.backgroundColor = "#39ac73";
-                         button.innerHTML = "PScore: " + getStars(rating);
+                         button.innerHTML = "PScore: " + getStars(rating, total);
                          button.style.color = "white";
                          }
                         if (rating < 70 && rating > 30){
                         button.style.backgroundColor = "gold";
-                        button.innerHTML = "PScore: " + getStars(rating);
+                        button.innerHTML = "PScore: " + getStars(rating, total);
                         button.style.color = "black";
                         }
                         if (rating <= 30){
                         button.style.backgroundColor = "red";
-                        button.innerHTML = "PScore: " + getStars(rating);
+                        button.innerHTML = "PScore: " + getStars(rating, total);
                         button.style.color = "white";
                         }
                     }

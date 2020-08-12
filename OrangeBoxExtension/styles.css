@@ -9,6 +9,7 @@
   position: relative;
   margin: 0;
   padding: 0;
+  display: inline-block;
 }
 .news-detective .star-ratings .fill-ratings {
   color: #e7711b;
@@ -27,4 +28,9 @@
   padding: 0;
   display: block;
   z-index: 0;
+}
+.news-detective .ratings-count{
+  font-weight: normal;
+  font-size: 12px;
+  padding-left: 5px;
 }
