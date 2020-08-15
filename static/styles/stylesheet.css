@@ -439,3 +439,9 @@ input[type=submit] {
     background-Color: #2C7887;
     width: 150px;
 }
+
+.error {
+  color: #D8000C;
+  background-color: #FFBABA;
+  padding: 10px;
+}

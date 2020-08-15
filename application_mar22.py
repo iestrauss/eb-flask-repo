@@ -766,8 +766,9 @@ def insert_vote():
     # global article, user_id
     # print ("insert_vote", "this should be the facebook user id", user_id)
     if request.method == 'POST' or request.method == 'GET':
-        if not request.form['options']:
+        if not request.form['options'] or not request.form['comments']:
             flash('Please enter all the fields', 'error')
+            return redirect('/votefor/' + str(request.form['article_id']))
         else:
             rate = 0  # rate of votes protection against no votes
             vote_choice_id = int(request.form['options'])
@@ -785,59 +786,64 @@ def insert_vote():
             print("this is the try bit")
             print(user_id)
             fb_user_id = int(user_id)
-            # user_id = 1
-            av_obj = ArticleVote(fb_user_id, article_id, vote_choice_id, comments)
-            db.session.add(av_obj)
-            try:
-                print("db.session.commit before")
-                db.session.commit()
-                print("db.session.commit after")
-            except exc.SQLAlchemyError as e:
-                print("this is about to be %s", e)
-                print("user has already voted before")
-                flash('User has already voted on this article.')
-                posted = 0
-
-            if posted == 1:
-                print("posted ==1 after")
-                flash('Record was successfully added')
+            user_exists = User.query.filter_by(fb_id=fb_user_id).first()
+            if not user_exists:
+                flash('User does not exist', 'error')
+                return redirect('/votefor/' + str(article_id))
             else:
-                print("right before rollback")
-                db.session.rollback()
+                # user_id = 1
+                av_obj = ArticleVote(fb_user_id, article_id, vote_choice_id, comments)
+                db.session.add(av_obj)
+                try:
+                    print("db.session.commit before")
+                    db.session.commit()
+                    print("db.session.commit after")
+                except exc.SQLAlchemyError as e:
+                    print("this is about to be %s", e)
+                    print("user has already voted before")
+                    flash('User has already voted on this article.')
+                    posted = 0
 
-            a_obj = Article.query.filter_by(id=article_id).first()
-            # this is the current global article
-            avs_obj = retrieve_article_vote_summary(
-                a_obj.id)  # vote_summary is a list of [tuples('True', numOfTrue), etc]
-            total_votes = avs_obj.getTotalVotes()
-            print("here's the object ", a_obj.id)
-            print("this is the total votes ", total_votes)
+                if posted == 1:
+                    print("posted ==1 after")
+                    flash('Record was successfully added')
+                else:
+                    print("right before rollback")
+                    db.session.rollback()
 
-            vote_choice_list = VoteChoice.getVoteChoiceList()
-            vote_choices = []
-            for item in vote_choice_list:  # looping over VoteChoice objects
-                num = avs_obj.getVoteCount(item.choice)
-                if total_votes > 0:
-                    rate = num / total_votes
-                vote_choices.append([item.choice, item.color, num, rate * 100, total_votes])
+                a_obj = Article.query.filter_by(id=article_id).first()
+                # this is the current global article
+                avs_obj = retrieve_article_vote_summary(
+                    a_obj.id)  # vote_summary is a list of [tuples('True', numOfTrue), etc]
+                total_votes = avs_obj.getTotalVotes()
+                print("here's the object ", a_obj.id)
+                print("this is the total votes ", total_votes)
 
-            print("a_obj", a_obj)
-            details = avs_obj.getVoteDetails()  # 10/02 - retrieve array of tuples [(user, VoteChoice, Comments)]
-            print("details", details)
-            # print(article.id)
-            details_count = 0
-            for detail in details:
-                print(detail)
-                # print("    " + str(details_count) + ": " + details[0] + " " + details[1] + " " + details[2])
-                details_count += 1
+                vote_choice_list = VoteChoice.getVoteChoiceList()
+                vote_choices = []
+                for item in vote_choice_list:  # looping over VoteChoice objects
+                    num = avs_obj.getVoteCount(item.choice)
+                    if total_votes > 0:
+                        rate = num / total_votes
+                    vote_choices.append([item.choice, item.color, num, rate * 100, total_votes])
 
-            publication = a_obj.snippet
-            pub_tuple = retrieve_pub_vote_summary(publication)
-            print("pub tuple: ", pub_tuple)
+                print("a_obj", a_obj)
+                details = avs_obj.getVoteDetails()  # 10/02 - retrieve array of tuples [(user, VoteChoice, Comments)]
+                print("details", details)
+                # print(article.id)
+                details_count = 0
+                for detail in details:
+                    print(detail)
+                    # print("    " + str(details_count) + ": " + details[0] + " " + details[1] + " " + details[2])
+                    details_count += 1
+
+                publication = a_obj.snippet
+                pub_tuple = retrieve_pub_vote_summary(publication)
+                print("pub tuple: ", pub_tuple)
 
 
 
-            return redirect('/results/' + str(a_obj.id))
+                return redirect('/results/' + str(a_obj.id))
 
         # return render_template('/results.html', title=a_obj.title,
         #                            image_url=a_obj.image_url,
