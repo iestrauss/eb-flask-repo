@@ -219,6 +219,20 @@ input[type=text] {
   padding: 10px;
   margin: 10px;}
 
+.comment-form textarea, .comments textarea {
+  margin: 10px 10px 0px 0;
+}
+
+.comments textarea {
+  height: 60px;
+}
+.comment-form input[type=submit], .comments input[type=submit] {
+  margin: 10px 10px 10px 0;
+  width: auto;
+}
+.comments form {
+  margin: 20px 0 0 0;
+}
 
 input[type=radio] {
   padding: 10px;

@@ -1,6 +1,6 @@
 from flask import Flask, request, flash, url_for, redirect, render_template
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import exc
+from sqlalchemy import exc, func
 from datetime import datetime
 
 #    DATE      WHO     DESCRIPTION
@@ -162,6 +162,23 @@ class VoteChoice(db.Model):
 #############################################
 
 
+class Comment(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.String(140))
+    article_id = db.Column(db.Integer)
+    text = db.Column(db.Text())
+    timestamp = db.Column(db.DateTime(), default=datetime.utcnow, index=True)
+    parent_id = db.Column(db.Integer, db.ForeignKey('comment.id'))
+    replies = db.relationship(
+        'Comment', backref=db.backref('parent', remote_side=[id]),
+        lazy='dynamic')
+
+    def add_reply(self, fb_user_id, article_id, text):
+        return Comment(user_id=fb_user_id, article_id=article_id, text=text, parent=self)
+
+#############################################
+
+
 from flask import Blueprint
 from flask_paginate import Pagination, get_page_parameter, get_page_args
 
@@ -306,6 +323,25 @@ def retrieve_pub_vote_summary(publication):
     print("after pub_tuple")
     return pub_tuple
 
+def retrieve_article_rating(article_url):
+    article = Article.query.filter_by(url=article_url).first()
+    vote_counts = db.session.query(
+        ArticleVote.vote_choice_id, func.count(ArticleVote.vote_choice_id)
+    ).filter_by(article_id=article.id).group_by(ArticleVote.vote_choice_id).all()
+    votes_dict = dict((x, y) for x, y in vote_counts)
+    total = sum(votes_dict.values())
+    if total == 0:
+        total = 1
+    for i in range(1, 7):
+        if i not in votes_dict:
+            votes_dict[i] = 0
+    score = (votes_dict[1] + .5 * (votes_dict[2])) / total
+
+    score_percent = round(score * 100)
+
+    return {'total': total, 'score_percent': score_percent}
+
+
 ##############################################
 @application.route('/buttoncolor', methods=['GET', 'POST'])
 def buttoncolor():
@@ -338,8 +374,9 @@ def buttoncolor():
 # getting the score info
             publication = domain
             pub_tuple = retrieve_pub_vote_summary(publication)
+            article_rating = retrieve_article_rating(link3)
             print("pub tuple: ", pub_tuple)
-            pubscore = (pub_tuple[6], pub_tuple[8])
+            pubscore = (pub_tuple[6], pub_tuple[8], article_rating['total'], article_rating['score_percent'])
             print(pubscore)
     return jsonify(pubscore)
 
@@ -349,6 +386,13 @@ def results(id):
     rate = 0  # either 0 or num/total
     updated_details = []
     article_list_of_one = Article.query.filter_by(id=id)
+    all_comments = Comment.query.filter_by(article_id=id)
+    ids = [c.user_id for c in all_comments]
+    user_name_dict = {}
+    all_users = User.query.filter(User.fb_id.in_(ids)).all()
+    for user in all_users:
+        user_name_dict[str(user.fb_id)] = user.name
+    article_comments = Comment.query.filter((Comment.article_id == id) & (Comment.parent == None))
     a_obj = article_list_of_one[0]
     avs_obj = retrieve_article_vote_summary(a_obj.id)  # vote_summary is a list of [tuples('True', numOfTrue), etc]
     total_votes = avs_obj.getTotalVotes()
@@ -394,10 +438,10 @@ def results(id):
 
 
     return render_template('results.html', title=a_obj.title, snippet=a_obj.snippet, id=id,
-                           image_url=a_obj.image_url, url=a_obj.url,
+                           image_url=a_obj.image_url, url=a_obj.url, user_name_dict=user_name_dict,
                            vote_choices=vote_choices, home_data=Article.query.all(),
                            vote_details=updated_details, onevotes=pub_tuple[0], twovotes=pub_tuple[1],
-                           threevotes=pub_tuple[2],
+                           threevotes=pub_tuple[2], article_comments=article_comments,
                            fourvotes=pub_tuple[3], fivevotes=pub_tuple[4], sixvotes=pub_tuple[5],
                            score_percent=pub_tuple[8], pubscorechoices=pubscorechoices, total_plus_nn=total_plus_nn
                            )
@@ -756,6 +800,28 @@ def retrieve_article_vote_summary(article_id):
 # score = (truevotes + .5(eggageratedvotes))/total_pub_votes
 # score_fraction = score(100)
 
+@application.route('/insert_comment', methods=['POST'])
+def insert_comment():
+    article_id = int(request.form['article_id'])
+    fb_user_id = request.form['user_id']
+    parent_id = request.form['parent_id']
+    text = request.form['comment']
+    user_exists = User.query.filter_by(fb_id=fb_user_id).first()
+    if not user_exists:
+        flash('User does not exist', 'error')
+        return redirect('/results/' + str(article_id))
+    else:
+        if parent_id:
+            av_obj = Comment(user_id=fb_user_id, article_id=article_id, text=text, parent_id=int(parent_id))
+        else:
+            av_obj = Comment(user_id=fb_user_id, article_id=article_id, text=text)
+        db.session.add(av_obj)
+        try:
+            db.session.commit()
+        except exc.SQLAlchemyError as e:
+            flash('Unable to add comment, Please try later', 'error')
+
+        return redirect('/results/' + str(article_id))
 
 
 ##############################################

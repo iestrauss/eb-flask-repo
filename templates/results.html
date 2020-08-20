@@ -15,7 +15,22 @@
   float:left;
   page-break-before: always;
 }
-
+ul.comments {
+	list-style:none;
+    text-align: left;
+    border-left: dotted 1px grey;
+}
+ul.level1 {
+	border:none;
+	padding: 0;
+}
+ul.level2, ul.level3, ul.level4, ul.level5 {
+	margin-left: 50px;
+    padding: 0 0 0 10;
+}
+li.reply {
+   	padding: 12px 12px 12px 0px;
+}
 .votecomment {
 
   	background-color: #F5F5F5;
@@ -35,8 +50,73 @@
 	color: DarkRed;
 }
 </style>
+<script src="https://code.jquery.com/jquery-latest.min.js"></script>
 </head>
 <body>
+<script>
+
+
+  var person = { userID: "", name: "", accessToken: "", picture: ""}
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId            : '1560520617436290',
+      autoLogAppEvents : true,
+      xfbml            : true,
+      version          : 'v5.0'
+    });
+    FB.getLoginStatus(function(response) {
+        console.log(response);
+        if (response.status !== 'connected') {
+            document.getElementById("myDialog").showModal();
+        } else {
+            addHiddenInput(response.authResponse.userID)
+            person.accessToken = response.authResponse.accessToken;
+            person.userID = response.authResponse.userID;
+            FB.api('/me?fields=id,name,picture.type(large)', function (userData) {
+                console.log(userData);
+                person.name = userData.name;
+                person.picture = userData.picture.data.url;
+
+                $.ajax({
+                type: 'POST',
+                url: 'https://news-detective.herokuapp.com/fbuser',
+                data: person,
+                datatype: 'text',
+                success: function myFunction(data) {
+                console.log("fb data sent");
+                }
+                })
+
+             });
+        }
+
+    });
+  };
+
+  function hideDialogAfterLogin () {
+    document.getElementById("myDialog").close();
+    window.location.reload();
+    FB.getLoginStatus(function(response) {
+        addHiddenInput(response.authResponse.userID)
+
+    });
+  }
+
+  function addHiddenInput (userID) {
+  	$('input[name="user_id"]').val(userID)
+  }
+
+
+</script>
+
+<script async defer src="https://connect.facebook.net/en_US/sdk.js"></script>
+
+
+    <dialog id="myDialog" style="height:50%; width:80%;">
+        <div class="center">
+        <center><fb:login-button size="large" type="submit" value="Submit" scope="public_profile,email" returnscopes="true" onlogin="hideDialogAfterLogin">Log in to Facebook</fb:login-button></center>
+        </div>
+    </dialog>
 
 
 
@@ -173,27 +253,131 @@ Article
 <br>
 <!--<div class="fb-comments" data-href="http://localhost:5000/results/{{ id }}" data-width="100%" data-numposts="5"></div>-->
 
-<div id="disqus_thread"></div>
-<script>
 
-/**
-*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+<div class="comment-form" style="text-align: left;">
+Comments:
+<form action = "/insert_comment" method = "post" onsubmit="">
+    <input type="text" name="user_id" style="display:none;">
+    <input type="text" name="article_id" value="{{ id }}" style="display:none;">
+	<input type="text" name="parent_id" style="display:none;">
+	<textarea name="comment" placeholder="Add comment" rows="4" cols="50"></textarea>
+	<input type="submit" value="Comment">
+</form>
+</div>
+<hr>
+<ul class="comments level1">
+{% for comment in article_comments %}
+	<li class="reply">
+	<div class="fbpic">
+		<img src="http://graph.facebook.com/{{ comment.user_id }}/picture?type=large&redirect=true&width=200&height=200" style="width:40px;border-radius:50%;">
+	</div>
+	<div class="votecomment">
+	<div class="namecolor">
+		<strong> {{ user_name_dict[comment.user_id] }} </strong>&nbsp
+	</div>
+	{{comment.text}}
+	<form action = "/insert_comment" method = "post" onsubmit="">
+	    <input type="text" name="user_id" style="display:none;">
+	    <input type="text" name="article_id" value="{{ id }}" style="display:none;">
+	    <input type="text" name="parent_id" value="{{ comment.id }}" style="display:none;">
+		<textarea name="comment" placeholder="Add Reply" rows="2" cols="50"></textarea>
+		<input type="submit" value="Reply">
+	</form>
+	</div>
+	</li>
+	<li>
+	<ul class="comments level2">
+	{% for reply_l1 in comment.replies %}
+		<li class="reply">
+		<div class="fbpic">
+		<img src="http://graph.facebook.com/{{ reply_l1.user_id }}/picture?type=large&redirect=true&width=200&height=200" style="width:40px;border-radius:50%;">
+		</div>
+		<div class="votecomment">
+			<div class="namecolor">
+				<strong> {{ user_name_dict[reply_l1.user_id] }} </strong>&nbsp
+			</div>
+			{{reply_l1.text}}
+			<form action = "/insert_comment" method = "post" onsubmit="">
+			    <input type="text" name="user_id" style="display:none;">
+			    <input type="text" name="article_id" value="{{ id }}" style="display:none;">
+			    <input type="text" name="parent_id" value="{{ reply_l1.id }}" style="display:none;">
+				<textarea name="comment" placeholder="Add Reply" rows="2" cols="50"></textarea>
+				<input type="submit" value="Reply">
+			</form>
+		</div>
+		</li>
+		<li>
+		<ul class="comments level3">
+	    {% for reply_l2 in reply_l1.replies %}
+	    	<li class="reply">
+	    	<div class="fbpic">
+			<img src="http://graph.facebook.com/{{ reply_l2.user_id }}/picture?type=large&redirect=true&width=200&height=200" style="width:40px;border-radius:50%;">
+			</div>
+			<div class="votecomment">
+				<div class="namecolor">
+					<strong> {{ user_name_dict[reply_l2.user_id] }} </strong>&nbsp
+				</div>
+				{{reply_l2.text}}
+				<form action = "/insert_comment" method = "post" onsubmit="">
+				    <input type="text" name="user_id" style="display:none;">
+				    <input type="text" name="article_id" value="{{ id }}" style="display:none;">
+				    <input type="text" name="parent_id" value="{{ reply_l2.id }}" style="display:none;">
+					<textarea name="comment" placeholder="Add Reply" rows="2" cols="50"></textarea>
+					<input type="submit" value="Reply">
+				</form>
+			</div>
+			</li>
+			<li>
+			<ul class="comments level4">
+				{% for reply_l3 in reply_l2.replies %}
+			    	<li class="reply">
+			    	<div class="fbpic">
+					<img src="http://graph.facebook.com/{{ reply_l3.user_id }}/picture?type=large&redirect=true&width=200&height=200" style="width:40px;border-radius:50%;">
+					</div>
+					<div class="votecomment">
+						<div class="namecolor">
+							<strong> {{ user_name_dict[reply_l3.user_id] }} </strong>&nbsp
+						</div>
+						{{reply_l3.text}}
+						<form action = "/insert_comment" method = "post" onsubmit="">
+						    <input type="text" name="user_id" style="display:none;">
+						    <input type="text" name="article_id" value="{{ id }}" style="display:none;">
+						    <input type="text" name="parent_id" value="{{ reply_l3.id }}" style="display:none;">
+							<textarea name="comment" placeholder="Add Reply" rows="2" cols="50"></textarea>
+							<input type="submit" value="Reply">
+						</form>
+					</div>
+					</li>
+					<li>
+					<ul class="comments level5">
+						{% for reply_l4 in reply_l3.replies %}
+					    	<li class="reply">
+					    	<div class="fbpic">
+							<img src="http://graph.facebook.com/{{ reply_l4.user_id }}/picture?type=large&redirect=true&width=200&height=200" style="width:40px;border-radius:50%;">
+							</div>
+							<div class="votecomment">
+								<div class="namecolor">
+									<strong> {{ user_name_dict[reply_l4.user_id] }} </strong>&nbsp
+								</div>
+								{{reply_l4.text}}
+							</div>
+							</li>
+						{% endfor %}
+					</ul>
+					</li>
+				{% endfor %}
+			</ul>
+			</li>
+		{% endfor %}
+		</ul>
+		</li>
+	{% endfor %}
+	</ul>
+	</li>
+{% endfor %}
+</ul>
 
-var disqus_config = function () {
-this.page.url = "https://news-detective.herokuapp.com/results/{{ id }}";  // Replace PAGE_URL with your page's canonical URL variable
-this.page.identifier = "{{ id }}"; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-};
 
-(function() { // DON'T EDIT BELOW THIS LINE
-var d = document, s = d.createElement('script');
-s.src = 'https://newsdetective.disqus.com/embed.js';
-s.setAttribute('data-timestamp', +new Date());
-(d.head || d.body).appendChild(s);
-})();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-                      
 <!-- <div class="fb-comments" data-href="https://news-detective.herokuapp.com/results/{{ id }}" data-width="100%" data-numposts="5"></div> -->
 
 <!--<div class="fb-comments" data-href="https://news-detective.herokuapp.com/" data-numposts="5" data-width=""></div>-->
