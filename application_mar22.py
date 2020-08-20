@@ -166,6 +166,7 @@ class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.String(140))
     article_id = db.Column(db.Integer)
+    vote_id = db.Column(db.Integer)
     text = db.Column(db.Text())
     timestamp = db.Column(db.DateTime(), default=datetime.utcnow, index=True)
     parent_id = db.Column(db.Integer, db.ForeignKey('comment.id'))
@@ -396,6 +397,9 @@ def results(id):
     for user in all_users:
         user_name_dict[str(user.fb_id)] = user.name
     article_comments = Comment.query.filter((Comment.article_id == id) & (Comment.parent == None))
+    article_comments_dict = {}
+    for comment in article_comments:
+        article_comments_dict.setdefault(comment.vote_id, []).append(comment)
     a_obj = article_list_of_one[0]
     avs_obj = retrieve_article_vote_summary(a_obj.id)  # vote_summary is a list of [tuples('True', numOfTrue), etc]
     total_votes = avs_obj.getTotalVotes()
@@ -434,8 +438,8 @@ def results(id):
     print("Inside results(" + str(id) + "):")
     details_count = 0
     for detail in details:
-        updated_details = [(user, VoteChoice, Comments, User.query.filter_by(name=user).first().fb_id)
-                           for (user, VoteChoice, Comments) in details]
+        updated_details = [(user, VoteChoice, Comments, User.query.filter_by(name=user).first().fb_id, vote_id)
+                           for (vote_id, user, VoteChoice, Comments) in details]
         # print("    " + str(details_count) + ": " + details[0] + " " + details[1] + " " + details[2])
         # details_count += 1
 
@@ -444,7 +448,7 @@ def results(id):
                            image_url=a_obj.image_url, url=a_obj.url, user_name_dict=user_name_dict,
                            vote_choices=vote_choices, home_data=Article.query.all(),
                            vote_details=updated_details, onevotes=pub_tuple[0], twovotes=pub_tuple[1],
-                           threevotes=pub_tuple[2], article_comments=article_comments,
+                           threevotes=pub_tuple[2], article_comments_dict=article_comments_dict,
                            fourvotes=pub_tuple[3], fivevotes=pub_tuple[4], sixvotes=pub_tuple[5],
                            score_percent=pub_tuple[8], pubscorechoices=pubscorechoices, total_plus_nn=total_plus_nn
                            )
@@ -789,7 +793,7 @@ def retrieve_article_vote_summary(article_id):
         avs_obj.addVote(text)
         print("article text: ", text)
         # avs_obj.appendComment(item.comment) # 09/27 - added to show comments in results page
-        avs_obj.appendDetail((item[1].name, text, item[0].comment))  # 09/27 - added to show comments in results page
+        avs_obj.appendDetail((item[0].id, item[1].name, text, item[0].comment))  # 09/27 - added to show comments in results page
 
     return avs_obj
 
@@ -808,6 +812,7 @@ def insert_comment():
     article_id = int(request.form['article_id'])
     fb_user_id = request.form['user_id']
     parent_id = request.form['parent_id']
+    vote_id = request.form['vote_id']
     text = request.form['comment']
     user_exists = User.query.filter_by(fb_id=fb_user_id).first()
     if not user_exists:
@@ -817,7 +822,7 @@ def insert_comment():
         if parent_id:
             av_obj = Comment(user_id=fb_user_id, article_id=article_id, text=text, parent_id=int(parent_id))
         else:
-            av_obj = Comment(user_id=fb_user_id, article_id=article_id, text=text)
+            av_obj = Comment(user_id=fb_user_id, article_id=article_id, text=text, vote_id=int(vote_id))
         db.session.add(av_obj)
         try:
             db.session.commit()

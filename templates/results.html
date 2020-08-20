@@ -243,139 +243,143 @@ Article
 				<strong> {{ detail[0] }} </strong>&nbsp
 				</div>
 			<strong>Vote:</strong> {{ detail[1] }} &nbsp; <strong>Reasoning:</strong> {{ detail[2] }}<br>
-		</div>
+			<div class="comment-form" style="text-align: left;">
+				<form action = "/insert_comment" method = "post" onsubmit="">
+				    <input type="text" name="user_id" style="display:none;">
+				    <input type="text" name="article_id" value="{{ id }}" style="display:none;">
+					<input type="text" name="parent_id" style="display:none;">
+					<input type="text" name="vote_id" value="{{detail[4]}}" style="display:none;">
+					<textarea name="comment" placeholder="Add Reply" rows="4" cols="50"></textarea>
+					<input type="submit" value="Reply">
+				</form>
+				</div>
+				{% if article_comments_dict[detail[4]] %}
+				<hr>
+				<ul class="comments level1">
+					{% for comment in article_comments_dict[detail[4]] %}
+					<li class="reply">
+					<div class="fbpic">
+						<img src="http://graph.facebook.com/{{ comment.user_id }}/picture?type=large&redirect=true&width=200&height=200" style="width:40px;border-radius:50%;">
+					</div>
+					<div class="votecomment">
+					<div class="namecolor">
+						<strong> {{ user_name_dict[comment.user_id] }} </strong>&nbsp
+					</div>
+					{{comment.text}}
+					<form action = "/insert_comment" method = "post" onsubmit="">
+					    <input type="text" name="user_id" style="display:none;">
+					    <input type="text" name="article_id" value="{{ id }}" style="display:none;">
+					    <input type="text" name="parent_id" value="{{ comment.id }}" style="display:none;">
+						<input type="text" name="vote_id" value="{{detail[4]}}" style="display:none;">
+						<textarea name="comment" placeholder="Add Reply" rows="2" cols="50"></textarea>
+						<input type="submit" value="Reply">
+					</form>
+					</div>
+					</li>
+					<li>
+					<ul class="comments level2">
+					{% for reply_l1 in comment.replies %}
+						<li class="reply">
+						<div class="fbpic">
+						<img src="http://graph.facebook.com/{{ reply_l1.user_id }}/picture?type=large&redirect=true&width=200&height=200" style="width:40px;border-radius:50%;">
+						</div>
+						<div class="votecomment">
+							<div class="namecolor">
+								<strong> {{ user_name_dict[reply_l1.user_id] }} </strong>&nbsp
+							</div>
+							{{reply_l1.text}}
+							<form action = "/insert_comment" method = "post" onsubmit="">
+							    <input type="text" name="user_id" style="display:none;">
+							    <input type="text" name="article_id" value="{{ id }}" style="display:none;">
+							    <input type="text" name="parent_id" value="{{ reply_l1.id }}" style="display:none;">
+								<input type="text" name="vote_id" value="{{detail[4]}}" style="display:none;">
+								<textarea name="comment" placeholder="Add Reply" rows="2" cols="50"></textarea>
+								<input type="submit" value="Reply">
+							</form>
+						</div>
+						</li>
+						<li>
+						<ul class="comments level3">
+					    {% for reply_l2 in reply_l1.replies %}
+					    	<li class="reply">
+					    	<div class="fbpic">
+							<img src="http://graph.facebook.com/{{ reply_l2.user_id }}/picture?type=large&redirect=true&width=200&height=200" style="width:40px;border-radius:50%;">
+							</div>
+							<div class="votecomment">
+								<div class="namecolor">
+									<strong> {{ user_name_dict[reply_l2.user_id] }} </strong>&nbsp
+								</div>
+								{{reply_l2.text}}
+								<form action = "/insert_comment" method = "post" onsubmit="">
+								    <input type="text" name="user_id" style="display:none;">
+								    <input type="text" name="article_id" value="{{ id }}" style="display:none;">
+								    <input type="text" name="parent_id" value="{{ reply_l2.id }}" style="display:none;">
+									<input type="text" name="vote_id" value="{{detail[4]}}" style="display:none;">
+									<textarea name="comment" placeholder="Add Reply" rows="2" cols="50"></textarea>
+									<input type="submit" value="Reply">
+								</form>
+							</div>
+							</li>
+							<li>
+							<ul class="comments level4">
+								{% for reply_l3 in reply_l2.replies %}
+							    	<li class="reply">
+							    	<div class="fbpic">
+									<img src="http://graph.facebook.com/{{ reply_l3.user_id }}/picture?type=large&redirect=true&width=200&height=200" style="width:40px;border-radius:50%;">
+									</div>
+									<div class="votecomment">
+										<div class="namecolor">
+											<strong> {{ user_name_dict[reply_l3.user_id] }} </strong>&nbsp
+										</div>
+										{{reply_l3.text}}
+										<form action = "/insert_comment" method = "post" onsubmit="">
+										    <input type="text" name="user_id" style="display:none;">
+										    <input type="text" name="article_id" value="{{ id }}" style="display:none;">
+										    <input type="text" name="parent_id" value="{{ reply_l3.id }}" style="display:none;">
+											<input type="text" name="vote_id" value="{{detail[4]}}" style="display:none;">
+											<textarea name="comment" placeholder="Add Reply" rows="2" cols="50"></textarea>
+											<input type="submit" value="Reply">
+										</form>
+									</div>
+									</li>
+									<li>
+									<ul class="comments level5">
+										{% for reply_l4 in reply_l3.replies %}
+									    	<li class="reply">
+									    	<div class="fbpic">
+											<img src="http://graph.facebook.com/{{ reply_l4.user_id }}/picture?type=large&redirect=true&width=200&height=200" style="width:40px;border-radius:50%;">
+											</div>
+											<div class="votecomment">
+												<div class="namecolor">
+													<strong> {{ user_name_dict[reply_l4.user_id] }} </strong>&nbsp
+												</div>
+												{{reply_l4.text}}
+											</div>
+											</li>
+										{% endfor %}
+									</ul>
+									</li>
+								{% endfor %}
+							</ul>
+							</li>
+						{% endfor %}
+						</ul>
+						</li>
+					{% endfor %}
+					</ul>
+					</li>
+					{% endfor %}
+				</ul>
+				{% endif %}
+			</div>
 
-	<br>
-{% endfor %}
-</div>
+					<br>
+				{% endfor %}
+				</div>
 
 
 <br>
 <!--<div class="fb-comments" data-href="http://localhost:5000/results/{{ id }}" data-width="100%" data-numposts="5"></div>-->
-
-
-<div class="comment-form" style="text-align: left;">
-Comments:
-<form action = "/insert_comment" method = "post" onsubmit="">
-    <input type="text" name="user_id" style="display:none;">
-    <input type="text" name="article_id" value="{{ id }}" style="display:none;">
-	<input type="text" name="parent_id" style="display:none;">
-	<textarea name="comment" placeholder="Add comment" rows="4" cols="50"></textarea>
-	<input type="submit" value="Comment">
-</form>
-</div>
-<hr>
-<ul class="comments level1">
-{% for comment in article_comments %}
-	<li class="reply">
-	<div class="fbpic">
-		<img src="http://graph.facebook.com/{{ comment.user_id }}/picture?type=large&redirect=true&width=200&height=200" style="width:40px;border-radius:50%;">
-	</div>
-	<div class="votecomment">
-	<div class="namecolor">
-		<strong> {{ user_name_dict[comment.user_id] }} </strong>&nbsp
-	</div>
-	{{comment.text}}
-	<form action = "/insert_comment" method = "post" onsubmit="">
-	    <input type="text" name="user_id" style="display:none;">
-	    <input type="text" name="article_id" value="{{ id }}" style="display:none;">
-	    <input type="text" name="parent_id" value="{{ comment.id }}" style="display:none;">
-		<textarea name="comment" placeholder="Add Reply" rows="2" cols="50"></textarea>
-		<input type="submit" value="Reply">
-	</form>
-	</div>
-	</li>
-	<li>
-	<ul class="comments level2">
-	{% for reply_l1 in comment.replies %}
-		<li class="reply">
-		<div class="fbpic">
-		<img src="http://graph.facebook.com/{{ reply_l1.user_id }}/picture?type=large&redirect=true&width=200&height=200" style="width:40px;border-radius:50%;">
-		</div>
-		<div class="votecomment">
-			<div class="namecolor">
-				<strong> {{ user_name_dict[reply_l1.user_id] }} </strong>&nbsp
-			</div>
-			{{reply_l1.text}}
-			<form action = "/insert_comment" method = "post" onsubmit="">
-			    <input type="text" name="user_id" style="display:none;">
-			    <input type="text" name="article_id" value="{{ id }}" style="display:none;">
-			    <input type="text" name="parent_id" value="{{ reply_l1.id }}" style="display:none;">
-				<textarea name="comment" placeholder="Add Reply" rows="2" cols="50"></textarea>
-				<input type="submit" value="Reply">
-			</form>
-		</div>
-		</li>
-		<li>
-		<ul class="comments level3">
-	    {% for reply_l2 in reply_l1.replies %}
-	    	<li class="reply">
-	    	<div class="fbpic">
-			<img src="http://graph.facebook.com/{{ reply_l2.user_id }}/picture?type=large&redirect=true&width=200&height=200" style="width:40px;border-radius:50%;">
-			</div>
-			<div class="votecomment">
-				<div class="namecolor">
-					<strong> {{ user_name_dict[reply_l2.user_id] }} </strong>&nbsp
-				</div>
-				{{reply_l2.text}}
-				<form action = "/insert_comment" method = "post" onsubmit="">
-				    <input type="text" name="user_id" style="display:none;">
-				    <input type="text" name="article_id" value="{{ id }}" style="display:none;">
-				    <input type="text" name="parent_id" value="{{ reply_l2.id }}" style="display:none;">
-					<textarea name="comment" placeholder="Add Reply" rows="2" cols="50"></textarea>
-					<input type="submit" value="Reply">
-				</form>
-			</div>
-			</li>
-			<li>
-			<ul class="comments level4">
-				{% for reply_l3 in reply_l2.replies %}
-			    	<li class="reply">
-			    	<div class="fbpic">
-					<img src="http://graph.facebook.com/{{ reply_l3.user_id }}/picture?type=large&redirect=true&width=200&height=200" style="width:40px;border-radius:50%;">
-					</div>
-					<div class="votecomment">
-						<div class="namecolor">
-							<strong> {{ user_name_dict[reply_l3.user_id] }} </strong>&nbsp
-						</div>
-						{{reply_l3.text}}
-						<form action = "/insert_comment" method = "post" onsubmit="">
-						    <input type="text" name="user_id" style="display:none;">
-						    <input type="text" name="article_id" value="{{ id }}" style="display:none;">
-						    <input type="text" name="parent_id" value="{{ reply_l3.id }}" style="display:none;">
-							<textarea name="comment" placeholder="Add Reply" rows="2" cols="50"></textarea>
-							<input type="submit" value="Reply">
-						</form>
-					</div>
-					</li>
-					<li>
-					<ul class="comments level5">
-						{% for reply_l4 in reply_l3.replies %}
-					    	<li class="reply">
-					    	<div class="fbpic">
-							<img src="http://graph.facebook.com/{{ reply_l4.user_id }}/picture?type=large&redirect=true&width=200&height=200" style="width:40px;border-radius:50%;">
-							</div>
-							<div class="votecomment">
-								<div class="namecolor">
-									<strong> {{ user_name_dict[reply_l4.user_id] }} </strong>&nbsp
-								</div>
-								{{reply_l4.text}}
-							</div>
-							</li>
-						{% endfor %}
-					</ul>
-					</li>
-				{% endfor %}
-			</ul>
-			</li>
-		{% endfor %}
-		</ul>
-		</li>
-	{% endfor %}
-	</ul>
-	</li>
-{% endfor %}
-</ul>
 
 
 <!-- <div class="fb-comments" data-href="https://news-detective.herokuapp.com/results/{{ id }}" data-width="100%" data-numposts="5"></div> -->
