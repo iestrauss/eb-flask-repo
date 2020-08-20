@@ -17,6 +17,8 @@ function callAttentionToX(jNode) {
     button.style.margins = "10px";
 //    button.style.backgroundColor = "#ffdf99";
     button.style.color = "rgba(255,255,255,0.101)";
+    button.style.display = "block";
+    button.style.height = 35;
 //    button.textShadow = "white 0px 0px 0px";
 
 
