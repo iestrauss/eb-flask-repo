@@ -325,6 +325,9 @@ def retrieve_pub_vote_summary(publication):
 
 def retrieve_article_rating(article_url):
     article = Article.query.filter_by(url=article_url).first()
+    if not article:
+        return {'total': 0, 'score_percent': 0}
+
     vote_counts = db.session.query(
         ArticleVote.vote_choice_id, func.count(ArticleVote.vote_choice_id)
     ).filter_by(article_id=article.id).group_by(ArticleVote.vote_choice_id).all()
