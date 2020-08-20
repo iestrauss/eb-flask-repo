@@ -119,23 +119,25 @@ function callAttentionToX(jNode) {
             chrome.runtime.sendMessage({ "type": "articleUrl", "url": url }, function (response) {
                 console.log("here's the response for sending the URL");
                 console.log(response);
+                var article_total = response[2];
+                var article_rating = response[3];
                 var rating = response[1];
                 //            rating = .4
                 var total = response[0];
                     if (total > 1){
                         if (rating >= 70){
                          button.style.backgroundColor = "#39ac73";
-                         button.innerHTML = "PScore: " + getStars(rating, total);
+                         button.innerHTML = "PScore: " + getStars(rating, total) + "<div>AScore: " + getStars(article_rating, article_total) + "</div>";
                          button.style.color = "white";
                          }
                         if (rating < 70 && rating > 30){
                         button.style.backgroundColor = "gold";
-                        button.innerHTML = "PScore: " + getStars(rating, total);
+                        button.innerHTML = "PScore: " + getStars(rating, total) + "<div>AScore: " + getStars(article_rating, article_total) + "</div>";
                         button.style.color = "black";
                         }
                         if (rating <= 30){
                         button.style.backgroundColor = "red";
-                        button.innerHTML = "PScore: " + getStars(rating, total);
+                        button.innerHTML = "PScore: " + getStars(rating, total) + "<div>AScore: " + getStars(article_rating, article_total) + "</div>";
                         button.style.color = "white";
                         }
                     }
