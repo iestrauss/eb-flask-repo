@@ -60,7 +60,7 @@ function callAttentionToX(jNode) {
         if ($((uCW).find('.mbs')).length)
             {var title = $(uCW).find('.mbs').text();}
         else
-            {var title = $(uCW).find('[style*="display: -webkit-box; -webkit-box-orient: vertical;"]').text();}
+            {var title = $($(uCW).find('a span span')[0]).text();}
         console.log(title);
 
 //works for new facebook
