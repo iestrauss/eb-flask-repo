@@ -191,23 +191,23 @@ def home():
     page = int(request.args.get('page', 1))
     per_page = 10
     offset = (page - 1) * per_page
-    # home_data = Article.query.order_by(Article.title.desc())
+    search = False
+    q = request.args.get('q')
     home_data = Article.query.order_by(Article.date_upload.desc())
-    # home_data = Article.query.order_by(Article.desc().title)
+    # import pdb;pdb.set_trace()
+    if q:
+        home_data = Article.query.filter(Article.title.like('%' + q + '%')).order_by(Article.date_upload.desc())
+
     home_data_for_render = home_data.limit(per_page).offset(offset)
 
     print("article dicts:", home_data_for_render)
 
-    search = False
-    q = request.args.get('q')
-    if q:
-        search = True
 
     page = request.args.get(get_page_parameter(), type=int, default=1)
     pagination = Pagination(page=page, search=search, record_name='home_data', per_page=per_page, offset=offset,
                             total=home_data.count(), css_framework='bootstrap3')
 
-    return render_template('home.html', home_data=home_data_for_render, pagination=pagination, )
+    return render_template('home.html', home_data=home_data_for_render, pagination=pagination, query_param=q)
 
 
 ##############################################

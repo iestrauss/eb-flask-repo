@@ -13,6 +13,33 @@ body{
   margin-top: 10px;
   margin-bottom: 10px;
 }
+form.search input[type=text] {
+    padding: 10px;
+    margin: 0px 0px 0px 15px;
+    font-size: 17px;
+    border: 1px solid grey;
+    border-radius: 5px 0px 0px 5px;
+    float: left;
+    width: 85%;
+    height: 45px;
+}
+
+form.search button {
+	float: left;
+	width: 10%;
+	padding: 10px;
+	background: #2196F3;
+	color: white;
+	font-size: 17px;
+	border: 0px solid grey;
+	border-left: none;
+	cursor: pointer;
+	height: 45px;
+}
+
+form.search button:hover {
+  background: #0b7dda;
+}
 </style>
 
 </head>
@@ -30,8 +57,13 @@ body{
 			Open Investigations
 		</div>
 </div>
-<script async src="https://cse.google.com/cse.js?cx=014500911544560096969:pcgxxglbwe3"></script>
-<div class="gcse-search"></div>
+
+<form class="search" action="/" method="get">
+  <input type="text" placeholder="Search" name="q" value="{{ query_param if query_param else '' }}">
+  <button type="submit"><i class="glyphicon glyphicon-search"></i></button>
+</form>
+<br />
+<br />
 <div class="homebody">
 	{{ pagination.links }}
 	<br><br>
