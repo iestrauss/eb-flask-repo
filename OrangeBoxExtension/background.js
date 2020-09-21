@@ -36,9 +36,6 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
         });
         return true;
     }
-//    console.log("myPubscore in sendresponce:")
-//    console.log(myPubscore);
-//    sendResponse({score: "myPubscore"});
     else if (request.type == "articleData") {
         console.log("background heard articleData")
         console.log(request);
@@ -56,7 +53,22 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
             }
          })
     }
-
+    else if (request.type == "domainCheck") {
+        var articleUrl = request;
+        console.log(articleUrl);
+        $.ajax({
+            type: 'POST',
+            url: `${url}/domain_check`,
+            data: articleUrl,
+            success(data){
+            console.log("incoming data");
+            console.log(data);
+            sendResponse(data);
+            console.log("sent data");
+            },
+        });
+        return true;
+    }
 });
 
 

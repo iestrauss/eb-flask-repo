@@ -189,4 +189,67 @@ function callAttentionToX(jNode) {
 
 }
 
+
+function gcallAttentionToX(jNode) {
+    var search_result = jNode.closest(".g .rc .r");
+    var button = document.createElement("a");
+    button.style.fontWeight = "600";
+    button.style.padding = "10px";
+    button.style.margins = "10px";
+    button.style.color = "rgba(255,255,255,0.101)";
+    button.style.display = "block";
+    button.style.height = 35;
+    try {
+        var url = $(search_result).find('a:first').attr('href');
+        chrome.runtime.sendMessage({ "type": "domainCheck", "url": url }, function (response) {
+            if (response['present']) {
+                var article_total = response['article_total'];
+                var article_rating = response['article_rating'];
+                var rating = response['pub_rating'];
+                //            rating = .4
+                var total = response['pub_total'];
+                    if (total > 1){
+                        if (rating >= 70){
+                         button.style.backgroundColor = "#39ac73";
+                         button.innerHTML = "PScore: " + getStars(rating, total) + "<div>AScore: " + getStars(article_rating, article_total) + "</div>";
+                         button.style.color = "white";
+                         button.style.width = "170px";
+                         }
+                        if (rating < 70 && rating > 30){
+                        button.style.backgroundColor = "gold";
+                        button.innerHTML = "PScore: " + getStars(rating, total) + "<div>AScore: " + getStars(article_rating, article_total) + "</div>";
+                        button.style.color = "black";
+                        button.style.width = "170px";
+                        }
+                        if (rating <= 30){
+                        button.style.backgroundColor = "red";
+                        button.innerHTML = "PScore: " + getStars(rating, total) + "<div>AScore: " + getStars(article_rating, article_total) + "</div>";
+                        button.style.color = "white";
+                        button.style.width = "170px";
+                        }
+                    }
+                    else {button.style.backgroundColor = "#3366ff";
+                          button.innerHTML = "🔍 Investigate Me!";
+                          button.style.color = "white";
+                          button.style.width = "170px";
+                          button.style.display = "none";
+                    }
+            } else {
+                button.style.display = "none";
+            }
+        });
+
+        button.style.border = "3px solid white";
+        button.style.fontSize = "17px";
+        jNode.parent().after(button);
+    } catch(error) {
+        console.log("Error occurred when adding button.", error)
+    }
+
+    // button.addEventListener("click", function () {
+    //     chrome.runtime.sendMessage({ "type": "articleData", "title": title, "image_url": image, "url": url, "snippet": "test" });
+    // });
+}
+
+waitForKeyElements(".g .rc .r", gcallAttentionToX);
 waitForKeyElements("[role='article']", callAttentionToX);

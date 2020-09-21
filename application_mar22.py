@@ -1,6 +1,6 @@
 from flask import Flask, request, flash, url_for, redirect, render_template
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import exc, func
+from sqlalchemy import exc, func, desc
 from datetime import datetime
 
 #    DATE      WHO     DESCRIPTION
@@ -193,8 +193,15 @@ def home():
     offset = (page - 1) * per_page
     search = False
     q = request.args.get('q')
-    home_data = Article.query.order_by(Article.date_upload.desc())
-    # import pdb;pdb.set_trace()
+    sort_by = request.args.get('sort_by')
+    if sort_by and sort_by == 'recent':
+        home_data = Article.query.order_by(Article.date_upload.desc())
+    else:
+        sq_votes = db.session.query(ArticleVote.article_id, func.count('*').label('vote_count')).group_by(ArticleVote.article_id).subquery()
+        home_data = db.session.query(
+            Article.id, Article.title, Article.url, Article.image_url, Article.snippet, Article.date_upload, sq_votes.c.vote_count
+        ).outerjoin(sq_votes, Article.id==sq_votes.c.article_id).order_by(desc('vote_count'))
+
     if q:
         home_data = Article.query.filter(Article.title.like('%' + q + '%')).order_by(Article.date_upload.desc())
 
@@ -207,7 +214,7 @@ def home():
     pagination = Pagination(page=page, search=search, record_name='home_data', per_page=per_page, offset=offset,
                             total=home_data.count(), css_framework='bootstrap3')
 
-    return render_template('home.html', home_data=home_data_for_render, pagination=pagination, query_param=q)
+    return render_template('home.html', home_data=home_data_for_render, pagination=pagination, query_param=q, sort_by=sort_by)
 
 
 ##############################################
@@ -383,6 +390,47 @@ def buttoncolor():
             pubscore = (pub_tuple[6], pub_tuple[8], article_rating['total'], article_rating['score_percent'])
             print(pubscore)
     return jsonify(pubscore)
+
+
+##############################################
+@application.route('/domain_check', methods=['GET', 'POST'])
+def domain_check():
+    if request.method == 'POST':
+        if not request.form['url']:
+            flash('Please enter all the fields', 'error')
+        else:
+            rurl = request.form['url']
+            import urllib.parse as url_parse
+            # now to get rid of the pesky fb stuff at the end
+            link3 = url_parse.unquote(rurl).split("?u")[0]
+            # getting the domain
+            import tldextract  # The module looks up TLDs in the Public Suffix List, mantained by Mozilla volunteers
+            extract = tldextract.extract(link3)
+            domain = extract.domain
+            # getting the score info
+            publication = domain
+            article = Article.query.filter_by(snippet=publication).first()
+            if(article):
+                pub_tuple = retrieve_pub_vote_summary(publication)
+                article_rating = retrieve_article_rating(link3)
+                pub_total = pub_tuple[6]
+                pub_rating = pub_tuple[8]
+                article_total = article_rating['total']
+                article_rating = article_rating['score_percent']
+            else:
+                pub_total = 0
+                pub_rating = 0
+                article_total = 0
+                article_rating = 0
+            pubscore = {
+                'present': True if article else False,
+                'pub_total': pub_total,
+                'pub_rating': pub_rating,
+                'article_total': article_total,
+                'article_rating': article_rating,
+            }
+    return jsonify(pubscore)
+
 
 ##############################################
 @application.route('/results/<int:id>')

@@ -66,6 +66,12 @@ form.search button:hover {
 <br />
 <div class="homebody">
 	{{ pagination.links }}
+	<form method="GET" style="float: right;margin: 20px;">
+	    <select name='sort_by' onchange='this.form.submit();' style="width: 120px;height: 30px;">
+	         <option value='voted' {{'selected' if sort_by == 'voted'}}>Most Voted</option>
+	         <option value='recent' {{'selected' if sort_by == 'recent'}}>Most Recent</option>
+	    </select>
+	</form>
 	<br><br>
 
 	{% for dict_item in home_data %}
