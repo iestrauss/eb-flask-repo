@@ -2,8 +2,91 @@ function getStars(rating, total_ratings) {
     return "<div class='news-detective'><div class='star-ratings'><div class='fill-ratings' style='width: "+rating+"%;'><span>★★★★★</span></div><div class='empty-ratings'><span>★★★★★</span></div></div><span class='ratings-count'>"+total_ratings+"</span></div>";
 }
 
+
+function tCallAttentionToX(jNode) {
+    var uCW = jNode.closest("[role='article']");
+
+//    var uCW = jNode.closest("div._q7o");
+//       uCW.css("border", "2px solid red");
+    var button = document.createElement("a");
+//    button.innerHTML = "🔍";
+    button.style.fontWeight = "600"
+//    button.style.fontSize = "17px";
+//    button.style.color = "white";
+    //       button.setAttribute('href', '#me');
+//    button.style.border = "10px solid white";
+    button.style.padding = "10px";
+    button.style.margins = "10px";
+//    button.style.backgroundColor = "#ffdf99";
+    button.style.color = "rgba(255,255,255,0.101)";
+    button.style.display = "block";
+    button.style.height = 35;
+//    button.textShadow = "white 0px 0px 0px";
+
+
+//TODO: make button change color based on publication rating
+
+    try {
+
+        var image = $(uCW).find('[src^="https://pbs.twimg.com/card_img"]').attr("src");
+        console.log(image);
+
+        var url = $(uCW).find('[href^="https://t.co/"]').attr("href");
+        console.log("here comes the url")
+        console.log(url);
+        var more = $(uCW).find("[role='group']");
+        var title = $(uCW).find('[href^="https://t.co/"] span:first').text()
+
+        if (image) {
+            chrome.runtime.sendMessage({ "type": "articleUrl", "url": url, "source": "twitter" }, function (response) {
+                console.log("here's the response for sending the URL");
+                console.log(response);
+                var article_total = response[2];
+                var article_rating = response[3];
+                var rating = response[1];
+                //            rating = .4
+                var total = response[0];
+                    if (total > 1){
+                        if (rating >= 70){
+                         button.style.backgroundColor = "#39ac73";
+                         button.innerHTML = "PScore: " + getStars(rating, total) + "<div>AScore: " + getStars(article_rating, article_total) + "</div>";
+                         button.style.color = "white";
+                         }
+                        if (rating < 70 && rating > 30){
+                        button.style.backgroundColor = "gold";
+                        button.innerHTML = "PScore: " + getStars(rating, total) + "<div>AScore: " + getStars(article_rating, article_total) + "</div>";
+                        button.style.color = "black";
+                        }
+                        if (rating <= 30){
+                        button.style.backgroundColor = "red";
+                        button.innerHTML = "PScore: " + getStars(rating, total) + "<div>AScore: " + getStars(article_rating, article_total) + "</div>";
+                        button.style.color = "white";
+                        }
+                    }
+                    else {button.style.backgroundColor = "#3366ff";
+                          button.innerHTML = "🔍 Investigate Me!";
+                          button.style.color = "white";
+
+                    }
+            });
+            button.style.border = "3px solid white";
+            button.style.fontSize = "17px";
+            more.before(button);
+        }
+    } catch(error) {
+        console.log("Error occurred when adding button.", error)
+    }
+
+    button.addEventListener("click", function () {
+        chrome.runtime.sendMessage({ "type": "articleData", "title": title, "image_url": image, "url": url, "snippet": "test", "source": "twitter"});
+    });
+}
+
 function callAttentionToX(jNode) {
     var uCW = jNode.closest("[role='article']");
+    if($(uCW).find('[data-testid="tweet"]').length > 0) {
+        return tCallAttentionToX(jNode)
+    }
 //    var uCW = jNode.closest("div._q7o");
 //       uCW.css("border", "2px solid red");
     var button = document.createElement("a");
@@ -60,7 +143,7 @@ function callAttentionToX(jNode) {
         if ($((uCW).find('.mbs')).length)
             {var title = $(uCW).find('.mbs').text();}
         else
-            {var title = $($(uCW).find('a span span')[0]).text();}
+            {var title = $($(uCW).find('a span span')[1]).text();}
         console.log(title);
 
 //works for new facebook

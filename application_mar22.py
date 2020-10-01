@@ -361,23 +361,37 @@ def buttoncolor():
         if not request.form['url']:
             flash('Please enter all the fields', 'error')
         else:
-            rurl = request.form['url']
-            print("here comes rurl")
-            print(rurl)
-            import urllib.parse as url_parse
-            url = rurl
-            news_link = url_parse.unquote(url).split("?u=")[1].split("?fbclid")[0]
-            print("here comes the news_link")
-            print(news_link)
-            import requests
-            final_link = requests.get(news_link)
-            print("here comes the final_link.url")
-            print(final_link.url)
-            # now to get rid of the pesky fb stuff at the end
-            link3 = url_parse.unquote(final_link.url).split("?u")[0]
-            # // link 3 is the domain link
-            print("here comes link3")
-            print(link3)
+            if 'source' in request.form and request.form['source'] == 'twitter':
+                news_link = request.form['url']
+                import requests
+                final_link = requests.get(news_link)
+                print("here comes the final_link.url")
+                print(final_link.url)
+                # now to get rid of the pesky fb stuff at the end
+                import urllib.parse as url_parse
+                link3 = url_parse.unquote(final_link.url).split("?")[0]
+                # // link 3 is the domain link
+                print("here comes link3")
+                print(link3)
+
+            else:
+                rurl = request.form['url']
+                print("here comes rurl")
+                print(rurl)
+                import urllib.parse as url_parse
+                url = rurl
+                news_link = url_parse.unquote(url).split("?u=")[1].split("?fbclid")[0]
+                print("here comes the news_link")
+                print(news_link)
+                import requests
+                final_link = requests.get(news_link)
+                print("here comes the final_link.url")
+                print(final_link.url)
+                # now to get rid of the pesky fb stuff at the end
+                link3 = url_parse.unquote(final_link.url).split("?u")[0]
+                # // link 3 is the domain link
+                print("here comes link3")
+                print(link3)
 # getting the domain
             import tldextract  # The module looks up TLDs in the Public Suffix List, mantained by Mozilla volunteers
             extract = tldextract.extract(link3)
@@ -606,34 +620,44 @@ def bootstrap():
         if not request.form['title'] or not request.form['url'] or not request.form['image_url'] or not request.form['snippet']:
             flash('Please enter all the fields', 'error')
         else:
-            rurl = request.form['url']
-            print("here comes rurl")
-            print(rurl)
-            import urllib.parse as url_parse
-            url = rurl
-            news_link = url_parse.unquote(url).split("?u=")[1].split("?fbclid")[0]
-            print("here comes the news_link")
-            print(news_link)
-            import requests
-            final_link = requests.get(news_link)
-            print("here comes the final_link.url")
-            print(final_link.url)
-            # now to get rid of the pesky fb stuff at the end
-            link3 = url_parse.unquote(final_link.url).split("?u")[0]
-            # // link 3 is the domain link
-            print("here comes link3")
-            print(link3)
-            link3 = url_parse.unquote(link3).split("&fbclid")[0]
+            if 'source' in request.form and request.form['source'] == 'twitter':
+                news_link = request.form['url']
+                import requests
+                final_link = requests.get(news_link)
+                print("here comes the final_link.url")
+                print(final_link.url)
+                # now to get rid of the pesky fb stuff at the end
+                import urllib.parse as url_parse
+                link3 = url_parse.unquote(final_link.url).split("?")[0]
+                # // link 3 is the domain link
+                print("here comes link3")
+                print(link3)
+            else:
+                rurl = request.form['url']
+                print("here comes rurl")
+                print(rurl)
+                import urllib.parse as url_parse
+                url = rurl
+                news_link = url_parse.unquote(url).split("?u=")[1].split("?fbclid")[0]
+                print("here comes the news_link")
+                print(news_link)
+                import requests
+                final_link = requests.get(news_link)
+                print("here comes the final_link.url")
+                print(final_link.url)
+                # now to get rid of the pesky fb stuff at the end
+                link3 = url_parse.unquote(final_link.url).split("?u")[0]
+                # // link 3 is the domain link
+                print("here comes link3")
+                print(link3)
+                link3 = url_parse.unquote(link3).split("&fbclid")[0]
+
             import tldextract  # The module looks up TLDs in the Public Suffix List, mantained by Mozilla volunteers
             extract = tldextract.extract(link3)
             print("extracted:", extract)
             print(extract.domain)
             domain = extract.domain
             print("domain: ", domain)
-            # getting the publication
-            # domain = urlparse(link3).netloc
-            # print("domain")  # --> www.example.test
-            # print(domain)  # --> www.example.test
 
 
             article = Article(request.form['title'], link3, request.form['image_url'],
