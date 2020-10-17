@@ -53,71 +53,31 @@ li.reply {
 <script src="https://code.jquery.com/jquery-latest.min.js"></script>
 </head>
 <body>
+
 <script>
-
-
-  var person = { userID: "", name: "", accessToken: "", picture: ""}
-  window.fbAsyncInit = function() {
-    FB.init({
-      appId            : '1560520617436290',
-      autoLogAppEvents : true,
-      xfbml            : true,
-      version          : 'v5.0'
-    });
-    FB.getLoginStatus(function(response) {
-        console.log(response);
-        if (response.status !== 'connected') {
-            document.getElementById("myDialog").showModal();
-        } else {
-            addHiddenInput(response.authResponse.userID)
-            person.accessToken = response.authResponse.accessToken;
-            person.userID = response.authResponse.userID;
-            FB.api('/me?fields=id,name,picture.type(large)', function (userData) {
-                console.log(userData);
-                person.name = userData.name;
-                person.picture = userData.picture.data.url;
-
-                $.ajax({
-                type: 'POST',
-                url: 'https://news-detective.herokuapp.com/fbuser',
-                data: person,
-                datatype: 'text',
-                success: function myFunction(data) {
-                console.log("fb data sent");
-                }
-                })
-
-             });
-        }
-
-    });
-  };
-
-  function hideDialogAfterLogin () {
-    document.getElementById("myDialog").close();
-    window.location.reload();
-    FB.getLoginStatus(function(response) {
-        addHiddenInput(response.authResponse.userID)
-
-    });
-  }
-
+  $(document).ready(function() {
+    var fb_user_id = "{{fb_user_id}}";
+    if (fb_user_id == "") {
+      document.getElementById("myDialog").showModal();
+    } else {
+      addHiddenInput(fb_user_id);
+    }
+  });
   function addHiddenInput (userID) {
   	$('input[name="user_id"]').val(userID)
   }
 
-
 </script>
 
-<script async defer src="https://connect.facebook.net/en_US/sdk.js"></script>
 
-
-    <dialog id="myDialog" style="height:50%; width:80%;">
-        <div class="center">
-        <center><fb:login-button size="large" type="submit" value="Submit" scope="public_profile,email" returnscopes="true" onlogin="hideDialogAfterLogin">Log in to Facebook</fb:login-button></center>
-        </div>
-    </dialog>
-
+<dialog id="myDialog" style="height:50%; width:80%;background: transparent;border: none;">
+    <div class="login-box">
+		<h2>Login</h2>
+		<a href="{{ url_for("facebook.login", next_url=url_for('results', id=id)) }}" class="social-button" id="facebook-connect"> <span>Connect with Facebook</span></a>
+		<a href="{{ url_for("google.login", next_url=url_for('results', id=id)) }}" class="social-button" id="google-connect"> <span>Connect with Google</span></a>
+		<a href="{{ url_for("twitter.login", next_url=url_for('results', id=id)) }}" class="social-button" id="twitter-connect"> <span>Connect with Twitter</span></a>
+	</div>
+</dialog>
 
 
 <!--<div id="fb-root"></div>-->
@@ -236,7 +196,11 @@ Article
 {% for detail in vote_details %}
 
 		<div class="fbpic">
+			{% if user_name_dict[detail[3]+'-auth_provider'] == 'twitter' or user_name_dict[detail[3]+'-auth_provider'] == 'google' %}
+			<img src="{{user_name_dict[detail[3]+'-picture']}}" style="width:40px;border-radius:50%;">
+			{% else %}
 			<img src="http://graph.facebook.com/{{ detail[3] }}/picture?type=large&redirect=true&width=200&height=200" style="width:40px;border-radius:50%;">
+			{% endif %}
 		</div>
 		<div class="votecomment" style="text-align: left;">
 			<div class="namecolor">
@@ -259,7 +223,11 @@ Article
 					{% for comment in article_comments_dict[detail[4]] %}
 					<li class="reply">
 					<div class="fbpic">
+						{% if user_name_dict[comment.user_id+'-auth_provider'] == 'twitter' or user_name_dict[comment.user_id+'-auth_provider'] == 'google' %}
+						<img src="{{user_name_dict[comment.user_id+'-picture']}}" style="width:40px;border-radius:50%;">
+						{% else %}
 						<img src="http://graph.facebook.com/{{ comment.user_id }}/picture?type=large&redirect=true&width=200&height=200" style="width:40px;border-radius:50%;">
+						{% endif %}
 					</div>
 					<div class="votecomment">
 					<div class="namecolor">
@@ -281,7 +249,11 @@ Article
 					{% for reply_l1 in comment.replies %}
 						<li class="reply">
 						<div class="fbpic">
+						{% if user_name_dict[reply_l1.user_id+'-auth_provider'] == 'twitter' or user_name_dict[reply_l1.user_id+'-auth_provider'] == 'google' %}
+						<img src="{{user_name_dict[reply_l1.user_id+'-picture']}}" style="width:40px;border-radius:50%;">
+						{% else %}
 						<img src="http://graph.facebook.com/{{ reply_l1.user_id }}/picture?type=large&redirect=true&width=200&height=200" style="width:40px;border-radius:50%;">
+						{% endif %}
 						</div>
 						<div class="votecomment">
 							<div class="namecolor">
@@ -303,7 +275,11 @@ Article
 					    {% for reply_l2 in reply_l1.replies %}
 					    	<li class="reply">
 					    	<div class="fbpic">
+					    	{% if user_name_dict[reply_l2.user_id+'-auth_provider'] == 'twitter' or user_name_dict[reply_l2.user_id+'-auth_provider'] == 'google' %}
+							<img src="{{user_name_dict[reply_l2.user_id+'-picture']}}" style="width:40px;border-radius:50%;">
+							{% else %}
 							<img src="http://graph.facebook.com/{{ reply_l2.user_id }}/picture?type=large&redirect=true&width=200&height=200" style="width:40px;border-radius:50%;">
+							{% endif %}
 							</div>
 							<div class="votecomment">
 								<div class="namecolor">
@@ -325,7 +301,11 @@ Article
 								{% for reply_l3 in reply_l2.replies %}
 							    	<li class="reply">
 							    	<div class="fbpic">
+							    	{% if user_name_dict[reply_l3.user_id+'-auth_provider'] == 'twitter' or user_name_dict[reply_l3.user_id+'-auth_provider'] == 'google' %}
+									<img src="{{user_name_dict[reply_l3.user_id+'-picture']}}" style="width:40px;border-radius:50%;">
+									{% else %}
 									<img src="http://graph.facebook.com/{{ reply_l3.user_id }}/picture?type=large&redirect=true&width=200&height=200" style="width:40px;border-radius:50%;">
+									{% endif %}
 									</div>
 									<div class="votecomment">
 										<div class="namecolor">
@@ -347,7 +327,11 @@ Article
 										{% for reply_l4 in reply_l3.replies %}
 									    	<li class="reply">
 									    	<div class="fbpic">
+									    	{% if user_name_dict[reply_l4.user_id+'-auth_provider'] == 'twitter' or user_name_dict[reply_l4.user_id+'-auth_provider'] == 'google' %}
+											<img src="{{user_name_dict[reply_l4.user_id+'-picture']}}" style="width:40px;border-radius:50%;">
+											{% else %}
 											<img src="http://graph.facebook.com/{{ reply_l4.user_id }}/picture?type=large&redirect=true&width=200&height=200" style="width:40px;border-radius:50%;">
+											{% endif %}
 											</div>
 											<div class="votecomment">
 												<div class="namecolor">

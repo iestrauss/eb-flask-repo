@@ -1,7 +1,12 @@
 from flask import Flask, request, flash, url_for, redirect, render_template
+from flask import session as flask_session
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import exc, func, desc
 from datetime import datetime
+from flask_dance.contrib.facebook import make_facebook_blueprint, facebook
+from flask_dance.contrib.twitter import make_twitter_blueprint, twitter
+from flask_dance.contrib.google import make_google_blueprint, google
+from flask_dance.consumer import oauth_before_login
 
 #    DATE      WHO     DESCRIPTION
 # april 29
@@ -12,6 +17,21 @@ application = Flask(__name__)
 application.config['SQLALCHEMY_ECHO'] = True
 application.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://admin:iski8iski8A@database-2.cv15axugkvps.us-east-2.rds.amazonaws.com/bear'
 application.config['SECRET_KEY'] = "random string"
+application.config["FACEBOOK_OAUTH_CLIENT_ID"] = '1560520617436290'
+application.config["FACEBOOK_OAUTH_CLIENT_SECRET"] = '0a41f3b2a58fc6d27f3ae9d6b8570fea'
+application.config["TWITTER_OAUTH_CLIENT_KEY"] = 'vTJtz4tMVHOlk3PEgVTQAlQBi'
+application.config["TWITTER_OAUTH_CLIENT_SECRET"] = 'pHbL1GtgbC0hCCDs1qXG4H8mbr4pgjldmZH9Rybt8vVWh9Yrw8'
+application.config["GOOGLE_OAUTH_CLIENT_ID"] = '999488574192-i9rpq3mvjb4putke6j8a13098f74ff9k.apps.googleusercontent.com'
+application.config["GOOGLE_OAUTH_CLIENT_SECRET"] = 'qjoGqzwuHTGWOY1ptb4mRmPt'
+
+google_bp = make_google_blueprint(scope=["openid", "https://www.googleapis.com/auth/userinfo.profile", "https://www.googleapis.com/auth/userinfo.email"])
+application.register_blueprint(google_bp, url_prefix="/login")
+
+twitter_bp = make_twitter_blueprint()
+application.register_blueprint(twitter_bp, url_prefix="/login")
+
+facebook_bp = make_facebook_blueprint()
+application.register_blueprint(facebook_bp, url_prefix="/login")
 
 db = SQLAlchemy(application)
 
@@ -47,15 +67,17 @@ class User(db.Model):
     fb_pic = db.Column('fb_pic', db.String(400))
 
     name = db.Column(db.String(100))
+    auth_provider = db.Column(db.String(100))
     permission_id = db.Column(db.Integer, db.ForeignKey('permission.id'))
     # missing field 'created_at'
     user_list = []
 
-    def __init__(self, fb_id, fb_pic, name, permission_id):
+    def __init__(self, fb_id, fb_pic, name, permission_id, auth_provider):
         self.fb_id = fb_id
         self.fb_pic = fb_pic
         self.name = name
         self.permission_id = permission_id
+        self.auth_provider = auth_provider
 
     @classmethod
     def getUserList(cls):
@@ -188,6 +210,10 @@ mod = Blueprint('home_data', __name__)
 
 @application.route('/')
 def home():
+    next_url = flask_session.pop("next_url", "")
+    if next_url:
+      return redirect(next_url)
+
     page = int(request.args.get('page', 1))
     per_page = 10
     offset = (page - 1) * per_page
@@ -449,6 +475,54 @@ def domain_check():
 ##############################################
 @application.route('/results/<int:id>')
 def results(id):
+    fb_user_id = ""
+    # global article
+    f_resp = facebook.get("/me?fields=id,name,picture.type(large)")
+    t_resp = twitter.get("account/verify_credentials.json")
+    g_resp = google.get("/oauth2/v1/userinfo")
+    if f_resp.ok:
+        fb_resp = f_resp.json()
+        maybe_existing_user = User.query.filter_by(fb_id=fb_resp['id']).first()
+        if(maybe_existing_user):
+            fb_user_id = maybe_existing_user.fb_id
+        else:
+            profile_picture = fb_resp.get('picture', {}).get('data', {}).get('url')
+            new_user = User(int(fb_resp['id']), profile_picture, fb_resp['name'], 5, auth_provider='facebook')
+            db.session.add(new_user)
+            try:
+                db.session.commit()
+                fb_user_id = fb_resp['id']
+            except exc.SQLAlchemyError as e:
+                pass
+    elif t_resp.ok:
+        fb_resp = t_resp.json()
+        maybe_existing_user = User.query.filter_by(fb_id=fb_resp['id']).first()
+        if(maybe_existing_user):
+            fb_user_id = maybe_existing_user.fb_id
+        else:
+            profile_picture = fb_resp.get('profile_image_url_https', '')
+            new_user = User(int(fb_resp['id']), profile_picture, fb_resp['name'], 5, auth_provider='twitter')
+            db.session.add(new_user)
+            try:
+                db.session.commit()
+                fb_user_id = fb_resp['id']
+            except exc.SQLAlchemyError as e:
+                pass
+    elif g_resp.ok:
+        fb_resp = g_resp.json()
+        maybe_existing_user = User.query.filter_by(fb_id=fb_resp['id']).first()
+        if(maybe_existing_user):
+            fb_user_id = maybe_existing_user.fb_id
+        else:
+            profile_picture = fb_resp.get('picture', '')
+            new_user = User(int(fb_resp['id']), profile_picture, fb_resp['name'], 5, auth_provider='google')
+            db.session.add(new_user)
+            try:
+                db.session.commit()
+                fb_user_id = fb_resp['id']
+            except exc.SQLAlchemyError as e:
+                pass
+
     rate = 0  # either 0 or num/total
     updated_details = []
     article_list_of_one = Article.query.filter_by(id=id)
@@ -458,6 +532,8 @@ def results(id):
     all_users = User.query.filter(User.fb_id.in_(ids)).all()
     for user in all_users:
         user_name_dict[str(user.fb_id)] = user.name
+        user_name_dict[str(user.fb_id)+"-picture"] = user.fb_pic
+        user_name_dict[str(user.fb_id)+"-auth_provider"] = user.auth_provider
     article_comments = Comment.query.filter((Comment.article_id == id) & (Comment.parent == None))
     article_comments_dict = {}
     for comment in article_comments:
@@ -512,8 +588,8 @@ def results(id):
                            vote_details=updated_details, onevotes=pub_tuple[0], twovotes=pub_tuple[1],
                            threevotes=pub_tuple[2], article_comments_dict=article_comments_dict,
                            fourvotes=pub_tuple[3], fivevotes=pub_tuple[4], sixvotes=pub_tuple[5],
-                           score_percent=pub_tuple[8], pubscorechoices=pubscorechoices, total_plus_nn=total_plus_nn
-                           )
+                           score_percent=pub_tuple[8], pubscorechoices=pubscorechoices, total_plus_nn=total_plus_nn,
+                           fb_user_id=fb_user_id)
 
 ##############################################
 @application.route('/user/', methods=['GET', 'POST'])
@@ -720,7 +796,7 @@ def fbuser():
         fb_user_id = maybe_existing_user.id
         return "exists"
     else:
-        new_user = User(int(person.get("userID")), person.get("picture"), person.get("name"), 5)
+        new_user = User(int(person.get("userID")), person.get("picture"), person.get("name"), 5, auth_provider='facebook')
         db.session.add(new_user)
         try:
             db.session.commit()
@@ -738,11 +814,62 @@ def fbuser():
             return "failed to create"
 
 
+@oauth_before_login.connect
+def before_login(blueprint, url):
+    flask_session["next_url"] = request.args.get("next_url")
+
+
 ##############################################
 @application.route('/votefor/<int:article_id>', methods=['GET', 'POST'])
 def votefor(article_id):
     print("votefor")
+    fb_user_id = ""
     # global article
+    f_resp = facebook.get("/me?fields=id,name,picture.type(large)")
+    t_resp = twitter.get("account/verify_credentials.json")
+    g_resp = google.get("/oauth2/v1/userinfo")
+    if f_resp.ok:
+        fb_resp = f_resp.json()
+        maybe_existing_user = User.query.filter_by(fb_id=fb_resp['id']).first()
+        if(maybe_existing_user):
+            fb_user_id = maybe_existing_user.fb_id
+        else:
+            profile_picture = fb_resp.get('picture', {}).get('data', {}).get('url')
+            new_user = User(int(fb_resp['id']), profile_picture, fb_resp['name'], 5, auth_provider='facebook')
+            db.session.add(new_user)
+            try:
+                db.session.commit()
+                fb_user_id = fb_resp['id']
+            except exc.SQLAlchemyError as e:
+                pass
+    elif t_resp.ok:
+        fb_resp = t_resp.json()
+        maybe_existing_user = User.query.filter_by(fb_id=fb_resp['id']).first()
+        if(maybe_existing_user):
+            fb_user_id = maybe_existing_user.fb_id
+        else:
+            profile_picture = fb_resp.get('profile_image_url_https', '')
+            new_user = User(int(fb_resp['id']), profile_picture, fb_resp['name'], 5, auth_provider='twitter')
+            db.session.add(new_user)
+            try:
+                db.session.commit()
+                fb_user_id = fb_resp['id']
+            except exc.SQLAlchemyError as e:
+                pass
+    elif g_resp.ok:
+        fb_resp = g_resp.json()
+        maybe_existing_user = User.query.filter_by(fb_id=fb_resp['id']).first()
+        if(maybe_existing_user):
+            fb_user_id = maybe_existing_user.fb_id
+        else:
+            profile_picture = fb_resp.get('picture', '')
+            new_user = User(int(fb_resp['id']), profile_picture, fb_resp['name'], 5, auth_provider='google')
+            db.session.add(new_user)
+            try:
+                db.session.commit()
+                fb_user_id = fb_resp['id']
+            except exc.SQLAlchemyError as e:
+                pass
     article_list_of_one = Article.query.filter_by(id=article_id)
     article = article_list_of_one[0]
     print("here's the id from votefor local hopefully article.id version", article.id)
@@ -753,7 +880,7 @@ def votefor(article_id):
 
     return render_template('/votefor.html', article_id=article.id,
                            article_title=article.title, image_url=article.image_url, article_url=article.url,
-                           vote_choices=vote_choices
+                           vote_choices=vote_choices, fb_user_id=fb_user_id
                            )
 
 

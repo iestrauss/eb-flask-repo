@@ -57,53 +57,14 @@ word-break: break-all;
 
 
 <script>
-
-
-  var person = { userID: "", name: "", accessToken: "", picture: ""}
-  window.fbAsyncInit = function() {
-    FB.init({
-      appId            : '1560520617436290',
-      autoLogAppEvents : true,
-      xfbml            : true,
-      version          : 'v5.0'
-    });
-    FB.getLoginStatus(function(response) {
-        console.log(response);
-        if (response.status !== 'connected') {
-            document.getElementById("myDialog").showModal();
-        } else {
-            addHiddenInput(response.authResponse.userID)
-            person.accessToken = response.authResponse.accessToken;
-            person.userID = response.authResponse.userID;
-            FB.api('/me?fields=id,name,picture.type(large)', function (userData) {
-                console.log(userData);
-                person.name = userData.name;
-                person.picture = userData.picture.data.url;
-
-                $.ajax({
-                type: 'POST',
-                url: 'https://news-detective.herokuapp.com/fbuser',
-                data: person,
-                datatype: 'text',
-                success: function myFunction(data) {
-                console.log("fb data sent");
-                }
-                })
-
-             });
-        }
-
-    });
-  };
-
-  function hideDialogAfterLogin () {
-    document.getElementById("myDialog").close();
-    window.location.reload();
-    FB.getLoginStatus(function(response) {
-        addHiddenInput(response.authResponse.userID)
-
-    });
-  }
+  $(document).ready(function() {
+    var fb_user_id = "{{fb_user_id}}";
+    if (fb_user_id == "") {
+      document.getElementById("myDialog").showModal();
+    } else {
+      addHiddenInput(fb_user_id);
+    }
+  });
 
   function addHiddenInput (userID) {
     var hiddenInput = document.getElementById("user_id")
@@ -113,26 +74,19 @@ word-break: break-all;
 
 </script>
 
-<script async defer src="https://connect.facebook.net/en_US/sdk.js"></script>
+
+<dialog id="myDialog" style="height:50%; width:80%;background: transparent;border: none;">
+  <div class="login-box">
+    <h2>Login</h2>
+    <a href="{{ url_for('facebook.login', next_url=url_for('votefor', article_id=article_id)) }}" class="social-button" id="facebook-connect"> <span>Connect with Facebook</span></a>
+    <a href="{{ url_for("google.login", next_url=url_for('votefor', article_id=article_id)) }}" class="social-button" id="google-connect"> <span>Connect with Google</span></a>
+    <a href="{{ url_for("twitter.login", next_url=url_for('votefor', article_id=article_id)) }}" class="social-button" id="twitter-connect"> <span>Connect with Twitter</span></a>
+  </div>
+</dialog>
 
 
-    <dialog id="myDialog" style="height:50%; width:80%;">
-        <div class="center">
-        <center><fb:login-button size="large" type="submit" value="Submit" scope="public_profile,email" returnscopes="true" onlogin="hideDialogAfterLogin">Log in to Facebook</fb:login-button></center>
-        </div>
-    </dialog>
 
 
-
-<!--{% extends "boring.html"%}-->
-
-<!--{% block title %} Vote {% endblock %}-->
-
-<!--{% block main %}-->
-
-
-<!--{{ article_id }}-->
-<Script>console.log("inside votefor.html");</Script>
 <a href="{{ article_url }}" target="_blank">
 <div class="largetext">
     {{ article_title }}
@@ -145,7 +99,6 @@ word-break: break-all;
 <div class="mediumlefttext">
     What's your diagnosis, doctor?
 </div>
-<Script>console.log("after what's your diagnosis");</Script>
 <form action = "/insert_vote" method = "post" onsubmit="">
     <div id="vote-form" action = "/insert_vote" method = "post" onsubmit="">
         <div class="smalltext">
@@ -164,21 +117,13 @@ word-break: break-all;
         <br>
         <div class="mediumlefttext">
             Why did you make that choice?
-            <Script>console.log("after why did you make that choice");</Script>
         </div>
-<!--        <input type="text"  name="comments" id="comments" placeholder="The article said only 10% of poodles are evil geniuses. It says it got its information from a new White House report, but when I got to www.whitehouse.gov, I find the report (www.whitehouse.gov/report.html), and it says 80% of poodles are evil." style="height:150px">  </input> <br>-->
         <textarea name="comments" id="comments" placeholder="Here's the court case discussed in the article: https://dockets.justia.com/docket/new-york/nyedce/1:2020cv02328/448390"></textarea>
-                    <Script>console.log("after comments");</Script>
 
 
-<!--<button onclick="javascript:login();" size="large" type="submit" value="Submit" scope="public_profile,email" returnscopes="true" onlogin="checkLoginState();">Submit</button>-->
         <input type="text" name="user_id" id="user_id" style="display:none;">
-        <Script>console.log("here comes the user id from the html");</Script>
-        <Script>console.log(user_id);</Script>
         <input type="text" name="article_id" id="article_id" value="{{ article_id }}" style="display:none;">
 
-<!--        <input type="text" name="user_id" id="user_id" style="display:none;">-->
-<!--        <input type="text" name="article_id" id="article_id" style="display:none;">-->
 <input type="submit" value="Submit">
 
     </div>
@@ -195,7 +140,4 @@ word-break: break-all;
     <a href="/chat"><div class="feedback">Feedback</div></a>
 
 </body>
-
-<!--{% endblock %}-->
-
 </html>
