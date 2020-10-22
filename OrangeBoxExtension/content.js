@@ -143,7 +143,7 @@ function callAttentionToX(jNode) {
         if ($((uCW).find('.mbs')).length)
             {var title = $(uCW).find('.mbs').text();}
         else
-            {var title = $($(uCW).find('a span span')[1]).text();}
+            {var title = $($(uCW).find('a span span span[dir=auto]')).text();}
         console.log(title);
 
 //works for new facebook
@@ -274,7 +274,7 @@ function callAttentionToX(jNode) {
 
 
 function gcallAttentionToX(jNode) {
-    var search_result = jNode.closest(".g .rc .r");
+    var search_result = jNode.closest(".g .rc");
     var button = document.createElement("a");
     button.style.fontWeight = "600";
     button.style.padding = "10px";
@@ -334,5 +334,5 @@ function gcallAttentionToX(jNode) {
     // });
 }
 
-waitForKeyElements(".g .rc .r", gcallAttentionToX);
+waitForKeyElements(".g .rc", gcallAttentionToX);
 waitForKeyElements("[role='article']", callAttentionToX);
