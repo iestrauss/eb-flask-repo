@@ -744,7 +744,8 @@ def bootstrap():
             db.session.add(article)
             try:
                 db.session.commit()
-            except exc.SQLAlchemyError:
+            except exc.SQLAlchemyError as e:
+               print(e)
                flash('Article url already exists, failed to post new article')
                posted = 0
                #return render_template('/error.html', article_url=article.url)
