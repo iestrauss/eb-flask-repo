@@ -282,8 +282,10 @@ function gcallAttentionToX(jNode) {
     button.style.color = "rgba(255,255,255,0.101)";
     button.style.display = "block";
     button.style.height = 35;
+    var url = $(search_result).find('a:first').attr('href');
+    var title = $(search_result).find('a:first h3').text();
+    var image = '/static/placeholder.png'
     try {
-        var url = $(search_result).find('a:first').attr('href');
         chrome.runtime.sendMessage({ "type": "domainCheck", "url": url }, function (response) {
             if (response['present']) {
                 var article_total = response['article_total'];
@@ -329,9 +331,9 @@ function gcallAttentionToX(jNode) {
         console.log("Error occurred when adding button.", error)
     }
 
-    // button.addEventListener("click", function () {
-    //     chrome.runtime.sendMessage({ "type": "articleData", "title": title, "image_url": image, "url": url, "snippet": "test" });
-    // });
+    button.addEventListener("click", function () {
+        chrome.runtime.sendMessage({ "type": "articleData", "title": title, "image_url": image, "url": url, "snippet": "test", "source": "google" });
+    });
 }
 
 waitForKeyElements(".g .rc", gcallAttentionToX);
