@@ -247,7 +247,8 @@ function callAttentionToX(jNode) {
             else {
                 button.style.border = "3px solid white";
                 button.style.fontSize = "17px";
-                if(jNode.attr('aria-label') && jNode.attr('aria-label').match("^Comment by")) {
+                var comment_article = jNode.attr('aria-label');
+                if(comment_article && (comment_article.match("^Comment by") || comment_article.match("^Reply by"))) {
                     button.style.height = '22px';
                     jNode.append(button);
                 } else {
