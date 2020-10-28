@@ -247,7 +247,12 @@ function callAttentionToX(jNode) {
             else {
                 button.style.border = "3px solid white";
                 button.style.fontSize = "17px";
-                more.before(button);
+                if(jNode.attr('aria-label') && jNode.attr('aria-label').match("^Comment by")) {
+                    button.style.height = '22px';
+                    jNode.append(button);
+                } else {
+                    more.before(button);
+                }
             //             if it appears in a article box in new facebook
             }
 
