@@ -729,7 +729,7 @@ def bootstrap():
                 # // link 3 is the domain link
                 print("here comes link3")
                 print(link3)
-                link3 = url_parse.unquote(link3).split("&fbclid")[0]
+                link3 = url_parse.unquote(link3).split("?")[0]
 
             import tldextract  # The module looks up TLDs in the Public Suffix List, mantained by Mozilla volunteers
             extract = tldextract.extract(link3)
