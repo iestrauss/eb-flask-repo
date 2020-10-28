@@ -399,7 +399,8 @@ def buttoncolor():
                 # // link 3 is the domain link
                 print("here comes link3")
                 print(link3)
-
+            elif 'source' in request.form and request.form['source'] == 'google':
+                link3 = request.form['url']
             else:
                 rurl = request.form['url']
                 print("here comes rurl")

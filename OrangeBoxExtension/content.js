@@ -326,7 +326,64 @@ function gcallAttentionToX(jNode) {
 
         button.style.border = "3px solid white";
         button.style.fontSize = "17px";
-        jNode.parent().after(button);
+        jNode.append(button);
+    } catch(error) {
+        console.log("Error occurred when adding button.", error)
+    }
+
+    button.addEventListener("click", function () {
+        chrome.runtime.sendMessage({ "type": "articleData", "title": title, "image_url": image, "url": url, "snippet": "test", "source": "google" });
+    });
+}
+function gnewscallAttentionToX(jNode) {
+    var news_card = jNode.closest("g-card");
+    var button = document.createElement("a");
+    button.style.fontWeight = "600";
+    button.style.padding = "10px";
+    button.style.margins = "10px";
+    button.style.color = "rgba(255,255,255,0.101)";
+    button.style.display = "block";
+    button.style.height = 35;
+    var url = $(news_card).find('a').attr('href');
+    var title = $(news_card).find('a [role="heading"]').text();
+    var image = '/static/placeholder.png'
+    try {
+        chrome.runtime.sendMessage({ "type": "articleUrl", "url": url, "source": "google" }, function (response) {
+            var article_total = response[2];
+            var article_rating = response[3];
+            var rating = response[1];
+            var total = response[0];
+            if (total > 1){
+                if (rating >= 70){
+                 button.style.backgroundColor = "#39ac73";
+                 button.innerHTML = "PScore: " + getStars(rating, total) + "<div>AScore: " + getStars(article_rating, article_total) + "</div>";
+                 button.style.color = "white";
+                 button.style.width = "170px";
+                 }
+                if (rating < 70 && rating > 30){
+                button.style.backgroundColor = "gold";
+                button.innerHTML = "PScore: " + getStars(rating, total) + "<div>AScore: " + getStars(article_rating, article_total) + "</div>";
+                button.style.color = "black";
+                button.style.width = "170px";
+                }
+                if (rating <= 30){
+                button.style.backgroundColor = "red";
+                button.innerHTML = "PScore: " + getStars(rating, total) + "<div>AScore: " + getStars(article_rating, article_total) + "</div>";
+                button.style.color = "white";
+                button.style.width = "170px";
+                }
+            }
+            else {button.style.backgroundColor = "#3366ff";
+                  button.innerHTML = "🔍 Investigate Me!";
+                  button.style.color = "white";
+                  button.style.width = "170px";
+            }
+        });
+
+        button.style.border = "3px solid white";
+        button.style.fontSize = "17px";
+        console.log(title);
+        jNode.append(button);
     } catch(error) {
         console.log("Error occurred when adding button.", error)
     }
@@ -336,5 +393,6 @@ function gcallAttentionToX(jNode) {
     });
 }
 
+waitForKeyElements("g-card", gnewscallAttentionToX);
 waitForKeyElements(".g .rc", gcallAttentionToX);
 waitForKeyElements("[role='article']", callAttentionToX);
