@@ -1,4 +1,4 @@
-from flask import Flask, request, flash, url_for, redirect, render_template
+from flask import Flask, request, flash, url_for, redirect, render_template, send_from_directory
 from flask import session as flask_session
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import exc, func, desc
@@ -13,7 +13,7 @@ from flask_dance.consumer import oauth_before_login
 # ########## ####### ###################################################################################
 from flask import Flask, jsonify, request, render_template
 
-application = Flask(__name__)
+application = Flask(__name__, static_url_path='')
 application.config['SQLALCHEMY_ECHO'] = True
 application.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://admin:iski8iski8A@database-2.cv15axugkvps.us-east-2.rds.amazonaws.com/bear'
 application.config['SECRET_KEY'] = "random string"
@@ -623,6 +623,33 @@ def change_user():
             print("user_id did not change still : " + str(user_id))
     return render_template('/enterdata.html')
 
+
+@application.route('/tutorial', methods=['GET'])
+def tutorial():
+    pass_status = request.args.get("status", None)
+    if pass_status is not None and pass_status == 'wefwe21312312dqw':
+        maybe_existing_user = None
+        f_resp = facebook.get("/me?fields=id,name,picture.type(large)")
+        t_resp = twitter.get("account/verify_credentials.json")
+        g_resp = google.get("/oauth2/v1/userinfo")
+        if f_resp.ok:
+            fb_resp = f_resp.json()
+            maybe_existing_user = User.query.filter_by(fb_id=fb_resp['id']).first()
+        elif t_resp.ok:
+            fb_resp = t_resp.json()
+            maybe_existing_user = User.query.filter_by(fb_id=fb_resp['id']).first()
+        elif g_resp.ok:
+            fb_resp = g_resp.json()
+            maybe_existing_user = User.query.filter_by(fb_id=fb_resp['id']).first()
+
+        if maybe_existing_user is not None:
+            try:
+                maybe_existing_user.is_rated = True
+                db.session.commit()
+            except exc.SQLAlchemyError as e:
+                pass
+        return ('', 204)
+    return send_from_directory('tutorial/', 'story.html')
 
 ##############################################
 @application.route('/enterdata/', methods=['GET', 'POST'])
