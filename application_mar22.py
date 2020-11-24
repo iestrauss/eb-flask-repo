@@ -69,6 +69,8 @@ class User(db.Model):
     name = db.Column(db.String(100))
     auth_provider = db.Column(db.String(100))
     permission_id = db.Column(db.Integer, db.ForeignKey('permission.id'))
+    is_rated = db.Column(db.Boolean(), default=False)
+
     # missing field 'created_at'
     user_list = []
 
@@ -874,6 +876,12 @@ def votefor(article_id):
                 fb_user_id = fb_resp['id']
             except exc.SQLAlchemyError as e:
                 pass
+    is_rated_user = False
+    if fb_user_id:
+        try:
+            is_rated_user = User.query.filter_by(fb_id=fb_user_id).first().is_rated
+        except Exception as e:
+            pass
     article_list_of_one = Article.query.filter_by(id=article_id)
     article = article_list_of_one[0]
     print("here's the id from votefor local hopefully article.id version", article.id)
@@ -884,7 +892,7 @@ def votefor(article_id):
 
     return render_template('/votefor.html', article_id=article.id,
                            article_title=article.title, image_url=article.image_url, article_url=article.url,
-                           vote_choices=vote_choices, fb_user_id=fb_user_id
+                           vote_choices=vote_choices, fb_user_id=fb_user_id, is_rated_user=is_rated_user
                            )
 
 

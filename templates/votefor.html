@@ -63,6 +63,10 @@ word-break: break-all;
       document.getElementById("myDialog").showModal();
     } else {
       addHiddenInput(fb_user_id);
+      var is_rated_user = "{{is_rated_user}}";
+      if(is_rated_user == "False") {
+        document.getElementById("ratedUserDialog").showModal();
+      }
     }
   });
 
@@ -73,7 +77,15 @@ word-break: break-all;
 
 
 </script>
-
+<dialog id="ratedUserDialog" style="height:50%; width:80%;background: transparent;border: none;">
+  <div class="login-box">
+    <p>Before you rate, would you like to take our fact-checking tutorial? You'll learn to see the truth through the eyes of a seasoned professional. Plus, you'll become a more highly rated user, and your ratings will count for more</p>
+    <a href="/">
+      <span class="guide">Yes</span>
+    </a>
+    <a href="#" onclick="document.getElementById('ratedUserDialog').close();"><span class="home">No</span></a>
+  </div>
+</dialog>
 
 <dialog id="myDialog" style="height:50%; width:80%;background: transparent;border: none;">
   <div class="login-box">

@@ -625,3 +625,10 @@ input[type=submit] {
 dialog::backdrop {
   background: rgba(0, 0, 0, 0.8);
 }
+
+#ratedUserDialog .guide, #ratedUserDialog .home {
+  float: none;
+}
+#ratedUserDialog a {
+  outline : none;
+}
