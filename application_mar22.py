@@ -251,96 +251,89 @@ def retrieve_pub_vote_summary(publication):
     import sqlalchemy as sa
 
     # for 1 votes
-    q = (db.session.query(Article.snippet, sa.func.count(ArticleVote.id))
+    qs = (db.session.query(Article.snippet, ArticleVote.id, User.is_rated)
          .join(ArticleVote, Article.id == ArticleVote.article_id)
+         .join(User, User.fb_id == ArticleVote.user_id)
          .filter(Article.snippet == publication)
-         .filter(ArticleVote.vote_choice_id == 1)
-         .group_by(Article.snippet))
-    for snippet, count in q:
-        print(snippet, count)
-        onevotes = count
-        print("onevotes", onevotes)
-    if 'onevotes' in locals():
-        print("onevotes in locals")
-    else:
-        onevotes = 0
+         .filter(ArticleVote.vote_choice_id == 1))
+
+    onevotes = 0
+    for result in qs.all():
+        if result[2]:
+            onevotes += 5
+        else:
+            onevotes += 1
 
     # for 2 votes
-    q = (db.session.query(Article.snippet, sa.func.count(ArticleVote.id))
+    qs = (db.session.query(Article.snippet, ArticleVote.id, User.is_rated)
          .join(ArticleVote, Article.id == ArticleVote.article_id)
+         .join(User, User.fb_id == ArticleVote.user_id)
          .filter(Article.snippet == publication)
-         .filter(ArticleVote.vote_choice_id == 2)
-         .group_by(Article.snippet))
-    for snippet, count in q:
-        print(snippet, count)
-        twovotes = count
-        print("twovotes", twovotes)
-    if 'twovotes' in locals():
-        print("twoevotes in locals")
-    else:
-        print("twovotes not in locals")
-        twovotes = 0
+         .filter(ArticleVote.vote_choice_id == 2))
+
+    twovotes = 0
+    for result in qs.all():
+        if result[2]:
+            twovotes += 5
+        else:
+            twovotes += 1
 
     # for 3 votes
-    q = (db.session.query(Article.snippet, sa.func.count(ArticleVote.id))
+    qs = (db.session.query(Article.snippet, ArticleVote.id, User.is_rated)
          .join(ArticleVote, Article.id == ArticleVote.article_id)
+         .join(User, User.fb_id == ArticleVote.user_id)
          .filter(Article.snippet == publication)
-         .filter(ArticleVote.vote_choice_id == 3)
-         .group_by(Article.snippet))
-    for snippet, count in q:
-        print(snippet, count)
-        threevotes = count
-        print("threevotes", threevotes)
-    if 'threevotes' in locals():
-        print("threevotes in locals")
-    else:
-        print("threevote not in locals")
-        threevotes = 0
+         .filter(ArticleVote.vote_choice_id == 3))
+
+    threevotes = 0
+    for result in qs.all():
+        if result[2]:
+            threevotes += 5
+        else:
+            threevotes += 1
 
     # for 4 votes
-    q = (db.session.query(Article.snippet, sa.func.count(ArticleVote.id))
+    qs = (db.session.query(Article.snippet, ArticleVote.id, User.is_rated)
          .join(ArticleVote, Article.id == ArticleVote.article_id)
+         .join(User, User.fb_id == ArticleVote.user_id)
          .filter(Article.snippet == publication)
-         .filter(ArticleVote.vote_choice_id == 4)
-         .group_by(Article.snippet))
-    for snippet, count in q:
-        print(snippet, count)
-        fourvotes = count
-        print("fourvotes", fourvotes)
-    if 'fourvotes' in locals():
-        print("fourvotes in locals")
-    else:
-        fourvotes = 0
+         .filter(ArticleVote.vote_choice_id == 4))
+
+    fourvotes = 0
+    for result in qs.all():
+        if result[2]:
+            fourvotes += 5
+        else:
+            fourvotes += 1
 
     # for 5 votes
-    q = (db.session.query(Article.snippet, sa.func.count(ArticleVote.id))
+    qs = (db.session.query(Article.snippet, ArticleVote.id, User.is_rated)
          .join(ArticleVote, Article.id == ArticleVote.article_id)
+         .join(User, User.fb_id == ArticleVote.user_id)
          .filter(Article.snippet == publication)
-         .filter(ArticleVote.vote_choice_id == 5)
-         .group_by(Article.snippet))
-    for snippet, count in q:
-        print(snippet, count)
-        fivevotes = count
-        print("fivevotes", fivevotes)
-    if 'fivevotes' in locals():
-        print("fivevotes in locals")
-    else:
-        fivevotes = 0
+         .filter(ArticleVote.vote_choice_id == 5))
+
+    fivevotes = 0
+    for result in qs.all():
+        if result[2]:
+            fivevotes += 5
+        else:
+            fivevotes += 1
 
     # for 6 votes
-    q = (db.session.query(Article.snippet, sa.func.count(ArticleVote.id))
+    qs = (db.session.query(Article.snippet, ArticleVote.id, User.is_rated)
          .join(ArticleVote, Article.id == ArticleVote.article_id)
+         .join(User, User.fb_id == ArticleVote.user_id)
          .filter(Article.snippet == publication)
-         .filter(ArticleVote.vote_choice_id == 6)
-         .group_by(Article.snippet))
-    for snippet, count in q:
-        print(snippet, count)
-        sixvotes = count
-        print("sixvotes", sixvotes)
-    if 'sixvotes' in locals():
-        print("sixvotes in locals")
-    else:
-        sixvotes = 0
+         .filter(ArticleVote.vote_choice_id == 6))
+
+    sixvotes = 0
+    for result in qs.all():
+        if result[2]:
+            sixvotes += 5
+        else:
+            sixvotes += 1
+
     # getting rating
 
     total = onevotes + twovotes + threevotes + fourvotes + fivevotes
@@ -363,17 +356,20 @@ def retrieve_article_rating(article_url):
     article = Article.query.filter_by(url=article_url).first()
     if not article:
         return {'total': 0, 'score_percent': 0}
+    votes_qs = db.session.query(
+        ArticleVote.vote_choice_id,
+        User.is_rated
+    ).filter_by(article_id=article.id).join(User, User.fb_id == ArticleVote.user_id).all()
+    votes_dict = {i:0 for i in range(1,7)}
+    for vote in votes_qs:
+        if vote[1]:
+            votes_dict[vote[0]] += 5
+        else:
+            votes_dict[vote[0]] += 1
 
-    vote_counts = db.session.query(
-        ArticleVote.vote_choice_id, func.count(ArticleVote.vote_choice_id)
-    ).filter_by(article_id=article.id).group_by(ArticleVote.vote_choice_id).all()
-    votes_dict = dict((x, y) for x, y in vote_counts)
     total = sum(votes_dict.values())
     if total == 0:
         total = 1
-    for i in range(1, 7):
-        if i not in votes_dict:
-            votes_dict[i] = 0
     score = (votes_dict[1] + .5 * (votes_dict[2])) / total
 
     score_percent = round(score * 100)
@@ -1029,7 +1025,11 @@ def retrieve_article_vote_summary(article_id):
         print("before text")
         text = avs_obj.getVoteText(item[0].vote_choice_id)
         print("before avs_obj.addVote(text)")
-        avs_obj.addVote(text)
+        if item[1].is_rated:
+            for _ in range(5):
+                avs_obj.addVote(text)
+        else:
+            avs_obj.addVote(text)
         print("article text: ", text)
         # avs_obj.appendComment(item.comment) # 09/27 - added to show comments in results page
         avs_obj.appendDetail((item[0].id, item[1].name, text, item[0].comment))  # 09/27 - added to show comments in results page
