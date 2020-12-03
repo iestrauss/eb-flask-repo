@@ -73,18 +73,24 @@ form.search button:hover {
 	    </select>
 	</form>
 	<br><br>
+	<br><br>
 
 	{% for dict_item in home_data %}
 	<!--{{ loop.index + pagination.skip }}-->
 	<!--<a href="results/{{ dict_item['id'] }}">-->
 		<div class="photo">
-			<img src="{{ dict_item['image_url'] }}" width="100%">
+			{% if dict_item['image_url'] == '/placeholder.png' %}
+				<img src="{{ dict_item['image_url'] }}" width="25%">
+			{% else %}
+				<img src="{{ dict_item['image_url'] }}" width="100%">
+			{% endif %}
 		</div>
 		<div class="hometitlesstyle">{{ dict_item['title'] }}</div>
 		<div class="voteorresult"><a href="votefor/{{ dict_item['id'] }}">Vote</a></div>
 		<div class="voteorresult"><a href="results/{{ dict_item['id'] }}">Results</a></div>
 
 	{% endfor %}
+	<br>
 
 	{{ pagination.links }}
 	</div>

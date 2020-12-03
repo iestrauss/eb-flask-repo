@@ -92,7 +92,11 @@ li.reply {
 
 	</div>
 	<div class="mediumtext">
-		<img src="{{ image_url }}" alt="Picture" width="100%">
+		{% if image_url == '/placeholder.png' %}
+			<img src="{{ image_url }}" alt="Picture" width="25%">
+		{% else %}
+			<img src="{{ image_url }}" alt="Picture" width="100%">
+		{% endif %}
 	</div>
 </a>
 

@@ -290,7 +290,7 @@ function gcallAttentionToX(jNode) {
     button.style.height = 35;
     var url = $(search_result).find('a:first').attr('href');
     var title = $(search_result).find('a:first h3').text();
-    var image = '/static/placeholder.png'
+    var image = '/placeholder.png'
     try {
         chrome.runtime.sendMessage({ "type": "domainCheck", "url": url }, function (response) {
             if (response['present']) {
@@ -352,7 +352,7 @@ function gnewscallAttentionToX(jNode) {
     button.style.height = 35;
     var url = $(news_card).find('a').attr('href');
     var title = $(news_card).find('a [role="heading"]').text();
-    var image = '/static/placeholder.png'
+    var image = '/placeholder.png'
     try {
         chrome.runtime.sendMessage({ "type": "articleUrl", "url": url, "source": "google" }, function (response) {
             var article_total = response[2];
