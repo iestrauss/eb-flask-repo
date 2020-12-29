@@ -227,7 +227,7 @@ function callAttentionToX(jNode) {
                         }
                     }
                     else {button.style.backgroundColor = "#3366ff";
-                          button.innerHTML = "🔍 Investigate Me!";
+                          button.innerHTML = "Factcheck Me!";
                           button.style.color = "white";
 
                     }
