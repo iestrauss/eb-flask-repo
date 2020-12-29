@@ -2,19 +2,19 @@ let url = "https://news-detective.herokuapp.com";
 //let url = "https://0.0.0.0:5000";
 
 // when installed, opens factcheckclass
-chrome.runtime.onInstalled.addListener(function() {
-      console.log("The color is green.");
-      window.open(`${url}/factcheckclass`, "MsgWindow", "width=800,height=800");
-      console.log("background 1");
-      // receives test info?
-    fetch(`${url}/factcheckclass`)
-//    console.log("background 2. responce:")
-//    console.log(response)
-    .then(function (response) {
-        return response.text();
-    })
-
-});
+//chrome.runtime.onInstalled.addListener(function() {
+//      console.log("The color is green.");
+//      window.open(`${url}/factcheckclass`, "MsgWindow", "width=800,height=800");
+//      console.log("background 1");
+//      // receives test info?
+//    fetch(`${url}/factcheckclass`)
+////    console.log("background 2. responce:")
+////    console.log(response)
+//    .then(function (response) {
+//        return response.text();
+//    })
+//
+//});
 
 
 
