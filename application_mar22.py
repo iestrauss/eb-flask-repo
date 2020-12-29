@@ -661,8 +661,8 @@ def commenttest():
     return render_template('/commenttest.html')
 
 ##############################################
-@application.route('/privacy/')
-def privacy():
+@application.route('/privacypolicy/')
+def privacypolicy():
     return render_template('privacypolicy.html')
 
 ##############################################

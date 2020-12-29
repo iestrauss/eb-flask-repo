@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e3ab8582-8d80-433b-b539-9aadc2f396ed" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/OrangeBoxExtension/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/OrangeBoxExtension/manifest.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/about.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/about.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/application_mar22.py" beforeDir="false" afterPath="$PROJECT_DIR$/application_mar22.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/privacypolicy.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/privacypolicy.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/results.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/results.html" afterDir="false" />
     </list>
@@ -36,8 +35,11 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/templates/privacypolicy.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="18" column="94" lean-forward="true" selection-start-line="18" selection-start-column="94" selection-end-line="18" selection-end-column="94" />
+            <state relative-caret-position="330">
+              <caret line="136" lean-forward="true" selection-start-line="136" selection-end-line="136" />
+              <folding>
+                <element signature="e#218#236#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -54,8 +56,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/results.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="321">
-              <caret line="87" selection-start-line="87" selection-end-line="91" selection-end-column="12" />
+            <state relative-caret-position="4611">
+              <caret line="376" lean-forward="true" selection-start-line="376" selection-end-line="376" />
               <folding>
                 <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#1;n#div#2;n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -67,8 +69,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/application_mar22.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="201">
-              <caret line="716" column="40" lean-forward="true" selection-start-line="716" selection-start-column="40" selection-end-line="716" selection-end-column="40" />
+            <state relative-caret-position="111">
+              <caret line="659" column="24" lean-forward="true" selection-start-line="659" selection-start-column="24" selection-end-line="659" selection-end-column="24" />
             </state>
           </provider>
         </entry>
@@ -126,7 +128,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>publication</find>
       <find>a.obj</find>
       <find>vote_summary</find>
       <find>vote_choices</find>
@@ -156,6 +157,7 @@
       <find>true</find>
       <find>object</find>
       <find>invest</find>
+      <find>privacy</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -197,12 +199,12 @@
         <option value="$PROJECT_DIR$/static/styles/stylesheet.css" />
         <option value="$PROJECT_DIR$/OrangeBoxExtension/content.js" />
         <option value="$PROJECT_DIR$/OrangeBoxExtension/background.js" />
-        <option value="$PROJECT_DIR$/application_mar22.py" />
         <option value="$PROJECT_DIR$/templates/votefor.html" />
         <option value="$PROJECT_DIR$/templates/home.html" />
         <option value="$PROJECT_DIR$/templates/chat.html" />
         <option value="$PROJECT_DIR$/templates/about.html" />
         <option value="$PROJECT_DIR$/OrangeBoxExtension/manifest.json" />
+        <option value="$PROJECT_DIR$/application_mar22.py" />
         <option value="$PROJECT_DIR$/templates/results.html" />
         <option value="$PROJECT_DIR$/templates/privacypolicy.html" />
       </list>
@@ -528,13 +530,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/application_mar22.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="201">
-          <caret line="716" column="40" lean-forward="true" selection-start-line="716" selection-start-column="40" selection-end-line="716" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/templates/votefor.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="343">
@@ -590,10 +585,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/application_mar22.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="111">
+          <caret line="659" column="24" lean-forward="true" selection-start-line="659" selection-start-column="24" selection-end-line="659" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/templates/results.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="321">
-          <caret line="87" selection-start-line="87" selection-end-line="91" selection-end-column="12" />
+        <state relative-caret-position="4611">
+          <caret line="376" lean-forward="true" selection-start-line="376" selection-end-line="376" />
           <folding>
             <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#1;n#div#2;n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -603,8 +605,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/privacypolicy.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="18" column="94" lean-forward="true" selection-start-line="18" selection-start-column="94" selection-end-line="18" selection-end-column="94" />
+        <state relative-caret-position="330">
+          <caret line="136" lean-forward="true" selection-start-line="136" selection-end-line="136" />
+          <folding>
+            <element signature="e#218#236#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
