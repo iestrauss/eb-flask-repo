@@ -711,6 +711,10 @@ def take_test():
             print(message)
             return jsonify(message)
 
+##############################################
+@application.route('/about/')
+def about():
+    return render_template('about.html')
 
 ##############################################
 @application.route('/bootstrap', methods=['GET', 'POST'])
