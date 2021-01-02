@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e3ab8582-8d80-433b-b539-9aadc2f396ed" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/static/styles/stylesheet.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/styles/stylesheet.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/about.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/about.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/results.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/results.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/votefor.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/votefor.html" afterDir="false" />
-    </list>
+    <list default="true" id="e3ab8582-8d80-433b-b539-9aadc2f396ed" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -205,8 +200,8 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="228" />
-    <option name="y" value="58" />
+    <option name="x" value="147" />
+    <option name="y" value="70" />
     <option name="width" value="1293" />
     <option name="height" value="753" />
   </component>
@@ -289,7 +284,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="228" y="58" width="1293" height="753" extended-state="0" />
+    <frame x="164" y="70" width="1293" height="753" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25157234" />
