@@ -104,6 +104,7 @@ a   {
   border-radius: 4px;
         margin: 0px;
         padding: 5px;
+        a: #000000;
 }
 
 .resultbox {
@@ -134,14 +135,12 @@ a   {
 
 
 .largetext {
-  font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
+  font-family:"Garamond", "Courier New", monospace;
     color: black;
-  position: relative;
-  text-align: center;
-    text-decoration: none;
+    text-align: left;
     padding: 10px;
-      font-size: 25px;
-    margin: 10px;}
+    font-size: 60px;
+     margin: 10px;}
 
 
 .investigate {
@@ -371,15 +370,15 @@ input[type=submit] {
   }
 .guide {
   float: left;
-  border: 1px solid #79b887;
+  border: 0px solid #93b5d2;
   border-radius: 4px;
-  background-color: white;
+  background-color: #cedce8;
   font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
   font-size: 12px;
   font-weight:      normal;
   color: black;
-  margin: 10px;
-  padding: 8px 15px;
+  margin: 15px;
+  padding: 10px 16px;
   text-align: center;
   text-decoration: none;
   /*display: inline-block;*/
@@ -389,7 +388,7 @@ input[type=submit] {
 
 .feedback {
   float: left;
-  border: 1px solid #ce78eb;
+  border: 1px solid #377bb5;
   border-radius: 4px;
   background-color: white;
   font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
@@ -416,7 +415,7 @@ input[type=submit] {
   /*width: 150px;*/
   margin: 10px;
   background-color: white;
-  border: 1px solid Red;
+  border: 1px solid #377bb5;
   color: black;
   padding: 8px 15px;
   border-radius: 4px;
