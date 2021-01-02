@@ -245,6 +245,7 @@ def home():
     return render_template('home.html', home_data=home_data_for_render, pagination=pagination, query_param=q, sort_by=sort_by)
 
 
+
 ##############################################
 def retrieve_pub_vote_summary(publication):
     # new counting code

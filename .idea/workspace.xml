@@ -2,6 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e3ab8582-8d80-433b-b539-9aadc2f396ed" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/application_mar22.py" beforeDir="false" afterPath="$PROJECT_DIR$/application_mar22.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/placeholder.png" beforeDir="false" afterPath="$PROJECT_DIR$/static/placeholder.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/styles/stylesheet.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/styles/stylesheet.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/home.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -31,23 +34,13 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/results.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="10" column="6" selection-start-line="10" selection-end-line="11" />
-              <folding>
-                <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#div#2;n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/application_mar22.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-910">
-              <caret line="11" column="10" lean-forward="true" selection-start-line="11" selection-start-column="10" selection-end-line="11" selection-end-column="10" />
+            <state relative-caret-position="162">
+              <caret line="551" column="27" selection-start-line="551" selection-start-column="10" selection-end-line="551" selection-end-column="27" />
+              <folding>
+                <element signature="e#0#96#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -58,12 +51,13 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/chat.html">
+        <entry file="file://$PROJECT_DIR$/templates/results.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="795">
-              <caret line="53" column="34" selection-start-line="53" selection-start-column="34" selection-end-line="53" selection-end-column="34" />
+            <state relative-caret-position="180">
+              <caret line="145" column="45" selection-start-line="145" selection-start-column="33" selection-end-line="145" selection-end-column="45" />
               <folding>
-                <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#1;n#div#2;n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -84,7 +78,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/votefor.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1545">
+            <state relative-caret-position="540">
               <caret line="103" column="12" selection-start-line="103" selection-start-column="12" selection-end-line="103" selection-end-column="12" />
               <folding>
                 <element signature="n#style#0;n#span#0;n#div#0;n#div#0;n#form#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -97,21 +91,26 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/templates/home.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="346">
-              <caret line="97" column="79" selection-start-line="97" selection-start-column="79" selection-end-line="97" selection-end-column="79" />
+            <state relative-caret-position="271">
+              <caret line="102" selection-start-line="102" selection-start-column="4" selection-end-line="106" selection-end-column="28" />
               <folding>
                 <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/static/placeholder.png">
+          <provider selected="true" editor-type-id="images" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/static/styles/stylesheet.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="87">
-              <caret line="633" column="1" selection-start-line="633" selection-start-column="1" selection-end-line="633" selection-end-column="1" />
+            <state relative-caret-position="-6708">
+              <caret line="180" column="17" lean-forward="true" selection-start-line="180" selection-start-column="17" selection-end-line="180" selection-end-column="17" />
             </state>
           </provider>
         </entry>
@@ -120,14 +119,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>score</find>
-      <find>.5</find>
-      <find>modal</find>
-      <find>mydialog</find>
-      <find>retrieve</find>
-      <find>button</find>
-      <find>link3</find>
-      <find>factchek</find>
       <find>facthc</find>
       <find>fact</find>
       <find>step</find>
@@ -149,7 +140,15 @@
       <find>imag</find>
       <find>photo</find>
       <find>local</find>
+      <find>voteor</find>
+      <find>title</find>
       <find>flask_dance.contrib.facebook</find>
+      <find>articl</find>
+      <find>blue</find>
+      <find>vote_choices</find>
+      <find>results</find>
+      <find>home</find>
+      <find>publication score</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -188,22 +187,22 @@
         <option value="$PROJECT_DIR$/templates/factcheckclass5.html" />
         <option value="$PROJECT_DIR$/application_sqlite.py" />
         <option value="$PROJECT_DIR$/simple_test.py" />
-        <option value="$PROJECT_DIR$/static/styles/stylesheet.css" />
         <option value="$PROJECT_DIR$/OrangeBoxExtension/content.js" />
         <option value="$PROJECT_DIR$/templates/votefor.html" />
         <option value="$PROJECT_DIR$/templates/chat.html" />
         <option value="$PROJECT_DIR$/templates/about.html" />
         <option value="$PROJECT_DIR$/OrangeBoxExtension/manifest.json" />
-        <option value="$PROJECT_DIR$/application_mar22.py" />
         <option value="$PROJECT_DIR$/templates/results.html" />
         <option value="$PROJECT_DIR$/templates/privacypolicy.html" />
         <option value="$PROJECT_DIR$/OrangeBoxExtension/background.js" />
+        <option value="$PROJECT_DIR$/static/styles/stylesheet.css" />
+        <option value="$PROJECT_DIR$/application_mar22.py" />
         <option value="$PROJECT_DIR$/templates/home.html" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="129" />
+    <option name="x" value="26" />
     <option name="y" value="23" />
     <option name="width" value="1293" />
     <option name="height" value="753" />
@@ -224,18 +223,7 @@
             <path>
               <item name="eb-flask" type="b2602c69:ProjectViewProjectNode" />
               <item name="eb-flask" type="462c0819:PsiDirectoryNode" />
-              <item name="OrangeBoxExtension" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="eb-flask" type="b2602c69:ProjectViewProjectNode" />
-              <item name="eb-flask" type="462c0819:PsiDirectoryNode" />
               <item name="static" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="eb-flask" type="b2602c69:ProjectViewProjectNode" />
-              <item name="eb-flask" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="html5" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="eb-flask" type="b2602c69:ProjectViewProjectNode" />
@@ -298,10 +286,10 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="129" y="23" width="1293" height="753" extended-state="0" />
+    <frame x="26" y="23" width="1293" height="753" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25157234" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25157234" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -313,7 +301,7 @@
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Terminal" order="8" />
-      <window_info active="true" anchor="bottom" id="Event Log" order="9" side_tool="true" visible="true" weight="0.045385778" />
+      <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" visible="true" weight="0.045385778" />
       <window_info anchor="bottom" id="Python Console" order="10" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -321,7 +309,6 @@
     </layout>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/actual-python-backup.py" />
     <entry file="file://$PROJECT_DIR$/virt/lib/python3.7/site-packages/flask/app.py" />
     <entry file="file://$PROJECT_DIR$/.ebextensions/00_apache_ssl.config.medium">
       <provider selected="true" editor-type-id="text-editor">
@@ -524,17 +511,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/results.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" column="6" selection-start-line="10" selection-end-line="11" />
-          <folding>
-            <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#2;n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/templates/chat.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="795">
@@ -551,17 +527,6 @@
           <caret selection-end-line="41" selection-end-column="12" />
           <folding>
             <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/votefor.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1545">
-          <caret line="103" column="12" selection-start-line="103" selection-start-column="12" selection-end-line="103" selection-end-column="12" />
-          <folding>
-            <element signature="n#style#0;n#span#0;n#div#0;n#div#0;n#form#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#input#0;n#div#0;n#form#0;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -583,27 +548,55 @@
     <entry file="file://$PROJECT_DIR$/OrangeBoxExtension/styles.css">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
+    <entry file="file://$PROJECT_DIR$/static/placeholder.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/static/styles/stylesheet.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="87">
-          <caret line="633" column="1" selection-start-line="633" selection-start-column="1" selection-end-line="633" selection-end-column="1" />
+        <state relative-caret-position="-6708">
+          <caret line="180" column="17" lean-forward="true" selection-start-line="180" selection-start-column="17" selection-end-line="180" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/votefor.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="540">
+          <caret line="103" column="12" selection-start-line="103" selection-start-column="12" selection-end-line="103" selection-end-column="12" />
+          <folding>
+            <element signature="n#style#0;n#span#0;n#div#0;n#div#0;n#form#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#0;n#div#0;n#form#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/results.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="145" column="45" selection-start-line="145" selection-start-column="33" selection-end-line="145" selection-end-column="45" />
+          <folding>
+            <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#2;n#div#1;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/application_mar22.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-910">
-          <caret line="11" column="10" lean-forward="true" selection-start-line="11" selection-start-column="10" selection-end-line="11" selection-end-column="10" />
+        <state relative-caret-position="162">
+          <caret line="551" column="27" selection-start-line="551" selection-start-column="10" selection-end-line="551" selection-end-column="27" />
+          <folding>
+            <element signature="e#0#96#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/home.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="346">
-          <caret line="97" column="79" selection-start-line="97" selection-start-column="79" selection-end-line="97" selection-end-column="79" />
+        <state relative-caret-position="271">
+          <caret line="102" selection-start-line="102" selection-start-column="4" selection-end-line="106" selection-end-column="28" />
           <folding>
             <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>

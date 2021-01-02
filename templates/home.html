@@ -81,28 +81,36 @@ form.search button:hover {
 	</form>
 	<br><br>
 	<br><br>
-
 	{% for dict_item in home_data %}
-	<br>
+	<div class="dict_item_div">
+	<p>
 	<!--{{ loop.index + pagination.skip }}-->
 	<!--<a href="results/{{ dict_item['id'] }}">-->
-		<div class="photo" style="width:15%;float:left;background-color: white;padding: 10px;">
-			{% if dict_item['image_url'] == '/placeholder.png' %}
-				<img src="{{ dict_item['image_url'] }}" width="100%">
-			{% else %}
-				<img src="{{ dict_item['image_url'] }}" width="100%">
-			{% endif %}
+		<div class="photo" style="float:left; background-color: white;padding: 10px;">
+<!--			{% if dict_item['image_url'] == '/placeholder.png' %}</div>-->
+<!--				<img src="{{ dict_item['image_url'] }}" width="130px">-->
+<!--			{% else %}-->
+<!--				<img src="{{ dict_item['image_url'] }}" width="130px">-->
+<!--			{% endif %}-->
+
+		<img src="{{ dict_item['image_url'] }}" width="130px">
+
 		</div>
-		<div class="hometitlesstyle">{{ dict_item['title'] }}</div>
-	<br>
+		<div class="hometitlesstyle";>{{ dict_item['title'] }}</div>
 		<div class="voteorresult"><a href="votefor/{{ dict_item['id'] }}">Vote</a></div>
-		<div class="voteorresult"><a href="results/{{ dict_item['id'] }}">Results</a></div>
-
-	{% endfor %}
-	<br>
-
-	{{ pagination.links }}
+		<div class="voteorresult">
+			<a href="results/{{ dict_item['id'] }}">Results</a>
+<!--			Publication score: {{ score_percent }}%-->
+<!--			Votes:-->
+<!--			{% for choice in vote_choices %}-->
+<!--			{{ choice[4] }}-->
+<!--			{% endfor %}-->
+		</div>
+	</p>
 	</div>
+	<br>
+	{% endfor %}
+	{{ pagination.links }}
 </div>
 </body>
 </html>
