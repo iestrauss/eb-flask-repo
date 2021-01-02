@@ -85,11 +85,11 @@ form.search button:hover {
 	{% for dict_item in home_data %}
 	<!--{{ loop.index + pagination.skip }}-->
 	<!--<a href="results/{{ dict_item['id'] }}">-->
-		<div class="photo">
+		<div class="photo" style="float:left">
 			{% if dict_item['image_url'] == '/placeholder.png' %}
 				<img src="{{ dict_item['image_url'] }}" width="25%">
 			{% else %}
-				<img src="{{ dict_item['image_url'] }}" width="100%">
+				<img src="{{ dict_item['image_url'] }}" width="20%">
 			{% endif %}
 		</div>
 		<div class="hometitlesstyle">{{ dict_item['title'] }}</div>

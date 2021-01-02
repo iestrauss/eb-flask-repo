@@ -48,7 +48,8 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
             integer = data;
             var myInput = integer
             var websitelink = `${url}/results/` + myInput;
-            window.open(websitelink, "MsgWindow", "width=400,height=500");
+//            window.open(websitelink, 'MsgWindow', location=yes, "width=400,height=800");
+            window.open(websitelink, "MsgWindow", "location=yes,width=600,height=800");
             console.log("background seven");
             }
          })
