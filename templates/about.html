@@ -1,0 +1,198 @@
+<html>
+<head>
+
+
+<title>About</title>
+<!--<link href="https://istrauss6.neocities.org/style.css" rel="stylesheet" type="text/css">-->
+<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/stylesheet.css') }}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<!--<link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/bootstrap-social.css') }}">-->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<style>
+.fbpic {
+  float:left;
+  page-break-before: always;
+}
+
+.padding {
+  padding: 20px;
+}
+
+.votecomment {
+
+  	background-color: #F5F5F5;
+  	padding: 13px;
+  	border: 1px;
+  	border-style: solid;
+  	border-color: #d9d9d9;
+  	border-radius:5px;
+  	margin-left: 50px;
+  	page-break-after: always;
+  	line-height: 150%;
+}
+
+p {
+  font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
+    color: black;
+      line-height: 1.5;
+}
+
+.namecolor{
+	color: DarkRed;
+
+}
+
+.notification-btn{
+margin-top: 12px;
+position: relative;
+padding: 14px 12px;
+    border: none;
+}
+
+.notification-btn p{
+    font-size: 8px;
+    background-color: red;
+    color: white;
+    padding: 3px;
+    border-radius: 5px;
+    position: absolute;
+    top: 0px;
+    left: 19px;
+}
+
+
+.fa-stack[data-count]:after{
+  position:absolute;
+  right:0%;
+  top:1%;
+  content: attr(data-count);
+  font-size:30%;
+  padding:.6em;
+  border-radius:999px;
+  line-height:.75em;
+  color: white;
+  background:rgba(255,0,0,.85);
+  text-align:center;
+  min-width:2em;
+  font-weight:bold;
+}
+
+
+
+
+</style>
+</head>
+<body style="padding:20;">
+<div class="row navbar">
+		<div class="col-md-9">
+		<a href="/"><div class="guide">News Detective</div></a>
+		<a href="/about"><div class="guide">About/FAQ</div></a>
+		<a href="/chat"><div class="guide">Community</div></a>
+	</div>
+	<div class="dropdown-main col-md-3 col-xs-3" style="text-align:right">
+		<div class="dropdown">
+		  <button class="btn btn-default dropdown-toggle notification-btn" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+              <i class="fa fa-bell fa-1x"></i>
+              {%if result=='false'%}
+                <p>New</p>
+                {%else%}
+               <!-- <i class="fa fa-bell fa-1x"></i> -->
+              {%endif%}
+
+
+			<span class="caret"></span>
+		  </button>
+		  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+			  {% with messages = get_flashed_messages() %}
+				{% if messages %}
+			  {% for message in messages %}
+			{%if message[-5:]=='false'%}
+			<li style="border-bottom: 1px solid lightgray; background-color: #cedce8;"><a href="#">{{ message[0:-5]  }}</a></li>
+				{%else%}
+			  <li style="border-bottom: 1px solid lightgray;"><a href="#">{{ message[0:-5]  }}</a></li>
+			  {%endif%}
+
+			  {% endfor %}
+			  {% endif %}
+		{% endwith %}
+		  </ul>
+		</div>
+	</div>
+	</div>
+<div class="largetext">
+    <center>
+    What is this? <br>Who are you people?
+    </center> </div>
+    <p>
+    News detective is a community of people who want to stop the spread of misinformation. And also like to win at
+        arguments online. Either way, really. </p>
+    <iframe width="100%" height="315" src="https://www.youtube.com/embed/WnrVRNweZcg" frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+      <p>  If you have the News Detective Chrome extension, articles
+        on Facebook, Twitter, and Google will display truthfulness scores — a "Pscore" (for the publication score)
+        and an "Ascore" (for the article score). We, the community, factcheck and rate these articles, and that's
+        where the scores come from. </p>
+
+    <iframe width="100%" height="315" src="https://www.youtube.com/embed/A6L5398IDoA" frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    <h1Class>
+        <br><br>
+
+
+
+    <center>
+    How do I factcheck?
+    </center>
+    </h1Class>
+    <p>
+    Factchecking is objective, quick, and not hard to learn. We've got a handy video to show you. But the real way to
+        learn is to check the tutorial that comes up when you try to rate articles.
+<br><br>
+        <iframe width="100%" height="315" src="https://www.youtube.com/embed/Ptwl4yhGEvs" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+    </p>
+
+    <h1Class>
+    <center>
+    How does the rating system work?
+    </center>
+    </h1Class>
+
+<p><strong>True:</strong> You factchecked the main claim in the article and figured out it was true. Great.
+    Explain what research you did, and include links.
+    </p>
+<p><strong>Exaggerated:</strong> The main claim isn't a total lie, but it makes the situation seem way more
+    extreme than it actually is. Maybe the headline is really extreme, maybe the article uses true facts to draw
+        unrealistically wild conclusions.
+    </p>
+<p><strong>No Source:</strong> The article doesn't say where it got its information,
+        and you can't figure it out either. Not a good sign.
+</p>
+<p><strong>Bad Source:</strong> The article tells you how it got its information, but the source isn't trustworthy
+    — a random tweet maybe, or a small, really opinionated publication that a basic Google search
+    tells you is not to be trusted.</p>
+<p><strong>Otherwise False:</strong> Stuff can be false for other reasons. This is a catch-all for when something is false
+        for some other reason.</p>
+<p><strong>Not News:</strong> Opinion articles, short stories, poems, recipes ... These things aren't
+    meant to be factchecked in the first place.</p>
+
+    <h1Class>
+    <center>
+    How do I contact you?
+    </center>
+    </h1Class>
+  <center><p><strong>newsdetectiveapp@gmail.com</strong> </p></center>
+<br>
+    <p>
+        We're looking for more people who want to join as users, as well as programmers, fundraisers and other folks
+        that can help
+        take us to the next level.
+    </p>
+
+</body>
+</html>

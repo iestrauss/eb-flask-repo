@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<html>
+<head>
+<title>Home</title>
+<meta name="google-site-verification" content="lFr7VpDD9dge7AXIke1HRpBAIr4mV0OuqJ0noGaOm7U" />
+<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/stylesheet.css') }}">
+<!--<link href="https://istrauss6.neocities.org/style.css" rel="stylesheet" type="text/css">-->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<!--<link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/bootstrap-social.css') }}">-->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<style>
+
+body{
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+form.search input[type=text] {
+    padding: 10px;
+    margin: 0px 0px 0px 15px;
+    font-size: 13px;
+  	font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
+    border: 1px solid #cedce8;
+    border-radius: 5px 0px 0px 5px;
+    float: left;
+    width: 85%;
+    height: 35px;
+}
+
+form.search button {
+	float: left;
+	width: 10%;
+	padding: 5px;
+	background: #377bb5;
+	color: white;
+	font-size: 15px;
+	border: 0px solid #cedce8;
+	border-left: none;
+	cursor: pointer;
+	height: 35px;
+}
+
+form.search button:hover {
+  background: #377bb5;
+}
+
+
+
+.notification-btn{
+margin-top: 12px;
+position: relative;
+padding: 14px 12px;
+    border: none;
+}
+
+.notification-btn p{
+    font-size: 8px;
+    background-color: red;
+    color: white;
+    padding: 3px;
+    border-radius: 5px;
+    position: absolute;
+    top: 0px;
+    left: 19px;
+}
+
+
+
+
+.fa-stack[data-count]:after{
+  position:absolute;
+  right:0%;
+  top:1%;
+  content: attr(data-count);
+  font-size:30%;
+  padding:.6em;
+  border-radius:999px;
+  line-height:.75em;
+  color: white;
+  background:rgba(255,0,0,.85);
+  text-align:center;
+  min-width:2em;
+  font-weight:bold;
+}
+
+</style>
+
+</head>
+<body>
+<div class="homebody">
+
+	<!--navbar-->
+	<div class="row navbar">
+		<div class="col-md-9">
+		<a href="/"><div class="guide">News Detective</div></a>
+		<a href="/about"><div class="guide">About/FAQ</div></a>
+		<a href="/chat"><div class="guide">Community</div></a>
+	</div>
+	<div class="dropdown-main col-md-3 col-xs-3" style="text-align:right">
+		<div class="dropdown">
+		  <button class="btn btn-default dropdown-toggle notification-btn" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+			<i class="fa fa-bell fa-1x"></i>
+              {%if result=='false'%}
+                <p>New</p>
+                {%else%}
+               <!-- <i class="fa fa-bell fa-1x"></i> -->
+              {%endif%}
+			<span class="caret"></span>
+		  </button>
+		  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+			  {% with messages = get_flashed_messages() %}
+				{% if messages %}
+			  {% for message in messages %}
+			  {%if message[-5:]=='false'%}
+			<li style="border-bottom: 1px solid lightgray; background-color: #cedce8;"><a href="#">{{ message[0:-5]  }}</a></li>
+				{%else%}
+			  <li style="border-bottom: 1px solid lightgray;"><a href="#">{{ message[0:-5]  }}</a></li>
+			  {%endif%}
+			  {% endfor %}
+			  {% endif %}
+		{% endwith %}
+		  </ul>
+		</div>
+	</div>
+	</div>
+
+
+
+<!--		<a href="/factcheckclass"-->
+<!--		   target="popup"-->
+<!--		   onclick="window.open('/factcheckclass1','popup','width=900,height=900'); return false;">-->
+<!--				<div class="guide" style="margin: 0px;">Guide</div>-->
+<!--		</a>-->
+<!--		<a href="/chat"><div class="feedback" style="margin: 0px 20px;">Feedback</div></a>-->
+<!--		<br><br><Br>-->
+	<br>
+		<div class="largetext" style="font-family: "Georgia";><strong>
+			News Detective</strong>
+		</div>
+
+<input id="prodId" name="prodId" type="hidden" value="xm234jq">
+
+<form class="search" action="/" method="get">
+  <input type="text" placeholder="Search" name="q" value="{{ query_param if query_param else '' }}">
+  <button type="submit"><i class="glyphicon glyphicon-search"></i></button>
+</form>
+<br />
+<br />
+<div class="homebody">
+	{{ pagination.links }}
+	<form method="GET" style="float: left;margin: 20px;">
+	    <select name='sort_by' onchange='this.form.submit();'
+				style="float: left; width: 120px;height: 30px; border: 1px solid #377bb5; padding: 5px; font-family:"lucida
+				grande",tahoma,verdana,arial,sans-serif;">
+	         <option value='voted' {{'selected' if sort_by == 'voted'}}>Most Voted</option>
+	         <option value='recent' {{'selected' if sort_by == 'recent'}}>Most Recent</option>
+	    </select>
+	</form>
+	<br><br>
+	<br><br>
+	{% for dict_item in home_data %}
+	<div class="dict_item_div">
+	<p>
+	<!--{{ loop.index + pagination.skip }}-->
+	<!--<a href="results/{{ dict_item['id'] }}">-->
+		<div class="photo" style="float:left; background-color: white;padding: 10px;">
+<!--			{% if dict_item['image_url'] == '/placeholder.png' %}</div>-->
+<!--				<img src="{{ dict_item['image_url'] }}" width="130px">-->
+<!--			{% else %}-->
+<!--				<img src="{{ dict_item['image_url'] }}" width="130px">-->
+<!--			{% endif %}-->
+
+		<img src="{{ dict_item['image_url'] }}" width="130px">
+
+		</div>
+		<div class="hometitlesstyle";>{{ dict_item['title'] }}</div>
+		<div class="voteorresult"><a href="votefor/{{ dict_item['id'] }}">Rate</a></div>
+		<div class="voteorresult">
+			<a href="results/{{ dict_item['id'] }}">Results</a>
+<!--					<div class="hometitlesstyle";>{{ dict_item['sq_votes'] }}</div>-->
+<!--			Publication score: {{ score_percent }}%-->
+<!--			Votes:-->
+<!--			{% for choice in vote_choices %}-->
+<!--			{{ choice[4] }}-->
+<!--			{% endfor %}-->
+		</div>
+	</p>
+	</div>
+	<br>
+	{% endfor %}
+	{{ pagination.links }}
+</div>
+</body>
+</html>

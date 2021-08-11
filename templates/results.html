@@ -1,0 +1,475 @@
+
+
+
+
+<html>
+<head>
+
+
+<title>Results</title>
+<!--<link href="https://istrauss6.neocities.org/style.css" rel="stylesheet" type="text/css">-->
+<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/stylesheet.css') }}">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<!--<link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/bootstrap-social.css') }}">-->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<style>
+.fbpic {
+  float:left;
+  page-break-before: always;
+}
+ul.comments {
+	list-style:none;
+    text-align: left;
+    border-left: dotted 1px grey;
+}
+ul.level1 {
+	border:none;
+	padding: 0;
+}
+ul.level2, ul.level3, ul.level4, ul.level5 {
+	margin-left: 50px;
+    padding: 0 0 0 10;
+}
+li.reply {
+   	padding: 12px 12px 12px 0px;
+}
+.votecomment {
+
+  	background-color: #F5F5F5;
+  	padding: 13px;
+  	border: 1px;
+  	border-style: solid;
+  	border-color: #d9d9d9;
+  	border-radius:5px;
+  	margin-left: 50px;
+  	page-break-after: always;
+  	line-height: 150%;
+  	overflow-wrap: break-word;
+
+}
+
+.namecolor{
+	color: DarkRed;
+}
+
+
+
+.notification-btn{
+margin-top: 12px;
+position: relative;
+padding: 14px 20px;
+    border: none;
+}
+
+.notification-btn p{
+    font-size: 8px;
+    background-color: red;
+    color: white;
+    padding: 3px;
+    border-radius: 5px;
+    position: absolute;
+    top: 0px;
+    left: 27px;
+}
+
+
+
+
+.fa-stack[data-count]:after{
+  position:absolute;
+  right:0%;
+  top:1%;
+  content: attr(data-count);
+  font-size:30%;
+  padding:.6em;
+  border-radius:999px;
+  line-height:.75em;
+  color: white;
+  background:rgba(255,0,0,.85);
+  text-align:center;
+  min-width:2em;
+  font-weight:bold;
+}
+</style>
+<script src="https://code.jquery.com/jquery-latest.min.js"></script>
+</head>
+<body>
+
+<script>
+  $(document).ready(function() {
+    var fb_user_id = "{{fb_user_id}}";
+    if (fb_user_id == "") {
+      document.getElementById("myDialog").showModal();
+    } else {
+      addHiddenInput(fb_user_id);
+    }
+  });
+  function addHiddenInput (userID) {
+  	$('input[name="user_id"]').val(userID)
+  }
+
+</script>
+
+
+<dialog id="myDialog" style="height:50%; width:80%;background: transparent;border: none;">
+    <div class="login-box">
+		<h2>Login</h2>
+		<a href="{{ url_for("facebook.login", next_url=url_for('results', id=id)) }}" class="social-button" id="facebook-connect"> <span>Connect with Facebook</span></a>
+		<a href="{{ url_for("google.login", next_url=url_for('results', id=id)) }}" class="social-button" id="google-connect"> <span>Connect with Google</span></a>
+		<a href="{{ url_for("twitter.login", next_url=url_for('results', id=id)) }}" class="social-button" id="twitter-connect"> <span>Connect with Twitter</span></a>
+	</div>
+</dialog>
+
+
+<!--<div id="fb-root"></div>-->
+<!--<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v5.0&appId=1560520617436290&autoLogAppEvents=1"></script>-->
+<div id="fb-root"></div>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v6.0&appId=1560520617436290&autoLogAppEvents=1"></script>
+
+<!--navbar-->
+<div class="row navbar">
+		<div class="col-md-9">
+		<a href="/"><div class="guide">News Detective</div></a>
+		<a href="/about"><div class="guide">About/FAQ</div></a>
+		<a href="/chat"><div class="guide">Community</div></a>
+	</div>
+	<div class="dropdown-main col-md-3 col-xs-3" style="text-align:right">
+		<div class="dropdown">
+		  <button class="btn btn-default dropdown-toggle notification-btn" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+			<i class="fa fa-bell fa-1x"></i>
+              {%if result=='false'%}
+                <p>New</p>
+                {%else%}
+               <!-- <i class="fa fa-bell fa-1x"></i> -->
+              {%endif%}
+		  </button>
+		  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+			  {% with messages = get_flashed_messages() %}
+				{% if messages %}
+			  {% for message in messages %}
+			{%if message[-5:]=='false'%}
+			<li style="border-bottom: 1px solid lightgray; background-color: #cedce8;"><a href="#">{{ message[0:-5]  }}</a></li>
+				{%else%}
+			  <li style="border-bottom: 1px solid lightgray;"><a href="#">{{ message[0:-5]  }}</a></li>
+			  {%endif%}
+			  {% endfor %}
+			  {% endif %}
+		{% endwith %}
+		  </ul>
+		</div>
+	</div>
+	</div>
+
+<a href="{{ url }}" target="_blank">
+	<div class="headline">
+	    {{ title }}
+
+	</div>
+	<div class="mediumtext">
+		{% if image_url == '/placeholder.png' %}
+			<img src="{{ image_url }}" alt="Picture" width="25%">
+		{% else %}
+			<img src="{{ image_url }}" alt="Picture" width="100%">
+		{% endif %}
+	</div>
+</a>
+
+<div class="mediumtext" style="text-align:center;">
+	<span style ="text-transform: capitalize;">
+		Publication: {{ snippet }}
+	</span>
+	<br><br>
+
+	Publication score: {{ score_percent }}%
+	<br><Br>
+<!--<div style="text-align:left;">-->
+<!--	Publication breakdown-->
+<!--	<br>-->
+<!--	True: {{ onevotes }}-->
+<!--	<br>-->
+<!--	Exaggerated: {{ twovotes }}-->
+<!--	<br>-->
+<!--	No Source: {{ threevotes }}-->
+<!--	<br>-->
+<!--	Bad Source: {{ fourvotes }}-->
+<!--	<br>-->
+<!--	Can't Find Source: {{ fivevotes }}-->
+<!--	<br>-->
+<!--	Not News: {{ sixvotes }}</div>-->
+<!--</div>-->
+
+
+
+<div class="mediumtext">
+	Publication
+	<div class="container" >
+		<div class="colorbar"
+			 style="background-color:#{{ vote_choices[0][1] }}; width:{{ pubscorechoices[0] }}%;"></div>
+		<div class="top-left">{{ vote_choices[0][0] }}</div>
+		<div class="votetotals">
+			{{ onevotes }} out of {{ total_plus_nn }}</div>
+	</div>
+	<div class="container" >
+		<div class="colorbar"
+			 style="background-color:#{{ vote_choices[1][1] }}; width:{{ pubscorechoices[1] }}%;"></div>
+		<div class="top-left">{{ vote_choices[1][0] }}</div>
+		<div class="votetotals">
+			{{ twovotes }} out of {{ total_plus_nn }}</div>
+	</div>
+	<div class="container" >
+		<div class="colorbar"
+			 style="background-color:#{{ vote_choices[2][1] }}; width:{{ pubscorechoices[2] }}%;"></div>
+		<div class="top-left">{{ vote_choices[2][0] }}</div>
+		<div class="votetotals">
+			{{ threevotes }} out of {{ total_plus_nn }}</div>
+	</div>
+	<div class="container" >
+		<div class="colorbar"
+			 style="background-color:#{{ vote_choices[3][1] }}; width:{{ pubscorechoices[3] }}%;"></div>
+		<div class="top-left">{{ vote_choices[3][0] }}</div>
+		<div class="votetotals">
+			{{ fourvotes }} out of {{ total_plus_nn }}</div>
+	</div>
+	<div class="container" >
+		<div class="colorbar"
+			 style="background-color:#{{ vote_choices[4][1] }}; width:{{ pubscorechoices[4] }}%;"></div>
+		<div class="top-left">{{ vote_choices[4][0] }}</div>
+		<div class="votetotals">
+			{{ fivevotes }} out of {{ total_plus_nn }}</div>
+	</div>
+	<div class="container" >
+		<div class="colorbar"
+			 style="background-color:#{{ vote_choices[5][1] }}; width:{{ pubscorechoices[5] }}%;"></div>
+		<div class="top-left">{{ vote_choices[5][0] }}</div>
+		<div class="votetotals">
+			{{ sixvotes }} out of {{ total_plus_nn }}</div>
+	</div>
+
+</div>
+
+
+
+<div class="mediumtext">
+Article
+
+
+{% for choice in vote_choices %}
+
+<div class="container" >
+  	<div class="colorbar" style="background-color:#{{ choice[1] }}; width:{{ choice[3] }}%;"></div>
+  	<div class="top-left">{{ choice[0] }}</div>
+	<div class="votetotals">
+		{{ choice[2] }} out of {{ choice[4] }}</div>
+</div>
+
+{% endfor %}
+
+<a href="/votefor/{{ id }}"><div class="voteresultspage">Vote</div></a>
+<!--<div class="voteorresult" style="background: green; color: white;"><a href="/votefor/{{ id }}">Vote</a></div>-->
+
+<br>
+<div class="mediumtext">Evidence</div>
+
+<div class="commentloop">
+{% for detail in vote_details %}
+
+		<div class="fbpic">
+			{% if user_name_dict[detail[3]+'-auth_provider'] == 'twitter' or user_name_dict[detail[3]+'-auth_provider'] == 'google' %}
+			<img src="{{user_name_dict[detail[3]+'-picture']}}" style="width:40px;border-radius:50%;">
+			{% else %}
+			<img src="http://graph.facebook.com/{{ detail[3] }}/picture?type=large&redirect=true&width=200&height=200" style="width:40px;border-radius:50%;">
+			{% endif %}
+		</div>
+		<div class="votecomment" style="text-align: left;">
+			<div class="namecolor">
+				<strong> {{ detail[0] }} </strong>&nbsp
+				</div>
+			<strong>Vote:</strong> {{ detail[1] }} &nbsp; <strong>Reasoning:</strong> {{ detail[2] }}<br>
+			<div class="comment-form" style="text-align: left;">
+				<form action = "/insert_comment" method = "post" onsubmit="">
+				    <input type="text" name="user_id" style="display:none;">
+				    <input type="text" name="article_id" value="{{ id }}" style="display:none;">
+					<input type="text" name="parent_id" style="display:none;">
+					<input type="text" name="vote_id" value="{{detail[4]}}" style="display:none;">
+					<textarea name="comment" placeholder="Add Reply" rows="4" cols="50"></textarea>
+					<input type="submit" value="Reply">
+				</form>
+				</div>
+				{% if article_comments_dict[detail[4]] %}
+				<hr>
+				<ul class="comments level1">
+					{% for comment in article_comments_dict[detail[4]] %}
+					<li class="reply">
+					<div class="fbpic">
+						{% if user_name_dict[comment.user_id+'-auth_provider'] == 'twitter' or user_name_dict[comment.user_id+'-auth_provider'] == 'google' %}
+						<img src="{{user_name_dict[comment.user_id+'-picture']}}" style="width:40px;border-radius:50%;">
+						{% else %}
+						<img src="http://graph.facebook.com/{{ comment.user_id }}/picture?type=large&redirect=true&width=200&height=200" style="width:40px;border-radius:50%;">
+						{% endif %}
+					</div>
+					<div class="votecomment">
+					<div class="namecolor">
+						<strong> {{ user_name_dict[comment.user_id] }} </strong>&nbsp
+					</div>
+					{{comment.text}}
+					<form action = "/insert_comment" method = "post" onsubmit="">
+					    <input type="text" name="user_id" style="display:none;">
+					    <input type="text" name="article_id" value="{{ id }}" style="display:none;">
+					    <input type="text" name="parent_id" value="{{ comment.id }}" style="display:none;">
+						<input type="text" name="vote_id" value="{{detail[4]}}" style="display:none;">
+						<textarea name="comment" placeholder="Add Reply" rows="2" cols="50"></textarea>
+						<input type="submit" value="Reply">
+					</form>
+					</div>
+					</li>
+					<li>
+					<ul class="comments level2">
+					{% for reply_l1 in comment.replies %}
+						<li class="reply">
+						<div class="fbpic">
+						{% if user_name_dict[reply_l1.user_id+'-auth_provider'] == 'twitter' or user_name_dict[reply_l1.user_id+'-auth_provider'] == 'google' %}
+						<img src="{{user_name_dict[reply_l1.user_id+'-picture']}}" style="width:40px;border-radius:50%;">
+						{% else %}
+						<img src="http://graph.facebook.com/{{ reply_l1.user_id }}/picture?type=large&redirect=true&width=200&height=200" style="width:40px;border-radius:50%;">
+						{% endif %}
+						</div>
+						<div class="votecomment">
+							<div class="namecolor">
+								<strong> {{ user_name_dict[reply_l1.user_id] }} </strong>&nbsp
+							</div>
+							{{reply_l1.text}}
+							<form action = "/insert_comment" method = "post" onsubmit="">
+							    <input type="text" name="user_id" style="display:none;">
+							    <input type="text" name="article_id" value="{{ id }}" style="display:none;">
+							    <input type="text" name="parent_id" value="{{ reply_l1.id }}" style="display:none;">
+								<input type="text" name="vote_id" value="{{detail[4]}}" style="display:none;">
+								<textarea name="comment" placeholder="Add Reply" rows="2" cols="50"></textarea>
+								<input type="submit" value="Reply">
+							</form>
+						</div>
+						</li>
+						<li>
+						<ul class="comments level3">
+					    {% for reply_l2 in reply_l1.replies %}
+					    	<li class="reply">
+					    	<div class="fbpic">
+					    	{% if user_name_dict[reply_l2.user_id+'-auth_provider'] == 'twitter' or user_name_dict[reply_l2.user_id+'-auth_provider'] == 'google' %}
+							<img src="{{user_name_dict[reply_l2.user_id+'-picture']}}" style="width:40px;border-radius:50%;">
+							{% else %}
+							<img src="http://graph.facebook.com/{{ reply_l2.user_id }}/picture?type=large&redirect=true&width=200&height=200" style="width:40px;border-radius:50%;">
+							{% endif %}
+							</div>
+							<div class="votecomment">
+								<div class="namecolor">
+									<strong> {{ user_name_dict[reply_l2.user_id] }} </strong>&nbsp
+								</div>
+								{{reply_l2.text}}
+								<form action = "/insert_comment" method = "post" onsubmit="">
+								    <input type="text" name="user_id" style="display:none;">
+								    <input type="text" name="article_id" value="{{ id }}" style="display:none;">
+								    <input type="text" name="parent_id" value="{{ reply_l2.id }}" style="display:none;">
+									<input type="text" name="vote_id" value="{{detail[4]}}" style="display:none;">
+									<textarea name="comment" placeholder="Add Reply" rows="2" cols="50"></textarea>
+									<input type="submit" value="Reply">
+								</form>
+							</div>
+							</li>
+							<li>
+							<ul class="comments level4">
+								{% for reply_l3 in reply_l2.replies %}
+							    	<li class="reply">
+							    	<div class="fbpic">
+							    	{% if user_name_dict[reply_l3.user_id+'-auth_provider'] == 'twitter' or user_name_dict[reply_l3.user_id+'-auth_provider'] == 'google' %}
+									<img src="{{user_name_dict[reply_l3.user_id+'-picture']}}" style="width:40px;border-radius:50%;">
+									{% else %}
+									<img src="http://graph.facebook.com/{{ reply_l3.user_id }}/picture?type=large&redirect=true&width=200&height=200" style="width:40px;border-radius:50%;">
+									{% endif %}
+									</div>
+									<div class="votecomment">
+										<div class="namecolor">
+											<strong> {{ user_name_dict[reply_l3.user_id] }} </strong>&nbsp
+										</div>
+										{{reply_l3.text}}
+										<form action = "/insert_comment" method = "post" onsubmit="">
+										    <input type="text" name="user_id" style="display:none;">
+										    <input type="text" name="article_id" value="{{ id }}" style="display:none;">
+										    <input type="text" name="parent_id" value="{{ reply_l3.id }}" style="display:none;">
+											<input type="text" name="vote_id" value="{{detail[4]}}" style="display:none;">
+											<textarea name="comment" placeholder="Add Reply" rows="2" cols="50"></textarea>
+											<input type="submit" value="Reply">
+										</form>
+									</div>
+									</li>
+									<li>
+									<ul class="comments level5">
+										{% for reply_l4 in reply_l3.replies %}
+									    	<li class="reply">
+									    	<div class="fbpic">
+									    	{% if user_name_dict[reply_l4.user_id+'-auth_provider'] == 'twitter' or user_name_dict[reply_l4.user_id+'-auth_provider'] == 'google' %}
+											<img src="{{user_name_dict[reply_l4.user_id+'-picture']}}" style="width:40px;border-radius:50%;">
+											{% else %}
+											<img src="http://graph.facebook.com/{{ reply_l4.user_id }}/picture?type=large&redirect=true&width=200&height=200" style="width:40px;border-radius:50%;">
+											{% endif %}
+											</div>
+											<div class="votecomment">
+												<div class="namecolor">
+													<strong> {{ user_name_dict[reply_l4.user_id] }} </strong>&nbsp
+												</div>
+												{{reply_l4.text}}
+											</div>
+											</li>
+										{% endfor %}
+									</ul>
+									</li>
+								{% endfor %}
+							</ul>
+							</li>
+						{% endfor %}
+						</ul>
+						</li>
+					{% endfor %}
+					</ul>
+					</li>
+					{% endfor %}
+				</ul>
+				{% endif %}
+			</div>
+
+					<br>
+				{% endfor %}
+				</div>
+
+
+<br>
+<!--<div class="fb-comments" data-href="http://localhost:5000/results/{{ id }}" data-width="100%" data-numposts="5"></div>-->
+
+
+<!-- <div class="fb-comments" data-href="https://news-detective.herokuapp.com/results/{{ id }}" data-width="100%" data-numposts="5"></div> -->
+
+<!--<div class="fb-comments" data-href="https://news-detective.herokuapp.com/" data-numposts="5" data-width=""></div>-->
+<br>
+		<div class="mediumtext">
+			News Detective is not responsible for the thoughts and opinions people post here. <a
+				href="/privacypolicy"><strong>Privacy Policy</strong></a>.
+		</div>
+<!--	<a href="/about"-->
+<!--	   target="popup"-->
+<!--	   onclick="window.open('/factcheckclass1','popup','width=900,height=900'); return false;">-->
+<!--			<div class="guide">Guide</div>-->
+<!--	</a>-->
+<!--	<a href="/chat"><div class="feedback">Community</div></a>-->
+
+<!--this should be a fancier toolbar but the style isn't working so blah-->
+<!--<ul>-->
+<!--  <li><a class="active" href="#home">Home</a></li>-->
+<!--  <li><a href="#news">News</a></li>-->
+<!--  <li><a href="#contact">Contact</a></li>-->
+<!--  <li><a href="#about">About</a></li>-->
+<!--</ul>-->
+
+</body>
+
+</html>

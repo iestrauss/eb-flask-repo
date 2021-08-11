@@ -1,0 +1,674 @@
+.dropdown-menu>li>a{
+	white-space: normal !important;
+	    padding: 3px 10px !important;
+}
+.dropdown-menu{
+	max-width: 200px !important;
+	height: 200px;
+    overflow-y: scroll;
+    left:109px !important;
+}
+
+.pagination-page-info {
+    padding: .6em;
+    padding-left: 0;
+    width: 40em;
+    margin: .5em;
+    margin-left: 0;
+    font-size: 12px;
+}
+.pagination-page-info b {
+    color: black;
+    background: #6aa6ed;
+    padding-left: 2px;
+    padding: .1em .25em;
+    font-size: 150%;
+}
+
+.homebody {
+  margin-right: 16px;
+  margin-left: 16px;
+}
+.goog-logo-link {
+   display:none !important;
+}
+
+.goog-te-gadget{
+   color: transparent !important;
+}
+
+
+
+
+a   {
+  /* Applies to all unvisited links */
+  text-decoration:  none;
+  font-weight:      normal;
+  background-color: white;
+  color:            black;
+  }
+
+
+
+
+.container {
+  position: relative;
+  text-align: center;
+  color: black;
+  height:30px;
+  border: 1px solid #ccc;
+  border-radius: 1px;
+      margin: 10px;
+}
+
+.new1 {
+  border-top: 1px gray;
+}
+
+.colorbar {
+  height: 30px;
+  object-fit: cover;
+}
+.top-left {
+  position: absolute;
+  top: 8px;
+  left: 16px;
+    font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
+  font-size: 11px;
+}
+
+.commentloop {
+    font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
+  font-size: 11px;
+    text-decoration:  none;
+  font-weight:      normal;
+  background-color: white;
+  color:            black;
+  padding: 10px;
+}
+
+.smalltext {
+    font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
+  font-size: 11px;
+    text-decoration:  none;
+  font-weight:      normal;
+  background-color: white;
+  color:            black;
+}
+
+
+
+.voteorresult {
+    font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
+  font-size: 11px;
+    text-decoration:  none;
+  font-weight:      normal;
+  background-color: white;
+  color:            black;
+  /*padding: 50px; */
+  /*width: 50px; */
+  display: inline-block;
+    text-align: center;
+      border: 1px solid #ccc;
+  border-radius: 4px;
+        margin: 0px;
+        padding: 5px;
+        a: #000000;
+}
+
+.resultbox {
+    font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
+  font-size: 11px;
+    text-decoration:  none;
+  font-weight:      normal;
+  background-color: white;
+  color:            black;
+  /*padding: 50px; */
+  width: 50px;
+  display: inline-block;
+    text-align: center;
+      border: 1px solid #ccc;
+  border-radius: 4px;
+        margin: 10px;
+        padding: 10px;
+}
+
+.votetotals {
+  position: absolute;
+  top: 8px;
+  right: 16px;
+    font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
+  font-size: 11px;
+  color: gray;
+}
+
+
+.largetext {
+  font-family:"Garamond", "Courier New", monospace;
+    color: black;
+    text-align: left;
+    padding: 10px;
+    font-size: 60px;
+     margin: 10px;}
+
+.headline {
+  font-family:"Garamond", "Courier New", monospace;
+    color: black;
+    text-align: left;
+    padding: 10px;
+    font-size: 30px;
+     margin: 10px;}
+
+.investigate {
+  font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
+    color: black;
+  position: relative;
+  text-align: center;
+    text-decoration: none;
+    padding: 10px;
+    margin: 10px;}
+
+.mediumtext {
+  font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
+    color: black;
+  position: relative;
+  text-align: center;
+    text-decoration: none;
+    padding: 10px;
+    margin: 10px;}
+
+.mediumlefttext {
+  font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
+    color: black;
+  position: relative;
+  text-align: left;
+    text-decoration: none;
+    padding: 10px;
+    /*margin: 10px;}*/
+}
+
+.hometitlesstyle {
+  font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
+    color: black;
+  position: relative;
+  text-align: left;
+    text-decoration: none;
+    padding: 5px;
+
+}
+
+.mediumlefttextnopad {
+  font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
+    color: black;
+  position: relative;
+  text-align: left;
+    text-decoration: none;
+    /*padding: 10px;*/
+    /*margin: 10px;}*/
+}
+
+.notes {
+  font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
+    font-size: 11px;
+      line-height: 150%;
+ 	color:black;
+  position: relative;
+  text-align: left;
+    padding: 10px;
+    margin: 10px;}
+
+textarea {
+  width: 96%;
+  height: 100px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  padding: 10px;
+  border:1px solid #cccccc;
+  margin: 10px;}
+
+input[type=text] {
+  width: 96%;
+  height: 30px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  padding: 10px;
+  margin: 10px;}
+
+.comment-form textarea, .comments textarea {
+  margin: 10px 10px 0px 0;
+}
+
+.comments textarea {
+  height: 60px;
+}
+.comment-form input[type=submit], .comments input[type=submit] {
+  margin: 10px 10px 10px 0;
+  width: auto;
+}
+.comments form {
+  margin: 20px 0 0 0;
+}
+
+input[type=radio] {
+  padding: 10px;
+  margin: 10px;}
+
+.frame-area {
+  display: block;
+  width: 100%;  /* RESPONSIVE WIDTH */
+  margin: auto;
+  height: 400px;
+  overflow: auto;  /* EDIT TO hidden FOR NO SCROLLBAR */
+  border: #cccccc 1px solid;
+  padding: 10px;
+  }
+
+.block {
+  background-color: white;
+  padding: 40px;
+  margins: 20px;
+  }
+
+
+<!--quiz questions-->
+.quiz {
+  font-family:"Courier New", Courier, monospace;
+  font-size: 14px;
+  text-decoration:  none;
+  font-weight:      normal;
+  color:            black;
+  padding: 1-px;
+  line-height: 0.5;
+}
+
+.quotebox {
+  width: 80%;
+  margin: auto;
+  }
+
+.buttonClass {
+  background-color: DarkRed;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+pClass {
+  font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
+  font-size: 14px;
+  text-decoration:  none;
+  font-weight:      normal;
+  color:            black;
+  padding: 10px;
+  line-height: 1.6;
+}
+
+h3Class {
+  /*font-family: "Bookman", Courier, monospace;*/
+  font-size: 14px;
+  text-decoration:  none;
+  /*font-weight:      bold;*/
+  color: green;
+  background-color: white;
+  line-height: 1.6;
+}
+
+
+h2Class {
+  font-family:"Courier New", Courier, monospace;
+  font-size: 20px;
+  text-decoration:  none;
+  font-weight:      normal;
+  background-color: white;
+  color:            black;
+  padding: 10px;
+  line-height: 1.6;
+}
+
+h1Class {
+  font-family:"garamond",tahoma,verdana,arial,sans-serif;
+  font-size: 30px;
+  text-decoration:  none;
+  text-align: left;
+  margin: auto;
+  align: auto;
+  font-weight:      bold;
+  background-color: white;
+  color:            black;
+  padding: 10px;
+  line-height: 1.6;
+}
+
+input[type=submit] {
+  width: 190px;
+  font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
+  font-size: 12px;
+  margin: 10px;
+  background-color: #337ab7;
+  color: white;
+  padding: 9px 15px;
+  border: 0px solid orange;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.voteresultspage {
+  font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
+  font-size: 12px;
+  text-align: center;
+  margin: 10px;
+  background-color: #337ab7;
+  color: white;
+  padding: 9px 15px;
+  border: 0px solid orange;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.pagination {
+  float: left;
+  /*border: 1px solid orange;*/
+  border-radius: 4px;
+  background-color: white;
+  font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
+  font-size: 12px;
+  font-weight:      normal;
+  color: black;
+  text-align: center;
+  text-decoration: none;
+  /*display: inline-block;*/
+  /*float: left;*/
+  }
+.guide {
+  float: left;
+  border: 0px solid #93b5d2;
+  border-radius: 4px;
+  background-color: #cedce8;
+  font-family:"garamond",tahoma,verdana,arial,sans-serif;
+  font-size: 14px;
+  font-weight:      normal;
+  color: black;
+  margin: 15px;
+  padding: 10px 16px;
+  text-align: center;
+  text-decoration: none;
+  /*display: inline-block;*/
+  /*float: left;*/
+  }
+
+.aboutpagebluebox {
+  background-color: #cedce8;}
+
+.feedback {
+  float: left;
+  border: 1px solid #377bb5;
+  border-radius: 4px;
+  background-color: white;
+  font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
+  font-size: 12px;
+  font-weight:      normal;
+  color: black;
+  margin: 10px;
+  padding: 8px 15px;
+  text-align: center;
+  text-decoration: none;
+  /*display: inline-block;*/
+  /*float: left;*/
+  }
+
+.homebar{
+  text-align: center;
+}
+
+.home {
+  float: left;
+  font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
+  font-size: 12px;
+  text-align: center;
+  /*width: 150px;*/
+  margin: 10px;
+  background-color: white;
+  border: 1px solid #377bb5;
+  color: black;
+  padding: 8px 15px;
+  border-radius: 4px;
+}
+
+.fwdbkwrapper {
+  text-align: center;
+  margin: 0 auto;
+  background: red;
+}
+
+.summarywrapper {
+  padding: 20px;
+  background-color: white;
+  border-style: solid;
+  border-color: WhiteSmoke;
+}
+
+.testwrapper{
+  padding-left: 30px;
+  padding-right: 30px;
+    padding-top: 0px;
+    font-size: 0px;
+}
+
+.realorfakebutton{
+    font-Weight: bold;
+    font-Size: 15px;
+    color: white;
+    border: 10px solid white;
+    padding: 10px;
+    margin: 10px;
+    text-align: center;
+    background-Color: #2C7887;
+    width: 150px;
+}
+
+.error {
+  color: #D8000C;
+  background-color: #FFBABA;
+  padding: 10px;
+}
+
+.login-box {
+    background: #fff;
+    padding: 20px;
+    max-width: 480px;
+    margin: 25vh auto;
+    text-align: center;
+    letter-spacing: 1px;
+    position: relative;
+}
+
+.login-box:hover {
+    box-shadow: 0 8px 17px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+}
+
+.login-box h2 {
+    margin: 20px 0 20px;
+    padding: 0;
+    text-transform: uppercase;
+    color: #4688F1;
+}
+
+.social-button {
+    background-position: 25px 0px;
+    box-sizing: border-box;
+    color: rgb(255, 255, 255);
+    cursor: pointer;
+    display: inline-block;
+    height: 50px;
+    line-height: 50px;
+    text-align: left;
+    text-decoration: none;
+    text-transform: uppercase;
+    vertical-align: middle;
+    width: 100%;
+    border-radius: 3px;
+    margin: 10px auto;
+    outline: rgb(255, 255, 255) none 0px;
+    padding-left: 20%;
+    transition: all 0.2s cubic-bezier(0.72, 0.01, 0.56, 1) 0s;
+    -webkit-transition: all .3s ease;
+    -moz-transition: all .3s ease;
+    -ms-transition: all .3s ease;
+    -o-transition: all .3s ease;
+    transition: all .3s ease;
+}
+
+#facebook-connect {
+    background: rgb(255, 255, 255) url('/static/facebook.svg?sanitize=true') no-repeat scroll 5px 0px / 30px 50px padding-box border-box;
+    border: 1px solid rgb(60, 90, 154);
+}
+
+#facebook-connect:hover {
+    border-color: rgb(60, 90, 154);
+    background: rgb(60, 90, 154) url('/static/facebook-white.svg?sanitize=true') no-repeat scroll 5px 0px / 30px 50px padding-box border-box;
+    -webkit-transition: all .8s ease-out;
+    -moz-transition: all .3s ease;
+    -ms-transition: all .3s ease;
+    -o-transition: all .3s ease;
+    transition: all .3s ease-out;
+}
+
+#facebook-connect span {
+    box-sizing: border-box;
+    color: rgb(60, 90, 154);
+    cursor: pointer;
+    text-align: center;
+    text-transform: uppercase;
+    border: 0px none rgb(255, 255, 255);
+    outline: rgb(255, 255, 255) none 0px;
+    -webkit-transition: all .3s ease;
+    -moz-transition: all .3s ease;
+    -ms-transition: all .3s ease;
+    -o-transition: all .3s ease;
+    transition: all .3s ease;
+}
+
+#facebook-connect:hover span {
+    color: #FFF;
+    -webkit-transition: all .3s ease;
+    -moz-transition: all .3s ease;
+    -ms-transition: all .3s ease;
+    -o-transition: all .3s ease;
+    transition: all .3s ease;
+}
+
+#google-connect {
+    background: rgb(255, 255, 255) url('/static/google-plus.png') no-repeat scroll 5px 0px / 50px 50px padding-box border-box;
+    border: 1px solid rgb(220, 74, 61);
+}
+
+#google-connect:hover {
+    border-color: rgb(220, 74, 61);
+    background: rgb(220, 74, 61) url('/static/google-plus-white.png') no-repeat scroll 5px 0px / 50px 50px padding-box border-box;
+    -webkit-transition: all .8s ease-out;
+    -moz-transition: all .3s ease;
+    -ms-transition: all .3s ease;
+    -o-transition: all .3s ease;
+    transition: all .3s ease-out;
+}
+
+#google-connect span {
+    box-sizing: border-box;
+    color: rgb(220, 74, 61);
+    cursor: pointer;
+    text-align: center;
+    text-transform: uppercase;
+    border: 0px none rgb(220, 74, 61);
+    outline: rgb(255, 255, 255) none 0px;
+    -webkit-transition: all .3s ease;
+    -moz-transition: all .3s ease;
+    -ms-transition: all .3s ease;
+    -o-transition: all .3s ease;
+    transition: all .3s ease;
+}
+
+#google-connect:hover span {
+    color: #FFF;
+    -webkit-transition: all .3s ease;
+    -moz-transition: all .3s ease;
+    -ms-transition: all .3s ease;
+    -o-transition: all .3s ease;
+    transition: all .3s ease;
+}
+
+#twitter-connect {
+    background: rgb(255, 255, 255) url('/static/twitter.png') no-repeat scroll 5px 1px / 45px 45px padding-box border-box;
+    border: 1px solid rgb(85, 172, 238);
+}
+
+#twitter-connect:hover {
+    border-color: rgb(85, 172, 238);
+    background: rgb(85, 172, 238) url('/static/twitter-white.png') no-repeat scroll 5px 1px / 45px 45px padding-box border-box;
+    -webkit-transition: all .8s ease-out;
+    -moz-transition: all .3s ease;
+    -ms-transition: all .3s ease;
+    -o-transition: all .3s ease;
+    transition: all .3s ease-out;
+}
+
+#twitter-connect span {
+    box-sizing: border-box;
+    color: rgb(85, 172, 238);
+    cursor: pointer;
+    text-align: center;
+    text-transform: uppercase;
+    border: 0px none rgb(220, 74, 61);
+    outline: rgb(255, 255, 255) none 0px;
+    -webkit-transition: all .3s ease;
+    -moz-transition: all .3s ease;
+    -ms-transition: all .3s ease;
+    -o-transition: all .3s ease;
+    transition: all .3s ease;
+}
+
+#twitter-connect:hover span {
+    color: #FFF;
+    -webkit-transition: all .3s ease;
+    -moz-transition: all .3s ease;
+    -ms-transition: all .3s ease;
+    -o-transition: all .3s ease;
+    transition: all .3s ease;
+}
+dialog::backdrop {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+#ratedUserDialog .guide, #ratedUserDialog .home {
+  float: none;
+}
+#ratedUserDialog a {
+  outline : none;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+}
+
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li a:hover {
+  background-color: #111;
+}

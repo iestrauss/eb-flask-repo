@@ -1,0 +1,127 @@
+<html>
+<body>
+
+      <head>
+<!--            <link href="https://istrauss6.neocities.org/style.css" rel="stylesheet" type="text/css">-->
+          <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/stylesheet.css') }}">
+
+            <style>
+
+body {
+  padding: 20px;
+  background-color: wheat;
+}
+            </style>
+      </head>
+<body>
+
+<div class="block">
+    <h1Class>
+        <center>
+    To summarize:
+            </center>
+    </h1Class>
+        <div class="summarywrapper">
+
+
+            <pClass>
+                <strong>First, find the central claim. </strong>
+            </pClass>
+            <pClass><p>
+             It's usually the headline.
+            </pClass></p>
+
+
+            <pClass>
+                <strong>Technique 1. Find out where the article got its information.</strong>
+            </pClass>
+            <pClass><p>
+            Figure out where the publication got its information and go there. Make sure:<br>
+                  <br>&nbsp;&nbsp;1) the publication gave a source
+                  <br>&nbsp;&nbsp;2) the source really said what the article claims it said
+                  <br>&nbsp;&nbsp;3) the source would know what they're talking about
+            </pClass></p>
+
+            <pClass>
+                <strong>Technique 2. Investigate the publication</strong>
+            </pClass>
+            <pClass><p>
+             No publication is unbiased. Everybody gets money from somewhere. But some publications are completely and entirely
+            fronts funded by special interests. So if you're looking at a publication you're not familiar with, check
+                out its About Us page, Google, and Wikipedia for clues. If you see an article saying "Spinach cures all
+                diseases," see if it's funded by a spinach farm.
+            </pClass></p>
+            <pClass>
+                <strong>Technique 3. Google the story.</strong>
+            </pClass>
+            <pClass><p>
+            Publications descend on major news like vultures. If any hugely shocking thing has happened, you can bet that
+            many major publications will be covering it. So if you come across a shocking article, see who else is talking
+                about it. If the only place covering it is some random publication you've never heard of, that's suspicious.</p>
+        </div>
+
+    <pClass><p>
+        <strong>Do I have to do all this every time I investigate an article?</strong>
+    </p>
+        <p>
+        No! You don't have to use all the tools all the time.
+    You can decide whether to track down facts, research the publication, or simply Google the story.
+          You'll be able to identify 90% of fake news in five minutes. They're just not that hard to figure out,
+          as long as you know what to look for. And now you do!
+        </p>
+        <p><strong>How do I vote?</strong></p>
+    I'm glad you asked. When you're looking at Facebook article posts, you'll a button that looks something like this:
+        <br><br>
+        <center>
+            <img style="width: 200px" src="{{url_for('static', filename='pubscore.png')}}" align="middle" />
+        </center>
+        <br>
+
+<!--            <div class="realorfakebutton">Real or Fake?</div></center>-->
+        Sometimes it'll be red (meaning articles from that publication are often voted false), yellow (sometimes
+        false), green (often true) or blue (few have voted on the publication). Sometimes it'll give the
+        publication score.
+
+        <br><br>
+        In any case, click it, investigate the
+        article, and vote. Every time you vote on an article,
+        explain how your
+        investigation went. What was suspicious? What sources came up empty?
+        You'll always be able to return to this guide to brush up.
+
+
+        <br><br>
+        <center>
+            <img style="width: 450px" src="{{url_for('static', filename='vote.png')}}" align="middle" />
+        </center>
+        <br>
+
+
+        <br><br>
+    Thank you so much for being the first round of detective recruits. Everyone's complaining about fake news, but you're
+        actually doing something about it. This is untested (you're the testers),
+        so I'm depending on you to point out bugs and things that need improvement, as well as things that are
+        working. There's a
+
+        <a href="/chat" style="color: #cc0000">feedback page</a>
+         for that.
+        Your challenge, should you choose to accept it, is to factcheck three articles. Godspeed.
+    </pClass></p>
+
+<br>
+<!--<div class="fwdbkwrapper">-->
+<center>
+    <a href="/factcheckclass4"><div class="guide">Back</div></a>
+<!--    </div>-->
+    <a href="https://www.facebook.com/">
+        <center>
+            <button class="home" onclick="window.open('', '_self', ''); window.close();">
+                Start investigating</button>
+         </center>
+    </a>
+</center>
+    <br><br>
+</div>
+<br><Br>
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>User</title>
+<style>
+
+div {
+  padding: 10px;
+  margin: 10px;
+  text-align: center;
+  width: border-box;
+}
+
+button {
+  padding: 10px;
+  margin: 10px;
+  text-align: center;
+  width: 100%;
+}
+input[type=text], select {
+  margin: 10px;
+  border: 1px solid #ccc;
+  border-radius: 0px;
+  text-align: top;
+  width: 100%;
+  height: 100px;
+  padding: 12px 20px;
+  box-sizing: border-box;
+  resize: none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+
+input[type=submit] {
+  width: 100%;
+  margin: 10px;
+  background-color: #E57504;
+  color: white;
+  padding: 14px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+input[type=submit]:hover {
+  background-color: #45a049;
+}
+a:link    {
+  /* Applies to all unvisited links */
+  text-decoration:  none;
+  font-weight:      bold;
+  background-color: #ddd;
+  color:            black;
+  }
+
+</style>
+</head>
+<body>
+<!--{% extends "boring.html"%}-->
+
+<!--{% block title %} Vote {% endblock %}-->
+
+<!--{% block main %}-->
+
+
+<!--{{ article_id }}-->
+
+<h3>
+Your are currently using user_id={{ user_id }}
+</h3>
+
+
+<div style="text-align: left">
+Change your user id.
+</div
+
+<!--            <input type="submit" value="Submit">-->
+
+<form action = "/change_user" method = "post" onsubmit="">
+
+{% for item in user_list %}
+    <input type="radio" name="options" id="{{ item[0] }}"
+           value="{{ item[0] }}"> {{ item[0] }} {{ item[1] }} {{ item[2] }} </input><br>
+    <img src="{{ item[3] }}">
+{% endfor %}
+
+    <input type="submit" value="Submit">
+    </form>
+
+
+</body>
+
+<!--{% endblock %}-->
+
+</html>
