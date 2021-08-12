@@ -7,7 +7,10 @@
 <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/stylesheet.css') }}">
 <!--<link href="https://istrauss6.neocities.org/style.css" rel="stylesheet" type="text/css">-->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <!--<link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/bootstrap-social.css') }}">-->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <style>
 
 body{
@@ -42,6 +45,46 @@ form.search button {
 form.search button:hover {
   background: #377bb5;
 }
+
+
+
+.notification-btn{
+margin-top: 12px;
+position: relative;
+padding: 14px 12px;
+    border: none;
+}
+
+.notification-btn p{
+    font-size: 8px;
+    background-color: red;
+    color: white;
+    padding: 3px;
+    border-radius: 5px;
+    position: absolute;
+    top: 0px;
+    left: 19px;
+}
+
+
+
+
+.fa-stack[data-count]:after{
+  position:absolute;
+  right:0%;
+  top:1%;
+  content: attr(data-count);
+  font-size:30%;
+  padding:.6em;
+  border-radius:999px;
+  line-height:.75em;
+  color: white;
+  background:rgba(255,0,0,.85);
+  text-align:center;
+  min-width:2em;
+  font-weight:bold;
+}
+
 </style>
 
 </head>
@@ -49,10 +92,40 @@ form.search button:hover {
 <div class="homebody">
 
 	<!--navbar-->
-	<a href="/"><div class="guide">News Detective</div></a>
-	<a href="/about"><div class="guide">About/FAQ</div></a>
-	<a href="/chat"><div class="guide">Community</div></a>
-<br><br>
+	<div class="row navbar">
+		<div class="col-md-9">
+		<a href="/"><div class="guide">News Detective</div></a>
+		<a href="/about"><div class="guide">About/FAQ</div></a>
+		<a href="/chat"><div class="guide">Community</div></a>
+	</div>
+	<div class="dropdown-main col-md-3 col-xs-3" style="text-align:right">
+		<div class="dropdown">
+		  <button class="btn btn-default dropdown-toggle notification-btn" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+			<i class="fa fa-bell fa-1x"></i>
+              {%if result=='false'%}
+                <p>New</p>
+                {%else%}
+               <!-- <i class="fa fa-bell fa-1x"></i> -->
+              {%endif%}
+			<span class="caret"></span>
+		  </button>
+		  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+			  {% with messages = get_flashed_messages() %}
+				{% if messages %}
+			  {% for message in messages %}
+			  {%if message[-5:]=='false'%}
+			<li style="border-bottom: 1px solid lightgray; background-color: #cedce8;"><a href="#">{{ message[0:-5]  }}</a></li>
+				{%else%}
+			  <li style="border-bottom: 1px solid lightgray;"><a href="#">{{ message[0:-5]  }}</a></li>
+			  {%endif%}
+			  {% endfor %}
+			  {% endif %}
+		{% endwith %}
+		  </ul>
+		</div>
+	</div>
+	</div>
+
 
 
 <!--		<a href="/factcheckclass"-->
@@ -67,6 +140,7 @@ form.search button:hover {
 			News Detective</strong>
 		</div>
 
+<input id="prodId" name="prodId" type="hidden" value="xm234jq">
 
 <form class="search" action="/" method="get">
   <input type="text" placeholder="Search" name="q" value="{{ query_param if query_param else '' }}">
