@@ -9,6 +9,11 @@
 <title>Results</title>
 <!--<link href="https://istrauss6.neocities.org/style.css" rel="stylesheet" type="text/css">-->
 <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/stylesheet.css') }}">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<!--<link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/bootstrap-social.css') }}">-->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 <style>
 .fbpic {
@@ -49,6 +54,45 @@ li.reply {
 .namecolor{
 	color: DarkRed;
 }
+
+
+
+.notification-btn{
+margin-top: 12px;
+position: relative;
+padding: 14px 20px;
+    border: none;
+}
+
+.notification-btn p{
+    font-size: 8px;
+    background-color: red;
+    color: white;
+    padding: 3px;
+    border-radius: 5px;
+    position: absolute;
+    top: 0px;
+    left: 27px;
+}
+
+
+
+
+.fa-stack[data-count]:after{
+  position:absolute;
+  right:0%;
+  top:1%;
+  content: attr(data-count);
+  font-size:30%;
+  padding:.6em;
+  border-radius:999px;
+  line-height:.75em;
+  color: white;
+  background:rgba(255,0,0,.85);
+  text-align:center;
+  min-width:2em;
+  font-weight:bold;
+}
 </style>
 <script src="https://code.jquery.com/jquery-latest.min.js"></script>
 </head>
@@ -86,10 +130,38 @@ li.reply {
 <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v6.0&appId=1560520617436290&autoLogAppEvents=1"></script>
 
 <!--navbar-->
-	<a href="/"><div class="guide">News Detective</div></a>
-	<a href="/about"><div class="guide">About/FAQ</div></a>
-	<a href="/chat"><div class="guide">Community</div></a>
-<br><br><br>
+<div class="row navbar">
+		<div class="col-md-9">
+		<a href="/"><div class="guide">News Detective</div></a>
+		<a href="/about"><div class="guide">About/FAQ</div></a>
+		<a href="/chat"><div class="guide">Community</div></a>
+	</div>
+	<div class="dropdown-main col-md-3 col-xs-3" style="text-align:right">
+		<div class="dropdown">
+		  <button class="btn btn-default dropdown-toggle notification-btn" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+			<i class="fa fa-bell fa-1x"></i>
+              {%if result=='false'%}
+                <p>New</p>
+                {%else%}
+               <!-- <i class="fa fa-bell fa-1x"></i> -->
+              {%endif%}
+		  </button>
+		  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+			  {% with messages = get_flashed_messages() %}
+				{% if messages %}
+			  {% for message in messages %}
+			{%if message[-5:]=='false'%}
+			<li style="border-bottom: 1px solid lightgray; background-color: #cedce8;"><a href="#">{{ message[0:-5]  }}</a></li>
+				{%else%}
+			  <li style="border-bottom: 1px solid lightgray;"><a href="#">{{ message[0:-5]  }}</a></li>
+			  {%endif%}
+			  {% endfor %}
+			  {% endif %}
+		{% endwith %}
+		  </ul>
+		</div>
+	</div>
+	</div>
 
 <a href="{{ url }}" target="_blank">
 	<div class="headline">
