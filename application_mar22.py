@@ -1,3 +1,6 @@
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+
 from flask import Flask, request, flash, url_for, redirect, render_template, send_from_directory
 from flask import session as flask_session
 from flask_sqlalchemy import SQLAlchemy
@@ -7,6 +10,9 @@ from flask_dance.contrib.facebook import make_facebook_blueprint, facebook
 from flask_dance.contrib.twitter import make_twitter_blueprint, twitter
 from flask_dance.contrib.google import make_google_blueprint, google
 from flask_dance.consumer import oauth_before_login
+from flask_login import current_user
+from flask import Markup
+import smtplib
 
 #    DATE      WHO     DESCRIPTION
 # april 29
@@ -15,14 +21,19 @@ from flask import Flask, jsonify, request, render_template
 
 application = Flask(__name__, static_url_path='')
 application.config['SQLALCHEMY_ECHO'] = True
-application.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://admin:iski8iski8A@database-2.cv15axugkvps.us-east-2.rds.amazonaws.com/bear'
+#application.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://admin:iski8iski8A@database-2.cv15axugkvps.us-east-2.rds.amazonaws.com/bear'
+# application.config['SQLALCHEMY_DATABASE_URI'] = 'http://localhost/phpmyadmin/db_structure.php?server=1&db=bear'
+application.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:''@localhost/bear1'#n
+application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False#n
 application.config['SECRET_KEY'] = "random string"
 application.config["FACEBOOK_OAUTH_CLIENT_ID"] = '1560520617436290'
 application.config["FACEBOOK_OAUTH_CLIENT_SECRET"] = '0a41f3b2a58fc6d27f3ae9d6b8570fea'
 application.config["TWITTER_OAUTH_CLIENT_KEY"] = 'vTJtz4tMVHOlk3PEgVTQAlQBi'
 application.config["TWITTER_OAUTH_CLIENT_SECRET"] = 'pHbL1GtgbC0hCCDs1qXG4H8mbr4pgjldmZH9Rybt8vVWh9Yrw8'
-application.config["GOOGLE_OAUTH_CLIENT_ID"] = '999488574192-i9rpq3mvjb4putke6j8a13098f74ff9k.apps.googleusercontent.com'
-application.config["GOOGLE_OAUTH_CLIENT_SECRET"] = 'qjoGqzwuHTGWOY1ptb4mRmPt'
+# application.config["GOOGLE_OAUTH_CLIENT_ID"] = '999488574192-i9rpq3mvjb4putke6j8a13098f74ff9k.apps.googleusercontent.com'
+application.config["GOOGLE_OAUTH_CLIENT_ID"] = '437454667988-krodjb4bagjpieiktlvseqgha3t7i1gm.apps.googleusercontent.com'
+# application.config["GOOGLE_OAUTH_CLIENT_SECRET"] = 'qjoGqzwuHTGWOY1ptb4mRmPt'
+application.config["GOOGLE_OAUTH_CLIENT_SECRET"] = 'e7ElcDPPIMQDuLPezBBRWbav'
 
 google_bp = make_google_blueprint(scope=["openid", "https://www.googleapis.com/auth/userinfo.profile", "https://www.googleapis.com/auth/userinfo.email"])
 application.register_blueprint(google_bp, url_prefix="/login")
@@ -36,6 +47,8 @@ application.register_blueprint(facebook_bp, url_prefix="/login")
 db = SQLAlchemy(application)
 
 print("tiger print one", db)
+
+
 
 ##############################################
 class Permission(db.Model):
@@ -111,11 +124,63 @@ class Article(db.Model):
 
 
 ##############################################
+class Notification(db.Model):
+    # object mirrors table 'article'
+    id = db.Column('id', db.Integer, primary_key=True)
+    user_id = db.Column(db.String(100))
+    article_id = db.Column(db.String(100))
+    p_user = db.Column(db.String(100))
+    v_or_c = db.Column(db.Boolean, default=False, nullable=False)
+    flag = db.Column(db.Boolean, default=False, nullable=False)
+
+    def __init__(self, user_id, article_id, p_user, flag):
+        self.user_id = user_id
+        self.article_id = article_id
+        self.p_user = p_user
+        self.flag = flag
+
+
+
+#####################################
+class Notify(db.Model):
+    id = db.Column('id', db.Integer, primary_key=True)
+    user_id = db.Column(db.String(100))
+    article_id = db.Column(db.String(100))
+    p_user = db.Column(db.String(100))
+    v_or_c = db.Column(db.Boolean, default=False, nullable=False)
+    flag = db.Column(db.Boolean, default=False, nullable=False)
+
+    def __init__(self, user_id, article_id, p_user, v_or_c, flag):
+        self.user_id = user_id
+        self.article_id = article_id
+        self.p_user = p_user
+        self.v_or_c = v_or_c
+        self.flag = flag
+
+
+
+#####################################
+#new modified by me
+class Usremail(db.Model):
+    id = db.Column('id', db.Integer, primary_key=True)
+    user_id = db.Column(db.String(100))
+    email = db.Column(db.String(100))
+
+    def __init__(self, user_id, email, ):
+        self.user_id = user_id
+        self.email = email
+
+
+
+
+##############################################
 class ArticleVote(db.Model):
     # object mirrors table 'article_vote'
     id = db.Column('id', db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.fb_id'))  # Sloppy
-    article_id = db.Column(db.Integer, db.ForeignKey('article.id'))
+    #user_id = db.Column(db.Integer, db.ForeignKey('user.fb_id'))  # Sloppy
+    user_id = db.Column(db.String(100))  # new modified by me
+    # article_id = db.Column(db.Integer, db.ForeignKey('article.id'))
+    article_id = db.Column(db.Integer) # new modified by me
     vote_choice_id = db.Column(db.Integer)
     comment = db.Column(db.String(400))
 
@@ -208,10 +273,184 @@ from flask import Blueprint
 from flask_paginate import Pagination, get_page_parameter, get_page_args
 
 mod = Blueprint('home_data', __name__)
+user_email_address = ''
+#new modified by me
+def save_notify(user_id, article_id, vote, comment):
+    p_user_list = []
+    art_id = str(article_id)
+    comment_text = str(comment)
+    votes = ArticleVote.query.filter_by(article_id=article_id)
+    if votes:
+        for b in votes:
+            # print('Name: ', b.name, 'ID: ', b.user_id)
+            if user_id != b.user_id:
+                x = str(b.user_id)
+                av_obj = Notify(user_id=user_id, article_id=article_id, p_user=x, v_or_c=vote, flag=False)
+                p_user_list.append(x)
+                print('saved successfully')
+                db.session.add(av_obj)
+                db.session.commit()
+    send_mail_now(p_user_list, art_id, comment_text)
 
 
-@application.route('/')
+def send_mail_now(email_list, art_id, comment):
+    users_name = str(return_name_value())
+    print('in function sned mail now')
+    article_id = str(art_id)
+    comment_text = str(comment)
+    article_title = Article.query.filter_by(id=article_id)
+    if article_title:
+        for art_t in article_title:
+            title = art_t.title
+    for name in email_list:
+        n= str(name)
+        mails = Usremail.query.filter_by(user_id=n)
+        if mails:
+            for email_address in mails:
+                print('hereeeee')
+                sender = "newsdetectiveapp@gmail.com"
+                receiver = str(email_address.email)
+                password = "1@Password.News"
+                subject = "News Detective: Someone commented on your post"
+                body = f"""<pre>
+Dear News Detective,
+A clue! Someone commented on an article you've been investigating. 
+On "{title}", {return_name_value()} said "{comment_text}" 
+Find out what they're saying. <a href="https://newsdetective.org/results/{article_id}"> Click here to view </a>
+                 </pre>"""
+                # header
+
+                msg = MIMEMultipart('alternative')
+                msg['From'] = 'News Detective'
+                msg['To'] = receiver
+                msg['Subject'] = subject
+                msg.attach(MIMEText(body, 'html'))
+                server = smtplib.SMTP("smtp.gmail.com", 587)
+                server.starttls()
+
+                server = smtplib.SMTP("smtp.gmail.com", 587)
+                server.starttls()
+                try:
+                    server.login(sender,password)
+                    print("Logged in...")
+                    server.sendmail(sender, receiver, msg.as_string())
+                    print("Email has been sent!")
+                except smtplib.SMTPAuthenticationError:
+                    print("unable to sign in")
+
+
+
+#new modified by me
+def save_email(user_id, email):
+    check_mail = Usremail.query.all()
+    flag = False
+    if check_mail:
+        for x in check_mail:
+            print(x.user_id)
+            print(email)
+            print(user_id)
+            if str(x.user_id) == str(user_id):
+                flag = True
+
+    if flag == True:
+        print('user exist alread')
+    elif flag == False:
+        print('user doesnot exist')
+        print('now in the else condition')
+        u_id = str(user_id)
+        mail = str(email)
+        av_obj = Usremail(user_id=u_id, email=mail)
+        print('THE EMAIL: ', user_email_address, ' saved successfully against the user id: ', user_id)
+        db.session.add(av_obj)
+        db.session.commit()
+
+
+
+
+def notify_func():
+    usrs_id = usr_loggedIn()
+    print('check user id')
+    if usrs_id != 'user not found':
+        print(usrs_id)
+        notification_to_be = Notify.query.filter_by(p_user=usrs_id)
+        if notification_to_be:
+            for an in notification_to_be:
+                print('in the notification to be condition')
+                print(an.p_user, ' ', an.flag)
+                flag_val = ''
+                # if an.flag == False:
+                #     print('now in the proper false condition')
+                article_name = Article.query.filter_by(id=an.article_id)
+                if article_name:
+                    if an.flag == False:
+                        flag_val = 'false'
+                    elif an.flag == True:
+                        flag_val = 'truee'
+                    print('article name exists')
+                    for at in article_name:
+                        print('now looking for article title', '  ', at.title)
+                        name_of_article = at.title
+                        id_of_article = at.id
+                print(f'A user also voted for {name_of_article}')
+                flash(Markup(f'<a href="/results/{id_of_article}" class="alert-link">Someone also voted for {name_of_article[0:19]}...<br> Click to View</a>{flag_val}'))
+
+    else:
+        print('please login first')
+
+
+
+
+@application.route('/', methods=['GET', 'POST'])
 def home():
+    #fb_user_id = request.form['user_id']
+    # u = User.query.filter_by(fb_id=fb_user_id)
+    # if u:
+    # print('HOME page')
+    # usrs_id = usr_loggedIn()
+    # print('check user id')
+    # if usrs_id != 'user not found':
+    #     print(usrs_id)
+    #     notification_to_be = Notify.query.filter_by(p_user=usrs_id)
+    #     if notification_to_be:
+    #         for an in notification_to_be:
+    #             print('in the notification to be condition')
+    #             print(an.p_user, ' ', an.flag)
+    #
+    #             if an.flag == False:
+    #                 print('now in the proper false condition')
+    #                 article_name = Article.query.filter_by(id=an.article_id)
+    #                 if article_name:
+    #                     print('article name exists')
+    #                     for at in article_name:
+    #                         print('now looking for article title','  ',at.title)
+    #                         name_of_article = at.title
+    #             print(f'A user also voted for {name_of_article}')
+    #             flash(f'A user also voted for {name_of_article}')
+    # else:
+    #     print('please login first')
+
+    # notify_func()
+    # n = Notify.query.filter_by(flag=False)
+    # if n:
+    #     for a in n:
+    #         print(f'The User {a.user_id} interacted with the post {a.article_id}')
+
+    res = ''
+    notify_func()
+    usrs_id = usr_loggedIn()
+    if usrs_id != 'user not found':
+        print(usrs_id)
+        chk_alert = Notify.query.filter_by(p_user=usrs_id)
+        if chk_alert:
+            for f in chk_alert:
+                if f.flag == False:
+                    res = 'false'
+    else:
+        print('please login first')
+
+
+    save_email(usrs_id, return_mail_value())
+
     next_url = flask_session.pop("next_url", "")
     if next_url:
       return redirect(next_url)
@@ -242,7 +481,7 @@ def home():
     pagination = Pagination(page=page, search=search, record_name='home_data', per_page=per_page, offset=offset,
                             total=home_data.count(), css_framework='bootstrap3')
 
-    return render_template('home.html', home_data=home_data_for_render, pagination=pagination, query_param=q, sort_by=sort_by)
+    return render_template('home.html', home_data=home_data_for_render, pagination=pagination, query_param=q, sort_by=sort_by, result=res)
 
 
 
@@ -475,6 +714,30 @@ def domain_check():
 ##############################################
 @application.route('/results/<int:id>')
 def results(id):
+
+    user = checkUsr(id)
+    modify_notify = Notify.query.filter_by(article_id=id)
+    if modify_notify:
+        for m_check in modify_notify:
+            if (m_check.p_user == user) & (m_check.flag==False):
+                m_check.flag = True
+                db.session.commit()
+
+    res = ''
+    notify_func()
+    usrs_id = usr_loggedIn()
+    if usrs_id != 'user not found':
+        print(usrs_id)
+        chk_alert = Notify.query.filter_by(p_user=usrs_id)
+        if chk_alert:
+            for f in chk_alert:
+                if f.flag == False:
+                    res = 'false'
+    else:
+        print('please login first')
+
+    save_email(usrs_id, return_mail_value())
+    
     fb_user_id = ""
     # global article
     f_resp = facebook.get("/me?fields=id,name,picture.type(large)")
@@ -589,7 +852,7 @@ def results(id):
                            threevotes=pub_tuple[2], article_comments_dict=article_comments_dict,
                            fourvotes=pub_tuple[3], fivevotes=pub_tuple[4], sixvotes=pub_tuple[5],
                            score_percent=pub_tuple[8], pubscorechoices=pubscorechoices, total_plus_nn=total_plus_nn,
-                           fb_user_id=fb_user_id)
+                           fb_user_id=fb_user_id, result=res)
 
 ##############################################
 @application.route('/user/', methods=['GET', 'POST'])
@@ -715,7 +978,51 @@ def take_test():
 ##############################################
 @application.route('/about/')
 def about():
-    return render_template('about.html')
+    res = ''
+    notify_func()
+    usrs_id = usr_loggedIn()
+    if usrs_id != 'user not found':
+        print(usrs_id)
+        chk_alert = Notify.query.filter_by(p_user=usrs_id)
+        if chk_alert:
+            for f in chk_alert:
+                if f.flag == False:
+                    res = 'false'
+    else:
+        print('please login first')
+    save_email(usrs_id, return_mail_value())
+    # user_exists = User.query.all()
+    # if user_exists:
+    #     for a in user_exists:
+    #         print(a.fb_id)
+    # artice = Article.query.filter_by(id=645)
+    # if artice:
+    #     for a in artice:
+    #         print(a.title)
+
+    # votes = ArticleVote.query.filter_by(article_id=611)
+    # if votes:
+    #     for b in votes:
+    #         #print('Name: ', b.name, 'ID: ', b.user_id)
+    #         x = str(b.user_id)
+    #         av_obj = Notification(user_id='109500312106972995178', article_id='759', p_user=x, flag=False)
+    #         print('saved successfully')
+    #         db.session.add(av_obj)
+    #         db.session.commit()
+    #
+    # notify = Notification.query.filter_by(p_user=109500312106972995178)
+    # if notify:
+    #     print('here is the daaaaaaaaaaaataaaaaaaa')
+    #     for a in notify:
+    #         if a.flag is False:
+    #             print('changing the flag')
+    #             a.flag=True
+    #             db.session.commit()
+    return render_template('about.html', result=res)
+
+
+
+
 
 ##############################################
 @application.route('/bootstrap', methods=['GET', 'POST'])
@@ -857,6 +1164,20 @@ def before_login(blueprint, url):
 @application.route('/votefor/<int:article_id>', methods=['GET', 'POST'])
 def votefor(article_id):
     print("votefor")
+    res = ''
+    notify_func()
+    usrs_id = usr_loggedIn()
+    if usrs_id != 'user not found':
+        print(usrs_id)
+        chk_alert = Notify.query.filter_by(p_user=usrs_id)
+        if chk_alert:
+            for f in chk_alert:
+                if f.flag == False:
+                    res = 'false'
+    else:
+        print('please login first')
+
+    save_email(usrs_id, return_mail_value())
     fb_user_id = ""
     # global article
     f_resp = facebook.get("/me?fields=id,name,picture.type(large)")
@@ -920,8 +1241,289 @@ def votefor(article_id):
 
     return render_template('/votefor.html', article_id=article.id,
                            article_title=article.title, image_url=article.image_url, article_url=article.url,
-                           vote_choices=vote_choices, fb_user_id=fb_user_id, is_rated_user=is_rated_user
+                           vote_choices=vote_choices, fb_user_id=fb_user_id, is_rated_user=is_rated_user, result=res
                            )
+
+
+##############################################
+# new modified by me
+@application.route('/votefor/<int:article_id>', methods=['GET', 'POST'])
+def checkUsr(article_id):
+    print("votefor")
+    fb_user_id = ""
+    # global article
+    f_resp = facebook.get("/me?fields=id,name,picture.type(large)")
+    t_resp = twitter.get("account/verify_credentials.json")
+    g_resp = google.get("/oauth2/v1/userinfo")
+
+    if f_resp.ok:
+        fb_resp = f_resp.json()
+        user_email_address = fb_resp.get('email')
+        maybe_existing_user = User.query.filter_by(fb_id=fb_resp['id']).first()
+        if(maybe_existing_user):
+            fb_user_id = maybe_existing_user.fb_id
+        else:
+            profile_picture = fb_resp.get('picture', {}).get('data', {}).get('url')
+            new_user = User(int(fb_resp['id']), profile_picture, fb_resp['name'], 5, auth_provider='facebook')
+            db.session.add(new_user)
+            try:
+                db.session.commit()
+                fb_user_id = fb_resp['id']
+            except exc.SQLAlchemyError as e:
+                pass
+    elif t_resp.ok:
+        fb_resp = t_resp.json()
+        user_email_address = fb_resp.get('email')
+        maybe_existing_user = User.query.filter_by(fb_id=fb_resp['id']).first()
+        if(maybe_existing_user):
+            fb_user_id = maybe_existing_user.fb_id
+        else:
+            profile_picture = fb_resp.get('profile_image_url_https', '')
+            new_user = User(int(fb_resp['id']), profile_picture, fb_resp['name'], 5, auth_provider='twitter')
+            db.session.add(new_user)
+            try:
+                db.session.commit()
+                fb_user_id = fb_resp['id']
+            except exc.SQLAlchemyError as e:
+                pass
+    elif g_resp.ok:
+        fb_resp = g_resp.json()
+        print('ullu')
+        print(fb_resp)
+        print(fb_resp.get('email'))
+        user_email_address = fb_resp.get('email')
+        maybe_existing_user = User.query.filter_by(fb_id=fb_resp['id']).first()
+        if(maybe_existing_user):
+            fb_user_id = maybe_existing_user.fb_id
+        else:
+            profile_picture = fb_resp.get('picture', '')
+            new_user = User(int(fb_resp['id']), profile_picture, fb_resp['name'], 5, auth_provider='google')
+            db.session.add(new_user)
+            try:
+                db.session.commit()
+                fb_user_id = fb_resp['id']
+            except exc.SQLAlchemyError as e:
+                pass
+    is_rated_user = False
+    if fb_user_id:
+        try:
+            is_rated_user = User.query.filter_by(fb_id=fb_user_id).first().is_rated
+        except Exception as e:
+            pass
+    article_list_of_one = Article.query.filter_by(id=article_id)
+    article = article_list_of_one[0]
+    print("here's the id from votefor local hopefully article.id version", article.id)
+    posted = 1
+    # global article
+
+
+    if fb_user_id:
+        print('ullu1', user_email_address)
+        return fb_user_id
+    else:
+        return 'user not found'
+
+
+
+##############################################
+# new modified by me
+
+@application.route('/votefor/<int:article_id>', methods=['GET', 'POST'])
+def return_mail(article_id):
+    print("votefor")
+    users_email = ''
+    fb_user_id = ""
+    # global article
+    f_resp = facebook.get("/me?fields=id,name,picture.type(large)")
+    t_resp = twitter.get("account/verify_credentials.json")
+    g_resp = google.get("/oauth2/v1/userinfo")
+
+    if f_resp.ok:
+        fb_resp = f_resp.json()
+        users_email= fb_resp.get('email')
+        maybe_existing_user = User.query.filter_by(fb_id=fb_resp['id']).first()
+        if(maybe_existing_user):
+            fb_user_id = maybe_existing_user.fb_id
+        else:
+            profile_picture = fb_resp.get('picture', {}).get('data', {}).get('url')
+            new_user = User(int(fb_resp['id']), profile_picture, fb_resp['name'], 5, auth_provider='facebook')
+            db.session.add(new_user)
+            try:
+                db.session.commit()
+                fb_user_id = fb_resp['id']
+            except exc.SQLAlchemyError as e:
+                pass
+    elif t_resp.ok:
+        fb_resp = t_resp.json()
+        users_email = fb_resp.get('email')
+        maybe_existing_user = User.query.filter_by(fb_id=fb_resp['id']).first()
+        if(maybe_existing_user):
+            fb_user_id = maybe_existing_user.fb_id
+        else:
+            profile_picture = fb_resp.get('profile_image_url_https', '')
+            new_user = User(int(fb_resp['id']), profile_picture, fb_resp['name'], 5, auth_provider='twitter')
+            db.session.add(new_user)
+            try:
+                db.session.commit()
+                fb_user_id = fb_resp['id']
+            except exc.SQLAlchemyError as e:
+                pass
+    elif g_resp.ok:
+        fb_resp = g_resp.json()
+        users_email= fb_resp.get('email')
+        maybe_existing_user = User.query.filter_by(fb_id=fb_resp['id']).first()
+        if(maybe_existing_user):
+            fb_user_id = maybe_existing_user.fb_id
+        else:
+            profile_picture = fb_resp.get('picture', '')
+            new_user = User(int(fb_resp['id']), profile_picture, fb_resp['name'], 5, auth_provider='google')
+            db.session.add(new_user)
+            try:
+                db.session.commit()
+                fb_user_id = fb_resp['id']
+            except exc.SQLAlchemyError as e:
+                pass
+    is_rated_user = False
+    if fb_user_id:
+        try:
+            is_rated_user = User.query.filter_by(fb_id=fb_user_id).first().is_rated
+        except Exception as e:
+            pass
+    article_list_of_one = Article.query.filter_by(id=article_id)
+    article = article_list_of_one[0]
+    print("here's the id from votefor local hopefully article.id version", article.id)
+    posted = 1
+    # global article
+
+
+    if fb_user_id:
+        return users_email
+    else:
+        return 'user not found'
+
+
+
+ ##############################################
+# new modified by me
+
+@application.route('/votefor/<int:article_id>', methods=['GET', 'POST'])
+def return_name(article_id):
+    print("votefor")
+    users_name = ''
+    fb_user_id = ""
+    # global article
+    f_resp = facebook.get("/me?fields=id,name,picture.type(large)")
+    t_resp = twitter.get("account/verify_credentials.json")
+    g_resp = google.get("/oauth2/v1/userinfo")
+
+    if f_resp.ok:
+        fb_resp = f_resp.json()
+        users_name= fb_resp.get('name')
+        maybe_existing_user = User.query.filter_by(fb_id=fb_resp['id']).first()
+        if(maybe_existing_user):
+            fb_user_id = maybe_existing_user.fb_id
+        else:
+            profile_picture = fb_resp.get('picture', {}).get('data', {}).get('url')
+            new_user = User(int(fb_resp['id']), profile_picture, fb_resp['name'], 5, auth_provider='facebook')
+            db.session.add(new_user)
+            try:
+                db.session.commit()
+                fb_user_id = fb_resp['id']
+            except exc.SQLAlchemyError as e:
+                pass
+    elif t_resp.ok:
+        fb_resp = t_resp.json()
+        users_name = fb_resp.get('name')
+        maybe_existing_user = User.query.filter_by(fb_id=fb_resp['id']).first()
+        if(maybe_existing_user):
+            fb_user_id = maybe_existing_user.fb_id
+        else:
+            profile_picture = fb_resp.get('profile_image_url_https', '')
+            new_user = User(int(fb_resp['id']), profile_picture, fb_resp['name'], 5, auth_provider='twitter')
+            db.session.add(new_user)
+            try:
+                db.session.commit()
+                fb_user_id = fb_resp['id']
+            except exc.SQLAlchemyError as e:
+                pass
+    elif g_resp.ok:
+        fb_resp = g_resp.json()
+        users_name= fb_resp.get('name')
+        maybe_existing_user = User.query.filter_by(fb_id=fb_resp['id']).first()
+        if(maybe_existing_user):
+            fb_user_id = maybe_existing_user.fb_id
+        else:
+            profile_picture = fb_resp.get('picture', '')
+            new_user = User(int(fb_resp['id']), profile_picture, fb_resp['name'], 5, auth_provider='google')
+            db.session.add(new_user)
+            try:
+                db.session.commit()
+                fb_user_id = fb_resp['id']
+            except exc.SQLAlchemyError as e:
+                pass
+    is_rated_user = False
+    if fb_user_id:
+        try:
+            is_rated_user = User.query.filter_by(fb_id=fb_user_id).first().is_rated
+        except Exception as e:
+            pass
+    article_list_of_one = Article.query.filter_by(id=article_id)
+    article = article_list_of_one[0]
+    print("here's the id from votefor local hopefully article.id version", article.id)
+    posted = 1
+    # global article
+
+
+    if fb_user_id:
+        return users_name
+    else:
+        return 'user not found'
+
+
+def usr_loggedIn():
+    arti_check = Article.query.all()
+    count = 0
+    if arti_check:
+        for arti in arti_check:
+            if count == 0:
+                usr_exis_param = arti.id
+                count = 1
+            elif count == 1:
+                break
+    usr_exis = checkUsr(usr_exis_param)  # new modified by me
+    print(usr_exis)  # new modified by me
+    if usr_exis:
+        return usr_exis
+
+def return_mail_value():
+    arti_check = Article.query.all()
+    count = 0
+    if arti_check:
+        for arti in arti_check:
+            if count == 0:
+                usr_exis_param = arti.id
+                count = 1
+            elif count == 1:
+                break
+    usr_exis = return_mail(usr_exis_param)  # new modified by me
+    print(usr_exis)  # new modified by me
+    if usr_exis:
+        return usr_exis
+
+def return_name_value():
+    arti_check = Article.query.all()
+    count = 0
+    if arti_check:
+        for arti in arti_check:
+            if count == 0:
+                usr_exis_param = arti.id
+                count = 1
+            elif count == 1:
+                break
+    usr_exis = return_name(usr_exis_param)  # new modified by me
+    print(usr_exis)  # new modified by me
+    if usr_exis:
+        return usr_exis
 
 
 ##############################################
@@ -1080,6 +1682,7 @@ def insert_comment():
 @application.route('/insert_vote', methods=['GET', 'POST'])
 def insert_vote():
     posted = 1
+    comment_text = ''
     # global user_id
     # global article, user_id
     # print ("insert_vote", "this should be the facebook user id", user_id)
@@ -1091,7 +1694,6 @@ def insert_vote():
             rate = 0  # rate of votes protection against no votes
             vote_choice_id = int(request.form['options'])
             comments = request.form['comments']
-
             print("here comes the new stuff")
 
             article_id = int(request.form['article_id'])
@@ -1103,7 +1705,7 @@ def insert_vote():
             user_id = request.form['user_id']
             print("this is the try bit")
             print(user_id)
-            fb_user_id = int(user_id)
+            fb_user_id = str(user_id)
             user_exists = User.query.filter_by(fb_id=fb_user_id).first()
             if not user_exists:
                 flash('User does not exist', 'error')
@@ -1111,6 +1713,7 @@ def insert_vote():
             else:
                 # user_id = 1
                 av_obj = ArticleVote(fb_user_id, article_id, vote_choice_id, comments)
+                comment_text = comments
                 db.session.add(av_obj)
                 try:
                     print("db.session.commit before")
@@ -1124,6 +1727,12 @@ def insert_vote():
 
                 if posted == 1:
                     print("posted ==1 after")
+
+                    its_vote = True
+                    save_notify(fb_user_id, article_id, its_vote, comment_text)
+
+
+                    print("posted ==1 after2")
                     flash('Record was successfully added')
                 else:
                     print("right before rollback")
@@ -1172,4 +1781,5 @@ def insert_vote():
 
 if __name__ == '__main__':
     db.create_all()
-    application.run(host="0.0.0.0", debug=True, ssl_context=("example.com+2.pem", "example.com+2-key.pem"))
+    # application.run(host="0.0.0.0", debug=True, ssl_context=("example.com+2.pem", "example.com+2-key.pem"))
+    application.run(host="127.0.0.1", debug=True, ssl_context=("example.com+2.pem", "example.com+2-key.pem"))
