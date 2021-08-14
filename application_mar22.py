@@ -22,18 +22,16 @@ from flask import Flask, jsonify, request, render_template
 application = Flask(__name__, static_url_path='')
 application.config['SQLALCHEMY_ECHO'] = True
 #application.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://admin:iski8iski8A@database-2.cv15axugkvps.us-east-2.rds.amazonaws.com/bear'
-# application.config['SQLALCHEMY_DATABASE_URI'] = 'http://localhost/phpmyadmin/db_structure.php?server=1&db=bear'
-application.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:''@localhost/bear1'#n
+application.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:''@localhost/bear1'#database route for localhost
 application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False#n
 application.config['SECRET_KEY'] = "random string"
 application.config["FACEBOOK_OAUTH_CLIENT_ID"] = '1560520617436290'
 application.config["FACEBOOK_OAUTH_CLIENT_SECRET"] = '0a41f3b2a58fc6d27f3ae9d6b8570fea'
 application.config["TWITTER_OAUTH_CLIENT_KEY"] = 'vTJtz4tMVHOlk3PEgVTQAlQBi'
 application.config["TWITTER_OAUTH_CLIENT_SECRET"] = 'pHbL1GtgbC0hCCDs1qXG4H8mbr4pgjldmZH9Rybt8vVWh9Yrw8'
-# application.config["GOOGLE_OAUTH_CLIENT_ID"] = '999488574192-i9rpq3mvjb4putke6j8a13098f74ff9k.apps.googleusercontent.com'
-application.config["GOOGLE_OAUTH_CLIENT_ID"] = '437454667988-krodjb4bagjpieiktlvseqgha3t7i1gm.apps.googleusercontent.com'
-# application.config["GOOGLE_OAUTH_CLIENT_SECRET"] = 'qjoGqzwuHTGWOY1ptb4mRmPt'
-application.config["GOOGLE_OAUTH_CLIENT_SECRET"] = 'e7ElcDPPIMQDuLPezBBRWbav'
+application.config["GOOGLE_OAUTH_CLIENT_ID"] = '999488574192-i9rpq3mvjb4putke6j8a13098f74ff9k.apps.googleusercontent.com'
+application.config["GOOGLE_OAUTH_CLIENT_SECRET"] = 'qjoGqzwuHTGWOY1ptb4mRmPt'
+
 
 google_bp = make_google_blueprint(scope=["openid", "https://www.googleapis.com/auth/userinfo.profile", "https://www.googleapis.com/auth/userinfo.email"])
 application.register_blueprint(google_bp, url_prefix="/login")
