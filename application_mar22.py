@@ -294,6 +294,7 @@ def save_notify(user_id, article_id, vote, comment):
 
 
 def send_mail_now(email_list, art_id, comment):
+    print('in send mail now function')
     users_name = str(return_name_value())
     print('in function sned mail now')
     article_id = str(art_id)
