@@ -403,7 +403,7 @@ def notify_func():
 @application.route('/', methods=['GET', 'POST'])
 def home():
     var = 'welcom to the home page'
-    print(var)
+    print(var+' name'+'lname')
     #fb_user_id = request.form['user_id']
     # u = User.query.filter_by(fb_id=fb_user_id)
     # if u:
