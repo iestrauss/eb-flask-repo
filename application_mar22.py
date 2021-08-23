@@ -316,7 +316,7 @@ def send_mail_now(email_list, art_id, comment):
 Dear News Detective,
 A clue! Someone commented on an article you've been investigating. 
 On "{title}", {return_name_value()} said "{comment_text}" 
-Find out what they're saying. <a href="https://newsdetective.org/results/{article_id}"> Click here to view </a>
+Find out what they're saying. <a href="https://127.0.0.1:5000/results/{article_id}"> Click here to view </a>
                  </pre>"""
                 # header
 
