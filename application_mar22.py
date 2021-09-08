@@ -21,9 +21,7 @@ from flask import Flask, jsonify, request, render_template
 
 application = Flask(__name__, static_url_path='')
 application.config['SQLALCHEMY_ECHO'] = True
-#application.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://admin:iski8iski8A@database-2.cv15axugkvps.us-east-2.rds.amazonaws.com/bear'
-# application.config['SQLALCHEMY_DATABASE_URI'] = 'http://localhost/phpmyadmin/db_structure.php?server=1&db=bear'
-application.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:''@localhost/bear1'#n
+application.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://admin:Int545.01@news-detective-prod-2.ccxygm3gfxra.eu-west-2.rds.amazonaws.com/bear'
 application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False#n
 application.config['SECRET_KEY'] = "random string"
 application.config["FACEBOOK_OAUTH_CLIENT_ID"] = '1560520617436290'
@@ -317,7 +315,7 @@ def send_mail_now(email_list, art_id, comment):
 Dear News Detective,
 A clue! Someone commented on an article you've been investigating. 
 On "{title}", {return_name_value()} said "{comment_text}" 
-Find out what they're saying. <a href="https://127.0.0.1:5000/results/{article_id}"> Click here to view </a>
+Find out what they're saying. <a href="https://newsdetective.org/results/{article_id}"> Click here to view </a>
                  </pre>"""
                 # header
 
