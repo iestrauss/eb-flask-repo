@@ -1,3 +1,4 @@
+import os
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
@@ -43,7 +44,6 @@ application.register_blueprint(facebook_bp, url_prefix="/login")
 db = SQLAlchemy(application)
 
 print("tiger print one", db)
-
 
 
 ##############################################
@@ -136,7 +136,6 @@ class Notification(db.Model):
         self.flag = flag
 
 
-
 #####################################
 class Notify(db.Model):
     id = db.Column('id', db.Integer, primary_key=True)
@@ -154,7 +153,6 @@ class Notify(db.Model):
         self.flag = flag
 
 
-
 #####################################
 #new modified by me
 class Usremail(db.Model):
@@ -167,8 +165,6 @@ class Usremail(db.Model):
         self.email = email
 
 
-
-
 ##############################################
 class ArticleVote(db.Model):
     # object mirrors table 'article_vote'
@@ -176,7 +172,7 @@ class ArticleVote(db.Model):
     #user_id = db.Column(db.Integer, db.ForeignKey('user.fb_id'))  # Sloppy
     user_id = db.Column(db.String(100))  # new modified by me
     # article_id = db.Column(db.Integer, db.ForeignKey('article.id'))
-    article_id = db.Column(db.Integer) # new modified by me
+    article_id = db.Column(db.Integer)  # new modified by me
     vote_choice_id = db.Column(db.Integer)
     comment = db.Column(db.String(400))
 
@@ -262,6 +258,7 @@ class Comment(db.Model):
     def add_reply(self, fb_user_id, article_id, text):
         return Comment(user_id=fb_user_id, article_id=article_id, text=text, parent=self)
 
+
 #############################################
 
 
@@ -270,7 +267,9 @@ from flask_paginate import Pagination, get_page_parameter, get_page_args
 
 mod = Blueprint('home_data', __name__)
 user_email_address = ''
-#new modified by me
+
+
+# new modified by me
 def save_notify(user_id, article_id, vote, comment):
     p_user_list = []
     art_id = str(article_id)
@@ -300,7 +299,7 @@ def send_mail_now(email_list, art_id, comment):
         for art_t in article_title:
             title = art_t.title
     for name in email_list:
-        n= str(name)
+        n = str(name)
         mails = Usremail.query.filter_by(user_id=n)
         if mails:
             for email_address in mails:
@@ -328,7 +327,7 @@ Find out what they're saying. <a href="https://newsdetective.org/results/{articl
                 server = smtplib.SMTP("smtp.gmail.com", 587)
                 server.starttls()
                 try:
-                    server.login(sender,password)
+                    server.login(sender, password)
                     print("Logged in...")
                     server.sendmail(sender, receiver, msg.as_string())
                     print("Email has been sent!")
@@ -336,8 +335,7 @@ Find out what they're saying. <a href="https://newsdetective.org/results/{articl
                     print("unable to sign in")
 
 
-
-#new modified by me
+# new modified by me
 def save_email(user_id, email):
     check_mail = Usremail.query.all()
     flag = False
@@ -360,8 +358,6 @@ def save_email(user_id, email):
         print('THE EMAIL: ', user_email_address, ' saved successfully against the user id: ', user_id)
         db.session.add(av_obj)
         db.session.commit()
-
-
 
 
 def notify_func():
@@ -389,17 +385,16 @@ def notify_func():
                         name_of_article = at.title
                         id_of_article = at.id
                 print(f'A user also voted for {name_of_article}')
-                flash(Markup(f'<a href="/results/{id_of_article}" class="alert-link">Someone also voted for {name_of_article[0:19]}...<br> Click to View</a>{flag_val}'))
+                flash(Markup(
+                    f'<a href="/results/{id_of_article}" class="alert-link">Someone also voted for {name_of_article[0:19]}...<br> Click to View</a>{flag_val}'))
 
     else:
         print('please login first')
 
 
-
-
 @application.route('/', methods=['GET', 'POST'])
 def home():
-    #fb_user_id = request.form['user_id']
+    # fb_user_id = request.form['user_id']
     # u = User.query.filter_by(fb_id=fb_user_id)
     # if u:
     # print('HOME page')
@@ -445,12 +440,11 @@ def home():
     else:
         print('please login first')
 
-
     save_email(usrs_id, return_mail_value())
 
     next_url = flask_session.pop("next_url", "")
     if next_url:
-      return redirect(next_url)
+        return redirect(next_url)
 
     page = int(request.args.get('page', 1))
     per_page = 10
@@ -461,10 +455,12 @@ def home():
     if sort_by and sort_by == 'recent':
         home_data = Article.query.order_by(Article.date_upload.desc())
     else:
-        sq_votes = db.session.query(ArticleVote.article_id, func.count('*').label('vote_count')).group_by(ArticleVote.article_id).subquery()
+        sq_votes = db.session.query(ArticleVote.article_id, func.count('*').label('vote_count')).group_by(
+            ArticleVote.article_id).subquery()
         home_data = db.session.query(
-            Article.id, Article.title, Article.url, Article.image_url, Article.snippet, Article.date_upload, sq_votes.c.vote_count
-        ).outerjoin(sq_votes, Article.id==sq_votes.c.article_id).order_by(desc('vote_count'))
+            Article.id, Article.title, Article.url, Article.image_url, Article.snippet, Article.date_upload,
+            sq_votes.c.vote_count
+        ).outerjoin(sq_votes, Article.id == sq_votes.c.article_id).order_by(desc('vote_count'))
 
     if q:
         home_data = Article.query.filter(Article.title.like('%' + q + '%')).order_by(Article.date_upload.desc())
@@ -473,13 +469,12 @@ def home():
 
     print("article dicts:", home_data_for_render)
 
-
     page = request.args.get(get_page_parameter(), type=int, default=1)
     pagination = Pagination(page=page, search=search, record_name='home_data', per_page=per_page, offset=offset,
                             total=home_data.count(), css_framework='bootstrap3')
 
-    return render_template('home.html', home_data=home_data_for_render, pagination=pagination, query_param=q, sort_by=sort_by, result=res)
-
+    return render_template('home.html', home_data=home_data_for_render, pagination=pagination, query_param=q,
+                           sort_by=sort_by, result=res)
 
 
 ##############################################
@@ -489,10 +484,10 @@ def retrieve_pub_vote_summary(publication):
 
     # for 1 votes
     qs = (db.session.query(Article.snippet, ArticleVote.id, User.is_rated)
-         .join(ArticleVote, Article.id == ArticleVote.article_id)
-         .join(User, User.fb_id == ArticleVote.user_id)
-         .filter(Article.snippet == publication)
-         .filter(ArticleVote.vote_choice_id == 1))
+          .join(ArticleVote, Article.id == ArticleVote.article_id)
+          .join(User, User.fb_id == ArticleVote.user_id)
+          .filter(Article.snippet == publication)
+          .filter(ArticleVote.vote_choice_id == 1))
 
     onevotes = 0
     for result in qs.all():
@@ -503,10 +498,10 @@ def retrieve_pub_vote_summary(publication):
 
     # for 2 votes
     qs = (db.session.query(Article.snippet, ArticleVote.id, User.is_rated)
-         .join(ArticleVote, Article.id == ArticleVote.article_id)
-         .join(User, User.fb_id == ArticleVote.user_id)
-         .filter(Article.snippet == publication)
-         .filter(ArticleVote.vote_choice_id == 2))
+          .join(ArticleVote, Article.id == ArticleVote.article_id)
+          .join(User, User.fb_id == ArticleVote.user_id)
+          .filter(Article.snippet == publication)
+          .filter(ArticleVote.vote_choice_id == 2))
 
     twovotes = 0
     for result in qs.all():
@@ -517,10 +512,10 @@ def retrieve_pub_vote_summary(publication):
 
     # for 3 votes
     qs = (db.session.query(Article.snippet, ArticleVote.id, User.is_rated)
-         .join(ArticleVote, Article.id == ArticleVote.article_id)
-         .join(User, User.fb_id == ArticleVote.user_id)
-         .filter(Article.snippet == publication)
-         .filter(ArticleVote.vote_choice_id == 3))
+          .join(ArticleVote, Article.id == ArticleVote.article_id)
+          .join(User, User.fb_id == ArticleVote.user_id)
+          .filter(Article.snippet == publication)
+          .filter(ArticleVote.vote_choice_id == 3))
 
     threevotes = 0
     for result in qs.all():
@@ -531,10 +526,10 @@ def retrieve_pub_vote_summary(publication):
 
     # for 4 votes
     qs = (db.session.query(Article.snippet, ArticleVote.id, User.is_rated)
-         .join(ArticleVote, Article.id == ArticleVote.article_id)
-         .join(User, User.fb_id == ArticleVote.user_id)
-         .filter(Article.snippet == publication)
-         .filter(ArticleVote.vote_choice_id == 4))
+          .join(ArticleVote, Article.id == ArticleVote.article_id)
+          .join(User, User.fb_id == ArticleVote.user_id)
+          .filter(Article.snippet == publication)
+          .filter(ArticleVote.vote_choice_id == 4))
 
     fourvotes = 0
     for result in qs.all():
@@ -545,10 +540,10 @@ def retrieve_pub_vote_summary(publication):
 
     # for 5 votes
     qs = (db.session.query(Article.snippet, ArticleVote.id, User.is_rated)
-         .join(ArticleVote, Article.id == ArticleVote.article_id)
-         .join(User, User.fb_id == ArticleVote.user_id)
-         .filter(Article.snippet == publication)
-         .filter(ArticleVote.vote_choice_id == 5))
+          .join(ArticleVote, Article.id == ArticleVote.article_id)
+          .join(User, User.fb_id == ArticleVote.user_id)
+          .filter(Article.snippet == publication)
+          .filter(ArticleVote.vote_choice_id == 5))
 
     fivevotes = 0
     for result in qs.all():
@@ -559,10 +554,10 @@ def retrieve_pub_vote_summary(publication):
 
     # for 6 votes
     qs = (db.session.query(Article.snippet, ArticleVote.id, User.is_rated)
-         .join(ArticleVote, Article.id == ArticleVote.article_id)
-         .join(User, User.fb_id == ArticleVote.user_id)
-         .filter(Article.snippet == publication)
-         .filter(ArticleVote.vote_choice_id == 6))
+          .join(ArticleVote, Article.id == ArticleVote.article_id)
+          .join(User, User.fb_id == ArticleVote.user_id)
+          .filter(Article.snippet == publication)
+          .filter(ArticleVote.vote_choice_id == 6))
 
     sixvotes = 0
     for result in qs.all():
@@ -583,11 +578,12 @@ def retrieve_pub_vote_summary(publication):
     score_percent = round(score * 100)
 
     pub_tuple = (onevotes, twovotes, threevotes, fourvotes, fivevotes, sixvotes, total, score,
-                             score_percent)
+                 score_percent)
     print("before pub_tuple")
     print(pub_tuple)
     print("after pub_tuple")
     return pub_tuple
+
 
 def retrieve_article_rating(article_url):
     article = Article.query.filter_by(url=article_url).first()
@@ -597,7 +593,7 @@ def retrieve_article_rating(article_url):
         ArticleVote.vote_choice_id,
         User.is_rated
     ).filter_by(article_id=article.id).join(User, User.fb_id == ArticleVote.user_id).all()
-    votes_dict = {i:0 for i in range(1,7)}
+    votes_dict = {i: 0 for i in range(1, 7)}
     for vote in votes_qs:
         if vote[1]:
             votes_dict[vote[0]] += 5
@@ -654,11 +650,11 @@ def buttoncolor():
                 # // link 3 is the domain link
                 print("here comes link3")
                 print(link3)
-# getting the domain
+            # getting the domain
             import tldextract  # The module looks up TLDs in the Public Suffix List, mantained by Mozilla volunteers
             extract = tldextract.extract(link3)
             domain = extract.domain
-# getting the score info
+            # getting the score info
             publication = domain
             pub_tuple = retrieve_pub_vote_summary(publication)
             article_rating = retrieve_article_rating(link3)
@@ -686,7 +682,7 @@ def domain_check():
             # getting the score info
             publication = domain
             article = Article.query.filter_by(snippet=publication).first()
-            if(article):
+            if (article):
                 pub_tuple = retrieve_pub_vote_summary(publication)
                 article_rating = retrieve_article_rating(link3)
                 pub_total = pub_tuple[6]
@@ -711,12 +707,11 @@ def domain_check():
 ##############################################
 @application.route('/results/<int:id>')
 def results(id):
-
     user = checkUsr(id)
     modify_notify = Notify.query.filter_by(article_id=id)
     if modify_notify:
         for m_check in modify_notify:
-            if (m_check.p_user == user) & (m_check.flag==False):
+            if (m_check.p_user == user) & (m_check.flag == False):
                 m_check.flag = True
                 db.session.commit()
 
@@ -734,7 +729,7 @@ def results(id):
         print('please login first')
 
     save_email(usrs_id, return_mail_value())
-    
+
     fb_user_id = ""
     # global article
     f_resp = facebook.get("/me?fields=id,name,picture.type(large)")
@@ -743,7 +738,7 @@ def results(id):
     if f_resp.ok:
         fb_resp = f_resp.json()
         maybe_existing_user = User.query.filter_by(fb_id=fb_resp['id']).first()
-        if(maybe_existing_user):
+        if (maybe_existing_user):
             fb_user_id = maybe_existing_user.fb_id
         else:
             profile_picture = fb_resp.get('picture', {}).get('data', {}).get('url')
@@ -757,7 +752,7 @@ def results(id):
     elif t_resp.ok:
         fb_resp = t_resp.json()
         maybe_existing_user = User.query.filter_by(fb_id=fb_resp['id']).first()
-        if(maybe_existing_user):
+        if (maybe_existing_user):
             fb_user_id = maybe_existing_user.fb_id
         else:
             profile_picture = fb_resp.get('profile_image_url_https', '')
@@ -771,7 +766,7 @@ def results(id):
     elif g_resp.ok:
         fb_resp = g_resp.json()
         maybe_existing_user = User.query.filter_by(fb_id=fb_resp['id']).first()
-        if(maybe_existing_user):
+        if (maybe_existing_user):
             fb_user_id = maybe_existing_user.fb_id
         else:
             profile_picture = fb_resp.get('picture', '')
@@ -792,8 +787,8 @@ def results(id):
     all_users = User.query.filter(User.fb_id.in_(ids)).all()
     for user in all_users:
         user_name_dict[str(user.fb_id)] = user.name
-        user_name_dict[str(user.fb_id)+"-picture"] = user.fb_pic
-        user_name_dict[str(user.fb_id)+"-auth_provider"] = user.auth_provider
+        user_name_dict[str(user.fb_id) + "-picture"] = user.fb_pic
+        user_name_dict[str(user.fb_id) + "-auth_provider"] = user.auth_provider
     article_comments = Comment.query.filter((Comment.article_id == id) & (Comment.parent == None))
     article_comments_dict = {}
     for comment in article_comments:
@@ -809,28 +804,26 @@ def results(id):
             rate = num / total_votes
         vote_choices.append([item.choice, item.color, num, rate * 100, total_votes])
 
-# getting publication score info
+    # getting publication score info
     publication = a_obj.snippet
     pub_tuple = retrieve_pub_vote_summary(publication)
     print("pub tuple: ", pub_tuple)
-
 
     total_plus_nn = pub_tuple[0] + pub_tuple[1] + pub_tuple[2] + pub_tuple[3] + pub_tuple[4] + pub_tuple[5]
     print("total_plus_nn: ", total_plus_nn)
     if total_plus_nn == 0:
         total_plus_nn = 1
 
-    onescore = pub_tuple[0]*100 / total_plus_nn
-    twoscore = pub_tuple[1]*100 / total_plus_nn
-    threescore = pub_tuple[2]*100 / total_plus_nn
-    fourscore = pub_tuple[3]*100 / total_plus_nn
-    fivescore = pub_tuple[4]*100 / total_plus_nn
-    sixscore = pub_tuple[5]*100 / total_plus_nn
+    onescore = pub_tuple[0] * 100 / total_plus_nn
+    twoscore = pub_tuple[1] * 100 / total_plus_nn
+    threescore = pub_tuple[2] * 100 / total_plus_nn
+    fourscore = pub_tuple[3] * 100 / total_plus_nn
+    fivescore = pub_tuple[4] * 100 / total_plus_nn
+    sixscore = pub_tuple[5] * 100 / total_plus_nn
 
-    pubscorechoices=(onescore, twoscore, threescore, fourscore, fivescore, sixscore)
+    pubscorechoices = (onescore, twoscore, threescore, fourscore, fivescore, sixscore)
     print("pubscorechoices")
     print(pubscorechoices)
-
 
     details = avs_obj.getVoteDetails()  # 10/02 - retrieve array of tuples [(user, VoteChoice, Comments)]
     print("Inside results(" + str(id) + "):")
@@ -841,7 +834,6 @@ def results(id):
         # print("    " + str(details_count) + ": " + details[0] + " " + details[1] + " " + details[2])
         # details_count += 1
 
-
     return render_template('results.html', title=a_obj.title, snippet=a_obj.snippet, id=id,
                            image_url=a_obj.image_url, url=a_obj.url, user_name_dict=user_name_dict,
                            vote_choices=vote_choices, home_data=Article.query.all(),
@@ -850,6 +842,7 @@ def results(id):
                            fourvotes=pub_tuple[3], fivevotes=pub_tuple[4], sixvotes=pub_tuple[5],
                            score_percent=pub_tuple[8], pubscorechoices=pubscorechoices, total_plus_nn=total_plus_nn,
                            fb_user_id=fb_user_id, result=res)
+
 
 ##############################################
 @application.route('/user/', methods=['GET', 'POST'])
@@ -908,6 +901,7 @@ def tutorial():
         return ('', 204)
     return send_from_directory('tutorial/', 'story.html')
 
+
 ##############################################
 @application.route('/enterdata/', methods=['GET', 'POST'])
 def enterdata():
@@ -921,10 +915,12 @@ def commenttest():
     print("commenttest")
     return render_template('/commenttest.html')
 
+
 ##############################################
 @application.route('/privacypolicy/')
 def privacypolicy():
     return render_template('privacypolicy.html')
+
 
 ##############################################
 @application.route('/factcheckclass/')
@@ -955,10 +951,12 @@ def factcheckclass4():
 def factcheckclass5():
     return render_template('factcheckclass5.html')
 
+
 ##############################################
 @application.route('/chat/')
 def chat():
     return render_template('chat.html')
+
 
 ##############################################
 @application.route('/take_test', methods=['GET', 'POST'])
@@ -971,6 +969,7 @@ def take_test():
             message = {'greeting': "hope you chose bikes"}
             print(message)
             return jsonify(message)
+
 
 ##############################################
 @application.route('/about/')
@@ -1018,17 +1017,15 @@ def about():
     return render_template('about.html', result=res)
 
 
-
-
-
 ##############################################
 @application.route('/bootstrap', methods=['GET', 'POST'])
 # // this takes the article from the extension and inserts it into the database
 def bootstrap():
     posted = 1
-    print ("bootstrap")
+    print("bootstrap")
     if request.method == 'POST':
-        if not request.form['title'] or not request.form['url'] or not request.form['image_url'] or not request.form['snippet']:
+        if not request.form['title'] or not request.form['url'] or not request.form['image_url'] or not request.form[
+            'snippet']:
             flash('Please enter all the fields', 'error')
         else:
             if 'source' in request.form and request.form['source'] == 'twitter':
@@ -1072,23 +1069,36 @@ def bootstrap():
             domain = extract.domain
             print("domain: ", domain)
 
+            # Check if article exists or not in the database
+            article = Article.query.filter_by(url=link3, title=request.form['title']).first()
 
-            article = Article(request.form['title'], link3, request.form['image_url'],
-                               domain)
+            if article is None:
+                article = Article(request.form['title'], link3, request.form['image_url'], domain)
+                db.session.add(article)
+                try:
+                    db.session.commit()
+                    db.session.refresh(article)
+                except exc.SQLAlchemyError as error:
+                    print(error)
+                    flash('Failed to post new article')
+                    posted = 0
+            else:
+                posted = 0
+                flash('Article url already exists, failed to post new article')
 
-            db.session.add(article)
-            try:
-                db.session.commit()
-            except exc.SQLAlchemyError as e:
-               print(e)
-               flash('Article url already exists, failed to post new article')
-               posted = 0
-               #return render_template('/error.html', article_url=article.url)
+            # db.session.add(article)
+            # try:
+            #     db.session.commit()
+            # except exc.SQLAlchemyError as e:
+            #     print(e)
+            #     flash('Article url already exists, failed to post new article')
+            #     posted = 0
+                # return render_template('/error.html', article_url=article.url)
 
             # article_list = Article.query.filter_by(image_url=article.image_url)
             # article_list = Article.query.filter_by(url=article.url)
 
-            article_list = Article.query.filter_by(url=article.url)
+            # article_list = Article.query.filter_by(url=article.url)
 
             if posted == 1:
                 flash('Record was successfully added')
@@ -1098,9 +1108,9 @@ def bootstrap():
                 # article_list = Article.query.filter_by(url=article.url)
                 article_list = Article.query.filter_by(url=article.url)
 
-                article=article_list[0]
+                article = article_list[0]
 
-            print ("article.id=" + str(article.id))
+            print("article.id=" + str(article.id))
             import json
             return json.dumps(article.id)
 
@@ -1108,7 +1118,7 @@ def bootstrap():
         # print("article.id=" + str(article.id))
         urlNumber = str(article.id)
 
-        message = {'greeting':urlNumber}
+        message = {'greeting': urlNumber}
         return jsonify(message)  # serialize and use JSON headers
 
 
@@ -1130,11 +1140,12 @@ def fbuser():
 
     # check if user is in db, if so, set ID...
 
-    if(maybe_existing_user):
+    if (maybe_existing_user):
         fb_user_id = maybe_existing_user.id
         return "exists"
     else:
-        new_user = User(int(person.get("userID")), person.get("picture"), person.get("name"), 5, auth_provider='facebook')
+        new_user = User(int(person.get("userID")), person.get("picture"), person.get("name"), 5,
+                        auth_provider='facebook')
         db.session.add(new_user)
         try:
             db.session.commit()
@@ -1183,7 +1194,7 @@ def votefor(article_id):
     if f_resp.ok:
         fb_resp = f_resp.json()
         maybe_existing_user = User.query.filter_by(fb_id=fb_resp['id']).first()
-        if(maybe_existing_user):
+        if (maybe_existing_user):
             fb_user_id = maybe_existing_user.fb_id
         else:
             profile_picture = fb_resp.get('picture', {}).get('data', {}).get('url')
@@ -1197,7 +1208,7 @@ def votefor(article_id):
     elif t_resp.ok:
         fb_resp = t_resp.json()
         maybe_existing_user = User.query.filter_by(fb_id=fb_resp['id']).first()
-        if(maybe_existing_user):
+        if (maybe_existing_user):
             fb_user_id = maybe_existing_user.fb_id
         else:
             profile_picture = fb_resp.get('profile_image_url_https', '')
@@ -1211,7 +1222,7 @@ def votefor(article_id):
     elif g_resp.ok:
         fb_resp = g_resp.json()
         maybe_existing_user = User.query.filter_by(fb_id=fb_resp['id']).first()
-        if(maybe_existing_user):
+        if (maybe_existing_user):
             fb_user_id = maybe_existing_user.fb_id
         else:
             profile_picture = fb_resp.get('picture', '')
@@ -1257,7 +1268,7 @@ def checkUsr(article_id):
         fb_resp = f_resp.json()
         user_email_address = fb_resp.get('email')
         maybe_existing_user = User.query.filter_by(fb_id=fb_resp['id']).first()
-        if(maybe_existing_user):
+        if (maybe_existing_user):
             fb_user_id = maybe_existing_user.fb_id
         else:
             profile_picture = fb_resp.get('picture', {}).get('data', {}).get('url')
@@ -1272,7 +1283,7 @@ def checkUsr(article_id):
         fb_resp = t_resp.json()
         user_email_address = fb_resp.get('email')
         maybe_existing_user = User.query.filter_by(fb_id=fb_resp['id']).first()
-        if(maybe_existing_user):
+        if (maybe_existing_user):
             fb_user_id = maybe_existing_user.fb_id
         else:
             profile_picture = fb_resp.get('profile_image_url_https', '')
@@ -1290,7 +1301,7 @@ def checkUsr(article_id):
         print(fb_resp.get('email'))
         user_email_address = fb_resp.get('email')
         maybe_existing_user = User.query.filter_by(fb_id=fb_resp['id']).first()
-        if(maybe_existing_user):
+        if (maybe_existing_user):
             fb_user_id = maybe_existing_user.fb_id
         else:
             profile_picture = fb_resp.get('picture', '')
@@ -1313,13 +1324,11 @@ def checkUsr(article_id):
     posted = 1
     # global article
 
-
     if fb_user_id:
         print('ullu1', user_email_address)
         return fb_user_id
     else:
         return 'user not found'
-
 
 
 ##############################################
@@ -1337,9 +1346,9 @@ def return_mail(article_id):
 
     if f_resp.ok:
         fb_resp = f_resp.json()
-        users_email= fb_resp.get('email')
+        users_email = fb_resp.get('email')
         maybe_existing_user = User.query.filter_by(fb_id=fb_resp['id']).first()
-        if(maybe_existing_user):
+        if (maybe_existing_user):
             fb_user_id = maybe_existing_user.fb_id
         else:
             profile_picture = fb_resp.get('picture', {}).get('data', {}).get('url')
@@ -1354,7 +1363,7 @@ def return_mail(article_id):
         fb_resp = t_resp.json()
         users_email = fb_resp.get('email')
         maybe_existing_user = User.query.filter_by(fb_id=fb_resp['id']).first()
-        if(maybe_existing_user):
+        if (maybe_existing_user):
             fb_user_id = maybe_existing_user.fb_id
         else:
             profile_picture = fb_resp.get('profile_image_url_https', '')
@@ -1367,9 +1376,9 @@ def return_mail(article_id):
                 pass
     elif g_resp.ok:
         fb_resp = g_resp.json()
-        users_email= fb_resp.get('email')
+        users_email = fb_resp.get('email')
         maybe_existing_user = User.query.filter_by(fb_id=fb_resp['id']).first()
-        if(maybe_existing_user):
+        if (maybe_existing_user):
             fb_user_id = maybe_existing_user.fb_id
         else:
             profile_picture = fb_resp.get('picture', '')
@@ -1392,15 +1401,13 @@ def return_mail(article_id):
     posted = 1
     # global article
 
-
     if fb_user_id:
         return users_email
     else:
         return 'user not found'
 
 
-
- ##############################################
+##############################################
 # new modified by me
 
 @application.route('/votefor/<int:article_id>', methods=['GET', 'POST'])
@@ -1415,9 +1422,9 @@ def return_name(article_id):
 
     if f_resp.ok:
         fb_resp = f_resp.json()
-        users_name= fb_resp.get('name')
+        users_name = fb_resp.get('name')
         maybe_existing_user = User.query.filter_by(fb_id=fb_resp['id']).first()
-        if(maybe_existing_user):
+        if (maybe_existing_user):
             fb_user_id = maybe_existing_user.fb_id
         else:
             profile_picture = fb_resp.get('picture', {}).get('data', {}).get('url')
@@ -1432,7 +1439,7 @@ def return_name(article_id):
         fb_resp = t_resp.json()
         users_name = fb_resp.get('name')
         maybe_existing_user = User.query.filter_by(fb_id=fb_resp['id']).first()
-        if(maybe_existing_user):
+        if (maybe_existing_user):
             fb_user_id = maybe_existing_user.fb_id
         else:
             profile_picture = fb_resp.get('profile_image_url_https', '')
@@ -1445,9 +1452,9 @@ def return_name(article_id):
                 pass
     elif g_resp.ok:
         fb_resp = g_resp.json()
-        users_name= fb_resp.get('name')
+        users_name = fb_resp.get('name')
         maybe_existing_user = User.query.filter_by(fb_id=fb_resp['id']).first()
-        if(maybe_existing_user):
+        if (maybe_existing_user):
             fb_user_id = maybe_existing_user.fb_id
         else:
             profile_picture = fb_resp.get('picture', '')
@@ -1469,7 +1476,6 @@ def return_name(article_id):
     print("here's the id from votefor local hopefully article.id version", article.id)
     posted = 1
     # global article
-
 
     if fb_user_id:
         return users_name
@@ -1492,6 +1498,7 @@ def usr_loggedIn():
     if usr_exis:
         return usr_exis
 
+
 def return_mail_value():
     arti_check = Article.query.all()
     count = 0
@@ -1506,6 +1513,7 @@ def return_mail_value():
     print(usr_exis)  # new modified by me
     if usr_exis:
         return usr_exis
+
 
 def return_name_value():
     arti_check = Article.query.all()
@@ -1540,19 +1548,19 @@ def return_name_value():
 #         self.total_votes = 0
 #
 
-    # def retrieve_publication_summary(article_id):
-    #     pub_obj = PublicationSummary(article_id)
-    #
-    #     import sqlalchemy as sa
-    #
-    #     q = (db.session.query(ArticleVote.vote_choice_id, sa.func.count(ArticleVote.vote_choice_id))
-    #          .filter(ArticleVote.article_id == id)
-    #          .group_by(ArticleVote.vote_choice_id)
-    #          .order_by(ArticleVote.vote_choice_id))
-    #
-    #     for vote_choice_id, count in q:
-    #         print("here comes the count maybe")
-    #         print(vote_choice_id, count)
+# def retrieve_publication_summary(article_id):
+#     pub_obj = PublicationSummary(article_id)
+#
+#     import sqlalchemy as sa
+#
+#     q = (db.session.query(ArticleVote.vote_choice_id, sa.func.count(ArticleVote.vote_choice_id))
+#          .filter(ArticleVote.article_id == id)
+#          .group_by(ArticleVote.vote_choice_id)
+#          .order_by(ArticleVote.vote_choice_id))
+#
+#     for vote_choice_id, count in q:
+#         print("here comes the count maybe")
+#         print(vote_choice_id, count)
 
 ##############################################
 class ArticleVoteSummary():
@@ -1636,10 +1644,10 @@ def retrieve_article_vote_summary(article_id):
             avs_obj.addVote(text)
         print("article text: ", text)
         # avs_obj.appendComment(item.comment) # 09/27 - added to show comments in results page
-        avs_obj.appendDetail((item[0].id, item[1].name, text, item[0].comment))  # 09/27 - added to show comments in results page
+        avs_obj.appendDetail(
+            (item[0].id, item[1].name, text, item[0].comment))  # 09/27 - added to show comments in results page
 
     return avs_obj
-
 
 
 # find publication
@@ -1728,7 +1736,6 @@ def insert_vote():
                     its_vote = True
                     save_notify(fb_user_id, article_id, its_vote, comment_text)
 
-
                     print("posted ==1 after2")
                     flash('Record was successfully added')
                 else:
@@ -1764,8 +1771,6 @@ def insert_vote():
                 publication = a_obj.snippet
                 pub_tuple = retrieve_pub_vote_summary(publication)
                 print("pub tuple: ", pub_tuple)
-
-
 
                 return redirect('/results/' + str(a_obj.id))
 
